@@ -1,447 +1,140 @@
-# This file contains a subset of public API endpoints that are exposed to customers. This file is a subset of the public.yml file.
-# These endpoints are publicized to customers and can be accessed using the publicly distributed URL.
+# This file lists the API endpoints that R&D is committed to maintain and support. This file is a superset of the customer.yml file.
+# Not all of these endpoints are public-facing. There is a non-publicized URL for viewing the public endpoints.
 openapi: 3.0.2
 info:
   $ref: ./components/metadata.yml#/info
+externalDocs:
+  description: Important — This page contains API endpoints that are under active development and subject to change. For production work, use the customer-facing API documentation (https://docs-apis.highbond.com/).
+  url: '/'
 servers:
   $ref: ./components/metadata.yml#/servers
-tags:
-  - $ref: ./components/metadata.yml#/tags/agents
-  - $ref: ./components/metadata.yml#/tags/robots
-  - $ref: ./components/metadata.yml#/tags/robot_tasks
-  - $ref: ./components/metadata.yml#/tags/robot_jobs
-  - $ref: ./components/metadata.yml#/tags/robot_apps
-  - $ref: ./components/metadata.yml#/tags/robot_script_versions
-  - $ref: ./components/metadata.yml#/tags/robot_activations
-  - $ref: ./components/metadata.yml#/tags/robot_files
-  - $ref: ./components/metadata.yml#/tags/storyboards
-  - $ref: ./components/metadata.yml#/tags/collections
-  - $ref: ./components/metadata.yml#/tags/analyses
-  - $ref: ./components/metadata.yml#/tags/tables
-  - $ref: ./components/metadata.yml#/tags/table_columns
-  - $ref: ./components/metadata.yml#/tags/records
-  - $ref: ./components/metadata.yml#/tags/interpretations
-  - $ref: ./components/metadata.yml#/tags/metrics
-  - $ref: ./components/metadata.yml#/tags/projects
-  - $ref: ./components/metadata.yml#/tags/project_types
-  - $ref: ./components/metadata.yml#/tags/custom_attributes
-  - $ref: ./components/metadata.yml#/tags/issues
-  - $ref: ./components/metadata.yml#/tags/time_entries
-  - $ref: ./components/metadata.yml#/tags/time_entry_categories
-  - $ref: ./components/metadata.yml#/tags/actions
-  - $ref: ./components/metadata.yml#/tags/collaborators
-  - $ref: ./components/metadata.yml#/tags/planning_files
-  - $ref: ./components/metadata.yml#/tags/results_files
-  - $ref: ./components/metadata.yml#/tags/objectives
-  - $ref: ./components/metadata.yml#/tags/risks
-  - $ref: ./components/metadata.yml#/tags/controls
-  - $ref: ./components/metadata.yml#/tags/control_test_plans
-  - $ref: ./components/metadata.yml#/tags/control_tests
-  - $ref: ./components/metadata.yml#/tags/walkthroughs
-  - $ref: ./components/metadata.yml#/tags/narratives
-  - $ref: ./components/metadata.yml#/tags/mitigations
-  - $ref: ./components/metadata.yml#/tags/request_items
-  - $ref: ./components/metadata.yml#/tags/projects_todos
-  - $ref: ./components/metadata.yml#/tags/entities
-  - $ref: ./components/metadata.yml#/tags/frameworks
-  - $ref: ./components/metadata.yml#/tags/handlers
-  - $ref: ./components/metadata.yml#/tags/workflows
-  - $ref: ./components/metadata.yml#/tags/events
-  - $ref: ./components/metadata.yml#/tags/compliance_maps
+tags: #Avoid modifying these values as it will break the SDK
+  - $ref: ./components/metadata.yml#/tags/asset_types
+  - $ref: ./components/metadata.yml#/tags/asset_record_types
+  - $ref: ./components/metadata.yml#/tags/attribute_types
+  - $ref: ./components/metadata.yml#/tags/assets
+  - $ref: ./components/metadata.yml#/tags/asset_relationships
+  - $ref: ./components/metadata.yml#/tags/asset_records
+  - $ref: ./components/metadata.yml#/tags/asset_record_relationships
+  - $ref: ./components/metadata.yml#/tags/template_toolkits
+  - $ref: ./components/metadata.yml#/tags/toolkits
+  - $ref: ./components/metadata.yml#/tags/impact_reports
   - $ref: ./components/metadata.yml#/tags/users
-  - $ref: ./components/metadata.yml#/tags/groups
 x-tagGroups:
   - name: Core resources
     tags: #Avoid modifying these values as it will break the SDK
-      - Robots Agents
-      - Robots
-      - Robot Tasks
-      - Robot Jobs
-      - Robot Apps
-      - Robot Script Versions
-      - Robot Activations
-      - Robot Files
-      - Storyboards
-      - Collections
-      - Analyses
-      - Tables
-      - Table columns
-      - Records
-      - Interpretations
-      - Metrics
-      - Project types
-      - Custom attributes
-      - Projects
-      - Planning files
-      - Results files
-      - Objectives
-      - Narratives
-      - Risks
-      - Controls
-      - Mitigations
-      - Control test plans
-      - Control tests
-      - Walkthroughs
-      - Issues
-      - Actions
-      - Collaborators
-      - Request Items
-      - Projects Todos
-      - Entities
-      - Frameworks
-      - Handlers
-      - Workflows
-      - Events
-      - Compliance Maps
-      - Time entries
-      - Non-project time categories
+      - Asset types
+      - Asset record types
+      - Attribute types
+      - Assets
+      - Asset Relationships
+      - Asset Records
+      - Asset Record Relationships
+      - Template Toolkits
+      - Toolkits
+      - Impact Reports
       - Users
-      - Groups
 #
 # Paths (in addition to the base server URL) are the various end-points available.
 #
 paths:
-  ##################################
-  # Robot paths
-  ##################################
-  /orgs/{org_id}/agents:
-    $ref: ./paths/robots/agents.yml
-  /orgs/{org_id}/robots:
-    $ref: ./paths/robots/robots.yml
-  /orgs/{org_id}/robots/{id}:
-    $ref: ./paths/robots/robot.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_apps/{robot_app_id}:
-    $ref: ./paths/robots/robot_app.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_apps:
-    $ref: ./paths/robots/robot_apps.yml
-  /orgs/{org_id}/robots/{robot_id}/versions/{version_id}:
-    $ref: ./paths/robots/robot_script_version.yml
-  /orgs/{org_id}/robots/{robot_id}/versions:
-    $ref: ./paths/robots/robot_script_versions.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_activations:
-    $ref: ./paths/robots/robot_activations.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_apps/{robot_app_id}/activate:
-    $ref: ./paths/robots/robot_app_activate.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_files:
-    $ref: ./paths/robots/robot_files.yml
-  /orgs/{org_id}/robot_files/{id}:
-    $ref: ./paths/robots/robot_file.yml
-  /orgs/{org_id}/robot_files/{id}/download:
-    $ref: ./paths/robots/file_download.yml
-  /orgs/{org_id}/robots/{robot_id}/robot_tasks:
-    $ref: ./paths/robots/robot_tasks.yml
-  /orgs/{org_id}/robots/{robot_id}/jobs:
-    $ref: ./paths/robots/robot_jobs.yml
-  /orgs/{org_id}/robot_tasks/{id}:
-    $ref: ./paths/robots/robot_task.yml
-  /orgs/{org_id}/robot_tasks/{id}/run_now:
-    $ref: ./paths/robots/run_now.yml
-  /orgs/{org_id}/robot_tasks/{robot_task_id}/values:
-    $ref: ./paths/robots/values.yml
-  /orgs/{org_id}/robot_tasks/{robot_task_id}/schedule:
-    $ref: ./paths/robots/schedule.yml
+  ####################################
+  # Asset Type & Attribute Type paths
+  ####################################
+  # Asset Type paths
+  /orgs/{org_id}/asset_types:
+    $ref: ./paths/asset_types/asset_types.yml
+  /orgs/{org_id}/asset_types/{id}:
+    $ref: ./paths/asset_types/asset_type.yml
+  # Related Attribute Type Asset Type paths
+  /orgs/{org_id}/asset_types/{asset_type_id}/attribute_types:
+    $ref: ./paths/asset_types/related_asset_type_attribute_types.yml
+  /orgs/{org_id}/asset_types/{asset_type_id}/attribute_types/{id}:
+    $ref: ./paths/asset_types/related_asset_type_attribute_type.yml
+  # Relate Asset Type to Root Record Type paths
+  /orgs/{org_id}/asset_types/{parent_id}/record_types/{child_id}:
+    $ref: ./paths/asset_types/record_type_root_relationship.yml
+
+  # Asset Record Type paths
+  /orgs/{org_id}/record_types:
+    $ref: ./paths/asset_types/record_types.yml
+  /orgs/{org_id}/record_types/{id}:
+    $ref: ./paths/asset_types/record_type.yml
+  # Related Attribute Type Asset Record Type paths
+  /orgs/{org_id}/record_types/{record_type_id}/attribute_types:
+    $ref: ./paths/asset_types/related_record_type_attribute_types.yml
+  /orgs/{org_id}/record_types/{record_type_id}/attribute_types/{id}:
+    $ref: ./paths/asset_types/related_record_type_attribute_type.yml
+  # Relate Asset Record Type to Asset Record Type paths
+  /orgs/{org_id}/record_types/{parent_id}/record_types/{child_id}:
+    $ref: ./paths/asset_types/record_type_child_relationship.yml
+
+  # Attribute Type paths
+  /orgs/{org_id}/attribute_types:
+    $ref: ./paths/asset_types/attribute_types.yml
+  /orgs/{org_id}/attribute_types/{id}:
+    $ref: ./paths/asset_types/attribute_type.yml
 
   ##################################
-  # Results paths
+  # Assets paths
   ##################################
-  # Storyboards Paths
-  /orgs/{org_id}/storyboards:
-    $ref: ./paths/results/storyboards.yml
-  /orgs/{org_id}/storyboards/{id}:
-    $ref: ./paths/results/storyboard.yml
+  # Assets
+  /orgs/{org_id}/asset_types/{asset_type_id}/assets:
+    $ref: ./paths/assets/assets.yml
+  /orgs/{org_id}/asset_types/{asset_type_id}/assets/{asset_id}:
+    $ref: ./paths/assets/asset.yml
 
-  # Collections Paths
-  /orgs/{org_id}/collections:
-    $ref: ./paths/results/collections.yml
-  /orgs/{org_id}/collections/{id}:
-    $ref: ./paths/results/collection.yml
+  # Asset Relationships
+  /orgs/{org_id}/asset_types/{asset_type_id}/assets/{asset_id}/relationships:
+    $ref: ./paths/assets/asset_relationships.yml
 
-  # Analyses Paths
-  /orgs/{org_id}/collections/{collection_id}/analyses:
-    $ref: ./paths/results/analyses.yml
-  /orgs/{org_id}/analyses/{id}:
-    $ref: ./paths/results/analysis.yml
+  # Asset Records
+  /orgs/{org_id}/record_types/{record_type_id}/records:
+    $ref: ./paths/assets/records.yml
+  /orgs/{org_id}/record_types/{record_type_id}/records/{record_id}:
+    $ref: ./paths/assets/record.yml
 
-  # Tables Paths
-  /orgs/{org_id}/analyses/{analysis_id}/tables:
-    $ref: ./paths/results/tables.yml
-  /orgs/{org_id}/tables/{id}:
-    $ref: ./paths/results/table.yml
-
-  # Columns Paths
-  /orgs/{org_id}/tables/{table_id}/columns/bulk:
-    $ref: ./paths/results/columns_bulk.yml
-  /orgs/{org_id}/tables/{table_id}/columns:
-    $ref: ./paths/results/columns.yml
-
-  # Interpretations Paths
-  /orgs/{org_id}/tables/{table_id}/interpretations:
-    $ref: ./paths/results/interpretations.yml
-  /orgs/{org_id}/interpretations/{id}:
-    $ref: ./paths/results/interpretation.yml
-
-  # Metrics Paths
-  /orgs/{org_id}/tables/{table_id}/metrics:
-    $ref: ./paths/results/metrics.yml
-  /orgs/{org_id}/metrics/{id}:
-    $ref: ./paths/results/metric.yml
-
-  # Records Paths
-  /orgs/{org_id}/tables/{table_id}/upload:
-    $ref: ./paths/results/records_upload.yml
-  /orgs/{org_id}/tables/{table_id}/records:
-    $ref: ./paths/results/records.yml
+  # Asset Record Relationships
+  /orgs/{org_id}/record_types/{record_type_id}/records/{record_id}/relationships:
+    $ref: ./paths/assets/record_relationships.yml
 
   ##################################
-  # Projects paths
+  # Toolkits paths
   ##################################
-  # Project Types
-  /orgs/{org_id}/project_types:
-    $ref: ./paths/projects/project_types.yml
-  /orgs/{org_id}/project_types/{id}:
-    $ref: ./paths/projects/project_type.yml
+  # Template toolkits
+  /orgs/{org_id}/template_toolkits:
+    $ref: ./paths/toolkits/template_toolkits.yml
 
-  # Custom Attributes Paths
-  /orgs/{org_id}/project_types/{project_type_id}/custom_attributes:
-    $ref: ./paths/projects/custom_attributes.yml
-  /orgs/{org_id}/custom_attributes/{id}:
-    $ref: ./paths/projects/custom_attribute.yml
+  # Toolkits
+  /orgs/{org_id}/toolkits:
+    $ref: ./paths/toolkits/toolkits.yml
+  /orgs/{org_id}/toolkits/{id}:
+    $ref: ./paths/toolkits/toolkit.yml
 
-  # Projects Paths
-  /orgs/{org_id}/projects:
-    $ref: ./paths/projects/projects.yml
-  /orgs/{org_id}/projects/{id}:
-    $ref: ./paths/projects/project.yml
-
-  # Project Entities Paths
-  /orgs/{org_id}/projects/{project_id}/entities:
-    $ref: ./paths/projects/project_entities.yml
-  /orgs/{org_id}/projects/{project_id}/entities/{id}:
-    $ref: ./paths/projects/project_entity.yml
-
-  # Planning Files Paths
-  /orgs/{org_id}/{parent_resource_type}/{parent_resource_id}/planning_files:
-    $ref: ./paths/projects/planning_files.yml
-  /orgs/{org_id}/planning_files/{id}:
-    $ref: ./paths/projects/planning_file.yml
-
-  # Results Files Paths
-  /orgs/{org_id}/projects/{project_id}/results_files:
-    $ref: ./paths/projects/results_files.yml
-  /orgs/{org_id}/results_files/{id}:
-    $ref: ./paths/projects/results_file.yml
-
-  # Objectives Paths
-  /orgs/{org_id}/{parent_resource_type}/{parent_resource_id}/objectives:
-    $ref: ./paths/projects/objectives.yml
-  /orgs/{org_id}/objectives/{id}:
-    $ref: ./paths/projects/objective.yml
-
-  # Objective Entities Paths
-  /orgs/{org_id}/objectives/{objective_id}/entities:
-    $ref: ./paths/projects/objective_entities.yml
-  /orgs/{org_id}/objectives/{objective_id}/entities/{id}:
-    $ref: ./paths/projects/objective_entity.yml
-
-  # Risks Paths
-  /orgs/{org_id}/objectives/{objective_id}/risks:
-    $ref: ./paths/projects/risks.yml
-  /orgs/{org_id}/risks/{id}:
-    $ref: ./paths/projects/risk.yml
-
-  # Risk Entities Paths
-  /orgs/{org_id}/risks/{risk_id}/entities:
-    $ref: ./paths/projects/risk_entities.yml
-  /orgs/{org_id}/risks/{risk_id}/entities/{id}:
-    $ref: ./paths/projects/risk_entity.yml
-
-  # Control Paths
-  /orgs/{org_id}/objectives/{objective_id}/controls:
-    $ref: ./paths/projects/controls.yml
-  /orgs/{org_id}/controls/{id}:
-    $ref: ./paths/projects/control.yml
-  /orgs/{org_id}/controls:
-    get:
-      $ref: ./paths/projects/bulk/controls.yml#/get
-
-  # Control Entities Paths
-  /orgs/{org_id}/controls/{control_id}/entities:
-    $ref: ./paths/projects/control_entities.yml
-  /orgs/{org_id}/controls/{control_id}/entities/{id}:
-    $ref: ./paths/projects/control_entity.yml
-
-  # Control Test Plan Paths
-  /orgs/{org_id}/control_test_plans:
-    $ref: ./paths/projects/control_test_plans.yml
-  /orgs/{org_id}/control_test_plans/{id}:
-    $ref: ./paths/projects/control_test_plan.yml
-
-  # Issues Paths
-  /orgs/{org_id}/issues:
-    $ref: ./paths/projects/organization_issues.yml
-  /orgs/{org_id}/projects/{project_id}/issues:
-    $ref: ./paths/projects/issues.yml
-  /orgs/{org_id}/issues/{id}:
-    $ref: ./paths/projects/issue.yml
-
-  # Issue Entities Paths
-  /orgs/{org_id}/issues/{issue_id}/entities:
-    $ref: ./paths/projects/issue_entities.yml
-  /orgs/{org_id}/issues/{issue_id}/entities/{id}:
-    $ref: ./paths/projects/issue_entity.yml
-
-  # Actions Paths
-  /orgs/{org_id}/issues/{issue_id}/actions:
-    $ref: ./paths/projects/actions.yml
-  /orgs/{org_id}/actions/{id}:
-    $ref: ./paths/projects/action.yml
-
-  # Action Comments Paths
-  /orgs/{org_id}/actions/{action_id}/comments:
-    $ref: ./paths/projects/action_comments.yml
-
-  # Collaborators Paths
-  /orgs/{org_id}/{parent_resource_type}/{parent_resource_id}/collaborators:
-    $ref: ./paths/projects/collaborators.yml
-  /orgs/{org_id}/collaborators/{encoded_uid}:
-    $ref: ./paths/projects/collaborator.yml
-
-  /orgs/{org_id}/{parent_resource_type}/{parent_resource_id}/collaborator_groups:
-    $ref: ./paths/projects/collaborator_groups.yml
-  /orgs/{org_id}/collaborator_groups/{encoded_uid}:
-    $ref: ./paths/projects/collaborator_group.yml
-
-  # Control Test Paths
-  /orgs/{org_id}/control_tests:
-    get:
-      $ref: ./paths/projects/control_tests.yml#/get
-  /orgs/{org_id}/control_tests/{id}:
-    $ref: ./paths/projects/control_test.yml
-
-  # Walkthrough Paths
-  /orgs/{org_id}/walkthroughs:
-    $ref: ./paths/projects/walkthroughs.yml
-  /orgs/{org_id}/walkthroughs/{id}:
-    $ref: ./paths/projects/walkthrough.yml
-
-  # Narratives Paths
-  /orgs/{org_id}/objectives/{objective_id}/narratives:
-    $ref: ./paths/projects/narratives.yml
-  /orgs/{org_id}/narratives/{id}:
-    $ref: ./paths/projects/narrative.yml
-
-  # Time Entries Paths
-  /orgs/{org_id}/time_entries:
-    $ref: ./paths/timesheets/time_entries.yml
-  /orgs/{org_id}/time_entries/{id}:
-    $ref: ./paths/timesheets/time_entry.yml
-
-  # Non-project time categories Paths
-  /orgs/{org_id}/time_entry_category:
-    $ref: ./paths/timesheets/time_entry_categories.yml
-  /orgs/{org_id}/time_entry_categories/{id}:
-    $ref: ./paths/timesheets/time_entry_category.yml
-
-  # Mitigation Paths
-  /orgs/{org_id}/mitigations:
-    $ref: ./paths/projects/mitigations.yml
-  /orgs/{org_id}/mitigations/{id}:
-    $ref: ./paths/projects/mitigation.yml
-
-  # Request Items Paths
-  /orgs/{org_id}/request_items:
-    get:
-      $ref: ./paths/projects/request_items.yml#/get
-  /orgs/{org_id}/projects/{project_id}/request_items:
-    post:
-      $ref: ./paths/projects/request_items.yml#/post
-  /orgs/{org_id}/request_items/{id}:
-    $ref: ./paths/projects/request_item.yml
-
-  # Projects Todos Paths
-  /orgs/{org_id}/projects_todos:
-    $ref: ./paths/projects/todos.yml
-
-  # Entities Paths
-  /orgs/{org_id}/entities:
-    $ref: ./paths/projects/entities.yml
-  /orgs/{org_id}/entities/{id}:
-    $ref: ./paths/projects/entity.yml
-
-  # Entity Categories Paths
-  /orgs/{org_id}/entity_categories:
-    $ref: ./paths/projects/entity_categories.yml
-  /orgs/{org_id}/entity_categories/{id}:
-    $ref: ./paths/projects/entity_category.yml
+  # Toolkit resources
+  /orgs/{org_id}/toolkits/{id}/{toolkit_action}:
+    $ref: ./paths/toolkits/toolkit_resources.yml
 
   ##################################
-  # Frameworks paths
+  # Impact Reports paths
   ##################################
-  # Frameworks Paths
-  /orgs/{org_id}/frameworks:
-    $ref: ./paths/frameworks/frameworks.yml
-  /orgs/{org_id}/frameworks/{id}:
-    $ref: ./paths/frameworks/framework.yml
+  # Reports
+  /orgs/{org_id}/impact_reports:
+    $ref: ./paths/impact_reports/reports.yml
+  /orgs/{org_id}/impact_reports/{id}/generate:
+    $ref: ./paths/impact_reports/report_generate.yml
+  /orgs/{org_id}/impact_reports/{id}:
+    $ref: ./paths/impact_reports/report.yml
 
-  # # Framework Entities Paths
-  /orgs/{org_id}/frameworks/{framework_id}/entities:
-    $ref: ./paths/frameworks/framework_entities.yml
-  /orgs/{org_id}/frameworks/{framework_id}/entities/{id}:
-    $ref: ./paths/frameworks/framework_entity.yml
-
-  ##################################
-  # TransactionalWorkflow paths
-  ##################################
-
-  # Handlers Paths
-  /orgs/{org_id}/handlers:
-    $ref: ./paths/transactional_workflows/handlers.yml
-  /orgs/{org_id}/handlers/{id}:
-    $ref: ./paths/transactional_workflows/handler.yml
-  # Workflows Paths
-  /orgs/{org_id}/workflows:
-    $ref: ./paths/transactional_workflows/workflows.yml
-  /orgs/{org_id}/workflows/{id}:
-    $ref: ./paths/transactional_workflows/workflow.yml
-  /orgs/{org_id}/workflows/{api_name}:
-    $ref: ./paths/transactional_workflows/workflow_by_api_name.yml
-  # Workflow Statuses Paths
-  /orgs/{org_id}/workflows/{workflow_id}/statuses:
-    $ref: ./paths/transactional_workflows/workflow_statuses.yml
-  /orgs/{org_id}/statuses/{id}:
-    $ref: ./paths/transactional_workflows/workflow_status.yml
-  # Status Event Mappings Paths
-  /orgs/{org_id}/status_event_mappings:
-    $ref: ./paths/transactional_workflows/status_event_mappings.yml
-  /orgs/{org_id}/status_event_mappings/{id}:
-    $ref: ./paths/transactional_workflows/status_event_mapping.yml
-
-  # Event Paths
-  /orgs/{org_id}/events:
-    $ref: ./paths/transactional_workflows/events.yml
-  /orgs/{org_id}/events/{id}:
-    $ref: ./paths/transactional_workflows/event.yml
-
-  ##################################
-  # Compliance Maps paths
-  ##################################
-  # Regulations
-  /orgs/{org_id}/compliance_regulations:
-    $ref: ./paths/compliance_maps/compliance_regulations.yml
-  /orgs/{org_id}/compliance_regulations/{id}:
-    $ref: ./paths/compliance_maps/compliance_regulation.yml
-
-  # Requirements
-  /orgs/{org_id}/compliance_regulations/{compliance_regulation_id}/compliance_requirements:
-    $ref: ./paths/compliance_maps/compliance_requirements.yml
-  /orgs/{org_id}/compliance_requirements/{id}:
-    $ref: ./paths/compliance_maps/compliance_requirement.yml
-
-  # Control Mappings
-  /orgs/{org_id}/compliance_mappings:
-    $ref: ./paths/compliance_maps/compliance_mappings.yml
-  /orgs/{org_id}/compliance_mappings/{id}:
-    $ref: ./paths/compliance_maps/compliance_mapping.yml
+  # Report Targets
+  /orgs/{org_id}/impact_report_targets/{target_type}/{target_type_id}:
+    $ref: ./paths/impact_reports/report_targets_all.yml
+  /orgs/{org_id}/impact_report_targets:
+    $ref: ./paths/impact_reports/report_targets.yml
+  /orgs/{org_id}/impact_report_targets/{id}/generate:
+    $ref: ./paths/impact_reports/report_target_generate.yml
+  /orgs/{org_id}/impact_report_targets/{id}:
+    $ref: ./paths/impact_reports/report_target.yml
 
   ##################################
   # Accounts / Launchpad paths
@@ -451,12 +144,6 @@ paths:
     $ref: ./paths/users/users.yml
   /orgs/{org_id}/users/{uid}:
     $ref: ./paths/users/user.yml
-  # Groups
-  /orgs/{org_id}/groups:
-    $ref: ./paths/groups/groups.yml
-  /orgs/{org_id}/groups/{group_id}:
-    $ref: ./paths/groups/group.yml
-
 components:
   $ref: ./components/metadata.yml#/components
 security:
