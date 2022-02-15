@@ -3,33 +3,6 @@
 openapi: 3.0.2
 info:
   $ref: ./components/metadata.yml#/info
-externalDocs:
-  description: Important — This page contains API endpoints that are under active development and subject to change. For production work, use the customer-facing API documentation (https://docs-apis.highbond.com/).
-  url: '/'
-tags: #Avoid modifying these values as it will break the SDK
-  - $ref: ./components/metadata.yml#/tags/asset_types
-  - $ref: ./components/metadata.yml#/tags/asset_record_types
-  - $ref: ./components/metadata.yml#/tags/attribute_types
-  - $ref: ./components/metadata.yml#/tags/assets
-  - $ref: ./components/metadata.yml#/tags/asset_relationships
-  - $ref: ./components/metadata.yml#/tags/asset_records
-  - $ref: ./components/metadata.yml#/tags/asset_record_relationships
-  - $ref: ./components/metadata.yml#/tags/template_toolkits
-  - $ref: ./components/metadata.yml#/tags/toolkits
-  - $ref: ./components/metadata.yml#/tags/users
-x-tagGroups:
-  - name: Core resources
-    tags: #Avoid modifying these values as it will break the SDK
-      - Asset types
-      - Asset record types
-      - Attribute types
-      - Assets
-      - Asset Relationships
-      - Asset Records
-      - Asset Record Relationships
-      - Template Toolkits
-      - Toolkits
-      - Users
 #
 # Paths (in addition to the base server URL) are the various end-points available.
 #
@@ -119,5 +92,3 @@ paths:
     $ref: ./paths/users/users.yml
   /orgs/{org_id}/users/{uid}:
     $ref: ./paths/users/user.yml
-components:
-  $ref: ./components/metadata.yml#/components
