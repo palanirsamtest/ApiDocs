@@ -38,7 +38,7 @@ get:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 title: UnprocessableEntityError
                 detail: 'Too many fields to sort: sorting is limited to a maximum of 2 fields (given 3)'
 
@@ -91,7 +91,7 @@ post:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 source:
                   pointer: '/data/attributes/description'
                 code: invalid_resource

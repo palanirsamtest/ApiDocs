@@ -33,7 +33,7 @@ get:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
 
 post:
   tags:
@@ -75,7 +75,7 @@ post:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
 
 delete:
   tags:

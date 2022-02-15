@@ -67,7 +67,7 @@ patch:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 code: UnprocessableEntityError
                 detail: 'Invalid record type: Could not find Workflow with workflowId 09e67a7d-6041-47b5-b64b-38de401dc3cb'
 delete:
@@ -95,7 +95,7 @@ delete:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 title: UnprocessableEntityError
                 detail: Records associated with RecordType
     401:

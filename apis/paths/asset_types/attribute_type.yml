@@ -104,7 +104,7 @@ delete:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 title: UnprocessableEntityError
                 detail: Attribute Type is linked to Asset Type or Record Type
     401:

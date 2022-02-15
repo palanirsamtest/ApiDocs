@@ -72,9 +72,9 @@ post:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 code: ValidationError
                 detail: body.data.attributes should have required property 'name'
-              - status: 422
+              - status: '422'
                 code: UnprocessibleEntity
                 detail: Maximum number of 1000 asset types reached.

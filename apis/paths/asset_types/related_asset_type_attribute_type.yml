@@ -45,7 +45,7 @@ post:
             $ref: '../../components/schemas.yml#/Errors'
           example:
             errors:
-              - status: 422
+              - status: '422'
                 code: UnprocessibleEntity
                 detail: 'Maximum number of 100 linked attribute types reached.'
 delete:

@@ -799,14 +799,6 @@ tags:
       Asset record relationships are user-created, ad hoc relationships between an asset record and either another asset record or an asset.
 
       These relationships can be directional, where the related objects have different labels (e.g., one says "impacts" and the other says "impacted by"), or they can be parallel (e.g., both say "connected to").
-  importer:
-    name: Importer
-    description: |
-      Importer for HighBond, responsible for importing HighBond resources.
-
-      You can bulk import HighBond resources if you want to avoid time-consuming manual data entry associated with individually adding resources. You can bulk import resources such as requests, controls, risks, etc.
-
-      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/planning_projects/bulk_uploading_importing_content/bulk_uploading_or_importing_content.htm" target="_blank">Learn more about importer</a>.
   system_users:
     name: System Users
     description: |
@@ -823,10 +815,6 @@ tags:
       Impact Reports are one-click document reports that have been pre-built based off use-case specific reporting needs. For example, an Asset Summary report will summarize key information about all the assets registered by your organization.
 
       <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/concluding_maintaining/downloading_reports.html#Pre-buil" target="_blank">Learn more about Impact Reports</a>.
-  activities:
-    name: Activities
-    description: |
-      Activity logging records all changes related to your instance of HighBond and your users. Whenever someone makes changes, an entry is logged to preserve a complete history of your organization's data.
   users:
     name: Users
     description: |
@@ -834,27 +822,6 @@ tags:
 
       <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-adding-users" target="_blank">Learn more about adding and managing users</a>.
 
-  scheduled_users:
-    name: Scheduled Users
-    description: |
-      TBD
-
-  scheduled_projects:
-    name: Scheduled Projects
-    description: |
-      TBD
-
-  groups:
-    name: Groups
-    description: |
-      Groups are a security feature in Launchpad that allow you to assign the same level of access to multiple users simultaneously.
-
-      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-groups" target="_blank">Learn more about adding and managing groups</a>.
-
-  scheduled_hours:
-    name: Scheduled Hours
-    description: |
-      TBD
 #
 # Note: requestBodies component is not used because JSON API spec does not lend itself
 #       well to re-usable request bodies. Might as well remove the component section for it.
