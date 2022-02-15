@@ -48,7 +48,7 @@ post:
   operationId: createAssetRecord
   summary: Create an asset record
   description: |
-    Create a new asset record. Before you create an asset record, ensure there is an <a href="#tag/Asset-record-types">asset record type</a> for it.
+    Create a new asset record. Before you create an asset record, ensure there is an asset record type</a> for it.
 
     <strong>Limitations</strong>:
     * There can be a maximum of 200000 asset records per asset record type.

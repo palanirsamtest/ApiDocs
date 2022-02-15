@@ -32,7 +32,7 @@ post:
   operationId: createAssetType
   summary: Create an asset type
   description: |
-    Create a new, empty asset type. Before you create an asset type, ensure there is a <a href="#tag/Workflows">workflow</a> to govern the life-cycle of assets with this type.
+    Create a new, empty asset type. Before you create an asset type.
 
     <strong>Limitations</strong>:
     * Your organization can have a maximum of 1000 asset types.

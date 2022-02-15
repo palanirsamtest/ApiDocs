@@ -47,7 +47,7 @@ post:
   operationId: createAsset
   summary: Create an asset
   description: |
-    Create a new asset. Before you create an asset, ensure there is an <a href="#tag/Asset-types">asset type</a> for it.
+    Create a new asset.
 
     <strong>Limitations</strong>:
     * There can be a maximum of 200000 assets per asset type.

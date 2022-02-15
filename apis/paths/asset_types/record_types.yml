@@ -31,8 +31,7 @@ post:
   operationId: createRecordType
   summary: Create an asset record type
   description: |
-    Create a new, empty asset record type. Before you create an asset record type, ensure there is a <a href="#tag/Workflows">workflow</a> to govern the life-cycle of asset records with this type.
-        
+    Create a new, empty asset record type. Before you create an asset record type 
     <strong>Limitations</strong>:
     * Your organization can have a maximum of 1000 asset record types.
 
