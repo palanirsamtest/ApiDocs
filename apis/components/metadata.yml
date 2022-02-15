@@ -255,26 +255,6 @@ info:
     altText: HighBond Logo
 
 #
-# Expose only the production related servers. We do not want any development servers
-# to be exposed to the public.
-#
-servers:
-  - url: '{protocol}://{server}/v1'
-    variables:
-      protocol:
-        default: https
-      server:
-        default: apis-us.highbond.com
-        enum:
-          - apis-us.highbond.com
-          - apis-ca.highbond.com
-          - apis-eu.highbond.com
-          - apis-ap.highbond.com
-          - apis-au.highbond.com
-          - apis-af.highbond.com
-          - apis-sa.highbond.com
-
-#
 # Tags allow the grouping of API operations (paths). This is important for documentation generation
 # and SDK generation.
 #
@@ -357,11 +337,3 @@ components:
     $ref: ./responses.yml
   parameters:
     $ref: ./parameters.yml
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      description: |
-        HighBond offers the industry-standard OAuth 2.0 flow for connecting to the HighBond platform. OAuth 2.0 provides a
-        safe and secure way to access data, while protecting your account credentials.
-      type: http
-      scheme: bearer
-      bearerFormat: oauth2 # optional, the value is not used

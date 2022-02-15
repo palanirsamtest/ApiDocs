@@ -6,8 +6,6 @@ info:
 externalDocs:
   description: Important — This page contains API endpoints that are under active development and subject to change. For production work, use the customer-facing API documentation (https://docs-apis.highbond.com/).
   url: '/'
-servers:
-  $ref: ./components/metadata.yml#/servers
 tags: #Avoid modifying these values as it will break the SDK
   - $ref: ./components/metadata.yml#/tags/asset_types
   - $ref: ./components/metadata.yml#/tags/asset_record_types
@@ -123,5 +121,3 @@ paths:
     $ref: ./paths/users/user.yml
 components:
   $ref: ./components/metadata.yml#/components
-security:
-  - bearerToken: []
