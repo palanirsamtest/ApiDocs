@@ -157,28 +157,3 @@ CreateUserRequest:
 UpdateUserRequest:
   $ref: '../schemas/users/user.yml#/UpdateUserRequest'
 
-##################################
-# Impact Reports
-##################################
-CreateReportRequest:
-  $ref: '../schemas/impact_reports/reports.yml#/CreateReportRequest'
-CreateReportResponse:
-  $ref: '../schemas/impact_reports/reports.yml#/CreateReportResponse'
-UpdateReportRequest:
-  $ref: '../schemas/impact_reports/reports.yml#/UpdateReportRequest'
-GenerateReportRequest:
-  $ref: '../schemas/impact_reports/reports.yml#/GenerateReportRequest'
-GetAllReportsResponse:
-  $ref: '../schemas/impact_reports/reports.yml#/GetAllReportsResponse'
-GetReportResponse:
-  $ref: '../schemas/impact_reports/reports.yml#/GetReportResponse'
-GenerateReportResponse:
-  $ref: '../schemas/impact_reports/reports.yml#/GenerateReportResponse'
-
-CreateReportTargetRequest:
-  $ref: '../schemas/impact_reports/report_targets.yml#/CreateReportTargetRequest'
-GetAllReportTargetsResponse:
-  $ref: '../schemas/impact_reports/report_targets.yml#/GetAllReportTargetsResponse'
-GetReportTargetResponse:
-  $ref: '../schemas/impact_reports/report_targets.yml#/GetReportTargetResponse'
-

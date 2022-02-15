@@ -18,7 +18,6 @@ tags: #Avoid modifying these values as it will break the SDK
   - $ref: ./components/metadata.yml#/tags/asset_record_relationships
   - $ref: ./components/metadata.yml#/tags/template_toolkits
   - $ref: ./components/metadata.yml#/tags/toolkits
-  - $ref: ./components/metadata.yml#/tags/impact_reports
   - $ref: ./components/metadata.yml#/tags/users
 x-tagGroups:
   - name: Core resources
@@ -32,7 +31,6 @@ x-tagGroups:
       - Asset Record Relationships
       - Template Toolkits
       - Toolkits
-      - Impact Reports
       - Users
 #
 # Paths (in addition to the base server URL) are the various end-points available.
@@ -125,16 +123,6 @@ paths:
     $ref: ./paths/impact_reports/report_generate.yml
   /orgs/{org_id}/impact_reports/{id}:
     $ref: ./paths/impact_reports/report.yml
-
-  # Report Targets
-  /orgs/{org_id}/impact_report_targets/{target_type}/{target_type_id}:
-    $ref: ./paths/impact_reports/report_targets_all.yml
-  /orgs/{org_id}/impact_report_targets:
-    $ref: ./paths/impact_reports/report_targets.yml
-  /orgs/{org_id}/impact_report_targets/{id}/generate:
-    $ref: ./paths/impact_reports/report_target_generate.yml
-  /orgs/{org_id}/impact_report_targets/{id}:
-    $ref: ./paths/impact_reports/report_target.yml
 
   ##################################
   # Accounts / Launchpad paths
