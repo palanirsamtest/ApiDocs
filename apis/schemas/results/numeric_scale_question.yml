@@ -1,0 +1,165 @@
+NumericScaleQuestionUpdatableAttributes: &NumericScaleQuestionUpdatableAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - text
+    - scale_start
+    - scale_end
+  properties: &baseAttribute
+    text:
+      type: string
+      description: The main text of the question.
+      example: On a scale of 1 to 10, how much do you love cats?
+    instructions:
+      type: string
+      description: The instructions for answering the question.
+      example: 10 is the only right choice.
+    column_text:
+      type: string
+      maxLength: 255
+      description: The display name of the question when it appears in a table.
+      example: Cat love number
+    optional:
+      type: boolean
+      description: Specifies whether the question is optional.
+      default: false
+      example: false
+    scale_start:
+      type: integer
+      format: int64
+      description: The start of the numeric scale.
+      maximum: 1
+      minimum: 0
+      example: 1
+    scale_end:
+      type: integer
+      format: int64
+      description: The end of the numeric scale.
+      maximum: 10
+      minimum: 2
+      example: 10
+    label_left:
+      type: string
+      description: The label for the low end of the numeric scale.
+      example: This is the beginning of the scale.
+    label_center:
+      type: string
+      description: The label for the center of the numeric scale.
+      example: This is the center of the scale.
+    label_right:
+      type: string
+      description: The label for the high end of the numeric scale.
+      example: This is the end of the scale.
+    position:
+      type: integer
+      format: int64
+      description: |
+        The position value determines the order of items within the questionnaire.
+
+        e.g. position value of 2 will place the numeric scale question as the second item in the questionnaire.
+
+        If the value is not provided, the numeric scale question will be appended to the end of the questionnaire.
+      example: 5
+    question_id:
+      type: integer
+      description: Id of the question.
+      example: 47
+    reference_id:
+      type: string
+      description: Attribute for questions filtering
+      example: Important Questions
+NumericScaleQuestionFullAttributes: &NumericScaleQuestionFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *baseAttribute
+    item_type:
+      type: string
+      maxLength: 255
+      description: The response type of the question.
+      example: NumericScaleQuestion
+    created_at:
+      type: string
+      description: The date the question was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the question was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+NumericScaleQuestion: &NumericScaleQuestion
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '20'
+    type:
+      type: string
+      description: The classification of the object (`"questions"`).
+      example: questionnaire_items
+    attributes: *NumericScaleQuestionFullAttributes
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      required:
+        - questionnaire
+      properties:
+        questionnaire:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        questionnaire:
+          data:
+            id: '1'
+            type: questionnaires
+CreateNumericScaleQuestionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties: &basePayload
+        type:
+          type: string
+          description: The classification of the object (`"questions"`).
+          example: questionnaire_items
+        attributes: *NumericScaleQuestionUpdatableAttributes
+UpdateNumericScaleQuestionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the requested resource.
+          example: '20'
+        <<: *basePayload
+SingleNumericScaleQuestionResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *NumericScaleQuestion

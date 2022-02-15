@@ -1,0 +1,60 @@
+post:
+  tags:
+    - Controls
+  operationId: createControlEntityLink
+  summary: Create control entity link
+  description: |
+    Link entity to a control.
+
+    > **Note**
+    > * Tagging a control to an entity automatically tags a control with all ancestor entities and descendant entities.
+    > * Request <a href="#operation/getControl">Get a control</a> with `entities` query param to get the whole list of entities linked to a control.
+
+    <strong>Limitations</strong>:
+      * You cannot tag the control with entity if the objective it belongs to has been checked out using
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+      * Only 1 entity can be sent in the request payload.
+
+    <a href="https://help.highbond.com/helpdocs/auditbond/en-us/Content/projects/admin/config/Setting_up_entity_tagging.html" target="_blank">Learn more about tagging items with entities</a>.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/controlIdParam'
+  requestBody:
+    description: The data required to create a control entity link.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateControlEntityRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/CreateControlEntityResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/base'
+                code: invalid_resource
+                detail: Entity and Responsibility should reference the same account.

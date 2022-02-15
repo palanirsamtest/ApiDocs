@@ -1,0 +1,115 @@
+get:
+  tags:
+    - Collaborators
+  operationId: getCollaboratorGroup
+  summary: Get a collaborator group
+  description: |
+    Get information about a specific collaborator group.
+
+    <strong>Note</strong>:
+    * You can only view a collaborator group if it has a value assigned to the `project_role` attribute.
+    * The `updated_at` field represents the date of the last direct collaborator group update. Changes to the `effective_role` may occur as a result of assigning the group a `group_role`, but doing so won't update the `updated_at` field.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collaboratorGroupEncodedUid'
+    - $ref: '../../components/parameters.yml#/collaboratorGroupSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCollaboratorGroupResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+patch:
+  tags:
+    - Collaborators
+  operationId: updateCollaboratorGroup
+  summary: Update a collaborator group
+  description: |
+    Make changes to a collaborator group in a project or framework, like changing its `project_role` attribute.
+
+    <strong>Limitations</strong>:
+    * You can't update a group that has a value of `none` assigned to the `project_role` attribute.
+    * You can't update the `Default System Admins` group.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collaboratorGroupEncodedUid'
+    - $ref: '../../components/parameters.yml#/collaboratorGroupSparseFieldsetParams'
+  requestBody:
+    description: The data required to update a collaborator group.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateCollaboratorGroupRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCollaboratorGroupResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Collaborators
+  operationId: deleteCollaboratorGroup
+  summary: Delete a collaborator group
+  description: |
+    Remove a collaborator group from a project or framework.
+
+    <strong>Limitations</strong>:
+    * You can't unassign the `Default System Admins` group from a project.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collaboratorGroupEncodedUid'
+  responses:
+    202:
+      $ref: '../../components/responses.yml#/Accepted'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: admin_reassignment
+                detail: Failed to assign System Admin Group to project role.

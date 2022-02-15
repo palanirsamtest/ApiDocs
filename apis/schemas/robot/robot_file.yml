@@ -1,0 +1,90 @@
+RobotFile:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the robot.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot_files"`).
+      example: robot_files
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        created_at:
+          type: string
+          description: The date the robot was created.
+          example: '2019-03-21T20:22:48.282Z'
+        filename:
+          type: string
+          description: The name of the related file.
+          example: 'Data_source.xls'
+
+CreateRobotFileResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/RobotFile'
+
+GetRobotFileResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/RobotFile'
+
+GetRobotFilesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        $ref: '#/RobotFile'
+
+CreateRobotFileRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - file
+  properties:
+    file:
+      type: string
+      format: binary
+      description: A related file that you want to upload.
+
+examples:
+  RobotFile:
+    data:
+      id: 1
+      type: robot_files
+      attributes:
+        filename: 'Data_source.xls'
+        created_at: '2019-03-21T16:25:00.367Z'
+
+  RobotFiles:
+    - id: 1
+      type: robot_files
+      attributes:
+        filename: 'Data_source.xls'
+        created_at: '2019-03-21T16:25:00.367Z'
+    - id: 2
+      type: robot_files
+      attributes:
+        filename: 'Data_input.sql'
+        created_at: '2019-03-21T16:26:00.590Z'

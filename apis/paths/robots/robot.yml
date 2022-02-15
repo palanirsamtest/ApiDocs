@@ -1,0 +1,70 @@
+put:
+  tags:
+    - Robots
+  operationId: putRobot
+  summary: Update a robot
+  description: Update a robot's attributes.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to update a robot.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotRequest'
+  responses:
+    200:
+      description: Updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'
+
+delete:
+  tags:
+    - Robots
+  operationId: deleteRobot
+  summary: Delete a robot
+  description: |
+    Permanently delete a robot.
+
+    > **Caution —**
+    Deleting a robot also permanently deletes any associated tasks.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: Deleted.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

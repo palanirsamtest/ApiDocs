@@ -1,0 +1,255 @@
+WorkflowBaseAttributes: &WorkflowBaseAttributes
+  name:
+    type: string
+    description: The name of the workflow. Names are case-insensitive and must be unique.
+    example: My first Workflow
+  description:
+    type: string
+    description: The description of the workflow.
+    example: Description of My first Workflow
+  locked:
+    type: boolean
+    description: Indicates that this workflow cannot be deleted by the user.
+    example: false
+    default: false
+WorkflowUnmodifiableAttributes: &WorkflowUnmodifiableAttributes
+  api_name:
+    type: string
+    description: |
+      The API name of the workflow that is unique within the org, uneditable after creation, and must satisfy the following restrictions:
+      - No uppercase letters
+      - No whitespace (use `"_"` to separate words)
+      - No special characters
+
+      Note: upon successful workflow creation a `"__c"` is appended to the provided api_name 
+      Ex: my_api_name  -->  my_api_name__c
+    example: 'my_workflow_api_name__c'
+    default: null
+WorkflowFullAttributes: &WorkflowFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *WorkflowBaseAttributes
+    <<: *WorkflowUnmodifiableAttributes
+    created_at:
+      type: string
+      description: The date the workflow was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the workflow was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+    system:
+      type: boolean
+      description: Indicates that this workflow cannot be modified by the user.
+      example: false
+      default: false
+Workflow: &Workflow
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the workflow.
+      example: 768cd1bc-d8af-4429-9aa0-8a4b477de42b
+    type: &type
+      type: string
+      description: The classification of the object (`"workflows"`).
+      example: workflows
+    attributes: *WorkflowFullAttributes
+WorkflowRelationships: &WorkflowRelationships
+  type: object
+  description: Each workflow has associated statuses.
+  required:
+    - statuses
+  properties:
+    statuses:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            description: The data associated with the resource.
+            required:
+              - id
+              - type
+            properties:
+              id:
+                type: string
+                description: The ID of the status.
+                example: b125726f-ee4f-4ec9-9488-b6efa4ee1270
+              type:
+                type: string
+                description: The classification of the object (`"statuses"`).
+                example: statuses
+WorkflowWithRelationships: &WorkflowWithRelationships
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *id
+    type: *type
+    attributes: *WorkflowFullAttributes
+    relationships: *WorkflowRelationships
+CreateWorkflowPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"workflows"`).
+          example: workflows
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties:
+            <<: *WorkflowBaseAttributes
+            <<: *WorkflowUnmodifiableAttributes
+UpdateWorkflowPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *WorkflowBaseAttributes
+SingleWorkflowResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Workflow
+SingleWorkflowResponseWithIncludes:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - included
+  properties:
+    data: *WorkflowWithRelationships
+    included:
+      type: array
+      description: All the objects related to the resource
+      items:
+        type: object
+      example:
+        [
+          {
+            'type': 'statuses',
+            'id': '9af02c4a-3c98-4283-8c5d-8dc47e3bf663',
+            'attributes':
+              {
+                'name': 'status 1',
+                'description': 'blahblah...',
+                'locked': false,
+                'position': 0,
+                'shown': true,
+                'default': true,
+              },
+            'relationships':
+              { 'events': { 'data': [{ 'type': 'events', 'id': '2a4fe563-920b-467d-96e2-a761587b5edf' }] } },
+          },
+          {
+            'type': 'events',
+            'id': '2a4fe563-920b-467d-96e2-a761587b5edf',
+            'attributes':
+              {
+                'admin_name': 'event 1',
+                'display_name': 'Event One',
+                'description': 'blahblah...',
+                'type': 'button',
+                'shared': false,
+                'roles': ['admin'],
+                'position': 0,
+              },
+            'relationships':
+              {
+                'events_handlers':
+                  { 'data': [{ 'type': 'events_handlers', 'id': '4393832e-6e16-4dfb-aa73-d342085a44ed' }] },
+              },
+          },
+          {
+            'type': 'events_handlers',
+            'id': '4393832e-6e16-4dfb-aa73-d342085a44ed',
+            'attributes': { 'scopes': ['self'], 'position': 0 },
+            'relationships':
+              { 'handler': { 'data': { 'type': 'handlers', 'id': 'ece0dc32-3fc2-4089-a0ee-1d994df60919' } } },
+          },
+          {
+            'type': 'handlers',
+            'id': 'ece0dc32-3fc2-4089-a0ee-1d994df60919',
+            'attributes':
+              {
+                'name': 'handler 1',
+                'description': 'blahblah...',
+                'shared': true,
+                'condition_conjunction': 'allOf',
+                'conditions':
+                  [
+                    {
+                      'condition_type': 'specificFieldsAreRequired',
+                      'configuration': { 'field_names': 'reviewSummary' },
+                      'scopes': ['self'],
+                      'on_failure_action': 'stopAllHandlersForThisEvent',
+                      'on_failure_display_message': false,
+                    },
+                  ],
+                'actions':
+                  [
+                    {
+                      'action_type': 'transitionStatus',
+                      'configuration': { 'status_id': '317dc769-3e09-4501-a2fd-80908bea7a66' },
+                      'scopes': ['self'],
+                    },
+                  ],
+              },
+          },
+        ]
+MultipleWorkflowsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *Workflow

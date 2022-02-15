@@ -1,0 +1,70 @@
+put:
+  tags:
+    - Robot Tasks
+  operationId: putRobotTask
+  summary: Update a robot task
+  description: Edit an existing task to change the settings. The next time a robot runs the task, the new settings are used.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to update a robot task.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotTaskRequest'
+  responses:
+    200:
+      description: Updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'
+
+delete:
+  tags:
+    - Robot Tasks
+  operationId: deleteRobotTask
+  summary: Delete a robot task
+  description: |
+    Permanently delete a task from a robot.
+
+    > **Note —**
+    When you delete a task, any previous task runs and output files are retained. You cannot delete a task if a task run is queued or in progress.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: Deleted.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

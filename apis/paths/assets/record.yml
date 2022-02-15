@@ -1,0 +1,99 @@
+get:
+  tags:
+    - Asset Records
+  operationId: getAssetRecord
+  summary: Get an asset record
+  description: Get information about an asset record.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/recordIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRecordResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Asset Records
+  operationId: updateAssetRecord
+  summary: Update an asset record
+  description: |
+    Update an existing asset record.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/recordIdParam'
+  requestBody:
+    description: The data required to update an asset record.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateRecordRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRecordResponse'
+    204:
+      description: No content. Returned when user was able to update the asset record but does not have read permission to it.
+    400:
+      $ref: '../../components/responses.yml#/MissingRecordTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/description'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Asset Records
+  operationId: deleteAssetRecord
+  summary: Delete an asset record
+  description: |
+    Delete an asset record that you no longer require. Generally, unless an asset record was created in error, it's better to transition it through its normal life-cycle.
+
+    > **Caution —**
+    Once an asset record is permanently deleted, you cannot access or restore the asset record.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/recordIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

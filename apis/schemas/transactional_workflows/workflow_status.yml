@@ -1,0 +1,231 @@
+WorkflowStatusBaseAttributes: &WorkflowStatusBaseAttributes
+  name:
+    type: string
+    description: The name of the status. Names are case-insensitive and must be unique.
+    example: My first Status
+  description:
+    type: string
+    description: The description of the status.
+    example: Description of My first Status
+  position:
+    type: integer
+    format: int64
+    description: Determines the visual order of statuses inside the workflow.
+    example: 8
+  default:
+    type: boolean
+    description: Specifies that this status is the default for items in the workflow. Every workflow must have exactly one default status.
+    example: false
+    default: false
+  shown:
+    type: boolean
+    description: Indicates that this status is shown in the workflow by default. Can be used to denote the "happy path" within the workflow.
+    example: true
+    default: false
+  locked:
+    type: boolean
+    description: Indicates that this status cannot be deleted by the user.
+    example: false
+    default: false
+  color:
+    type: string
+    nullable: true
+    description: Hexadecimal value to capture a color for the field, used in display and reporting
+    example: '#7D00FF'
+
+WorkflowStatusUpdatableAttributes: &WorkflowStatusUpdatableAttributes
+  <<: *WorkflowStatusBaseAttributes
+
+WorkflowStatusFullAttributes: &WorkflowStatusFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *WorkflowStatusUpdatableAttributes
+    created_at:
+      type: string
+      description: The date the status was created.
+      example: '2020-08-11T07:42:42Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the status was updated.
+      example: '2020-08-11T07:42:42Z'
+      format: date-time
+    system:
+      type: boolean
+      description: Indicates that this status cannot be modified by the user.
+      example: false
+      default: false
+WorkflowStatusEventsRelationship: &WorkflowStatusEventsRelationship
+  events:
+    type: object
+    description: The data associated with the resource.
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the event.
+              example: b125726f-ee4f-4ec9-9488-b6efa4ee1270
+            type:
+              type: string
+              description: The classification of the object (`"events"`).
+              example: events
+        example:
+          - id: 2b8d8374-43a8-4124-b29e-bcfafd899cc5
+            type: events
+          - id: a5b5896c-0724-4460-9361-c2ea0bce92c9
+            type: events
+
+WorkflowStatusRelationships: &WorkflowStatusRelationships
+  type: object
+  description: The relationships associated with the resource.
+  properties:
+    workflow:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The ID of the workflow.
+              example: 5ca23d96-8c07-4c74-b7fd-1240e46a74ab
+            type:
+              type: string
+              description: The classification of the object (`"workflows"`)
+              example: workflows
+      example:
+        data:
+          id: 5ca23d96-8c07-4c74-b7fd-1240e46a74ab
+          type: workflows
+    <<: *WorkflowStatusEventsRelationship
+
+WorkflowStatusWithEvents: &WorkflowStatusWithEvents
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the workflow.
+      example: 9af02c4a-3c98-4283-8c5d-8dc47e3bf663
+    type:
+      type: string
+      description: The classification of the object (`"statuses"`).
+      example: statuses
+    attributes: *WorkflowStatusFullAttributes
+    relationships: *WorkflowStatusRelationships
+
+CreateWorkflowStatusPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties: &basePayload
+        type:
+          type: string
+          description: The classification of the object (`"statuses"`).
+          example: statuses
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - position
+          properties: *WorkflowStatusUpdatableAttributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            <<: *WorkflowStatusEventsRelationship
+
+UpdateWorkflowStatusPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the workflow status.
+          example: '317dc769-3e09-4501-a2fd-80908bea7a66'
+        type:
+          type: string
+          description: The classification of the object (`"statuses"`).
+          example: statuses
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties: *WorkflowStatusUpdatableAttributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            <<: *WorkflowStatusEventsRelationship
+
+WorkflowStatusIncluded: &WorkflowStatusIncluded
+  type: array
+  description: The related entities included with the resource.
+  items:
+    type: object
+    description: The data associated with the resource.
+    properties:
+      id:
+        type: string
+        description: The ID of the included entity.
+        example: e5079e91-3aed-40f0-b3d1-96b83a0bc159
+      type:
+        type: string
+        description: The classification of the object (`"events"`).
+        example: events
+      attributes:
+        $ref: '../../components/schemas.yml#/EventPlainJson'
+
+SingleWorkflowStatusResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *WorkflowStatusWithEvents
+
+SingleWorkflowStatusResponseWithIncluded:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *WorkflowStatusWithEvents
+    included: *WorkflowStatusIncluded

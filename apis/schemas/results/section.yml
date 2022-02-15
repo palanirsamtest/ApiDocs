@@ -1,0 +1,132 @@
+SectionBaseAttributes: &SectionBaseAttributes
+  name:
+    type: string
+    description: The name of the section.
+    example: Section One
+  description:
+    type: string
+    description: The description of the section.
+    example: This section is related to health care.
+  position:
+    type: integer
+    format: int64
+    description: |
+      The position value determines the order of items within the questionnaire.
+
+      e.g. position value of 2 will place the section as the second item in the questionnaire.
+
+      If the value is not provided, the section will be appended to the end of the questionnaire.
+    example: 8
+  reference_id:
+    type: string
+    description: Attribute for section_headers filtering
+    example: Important Section Headers
+SectionFullAttributes: &SectionFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *SectionBaseAttributes
+    item_type:
+      type: string
+      maxLength: 255
+      description: The type of the questionnaire item.
+      example: SectionHeader
+    created_at:
+      type: string
+      description: The date the section layout was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the section layout was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+Section: &Section
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '20'
+    type:
+      type: string
+      description: The classification of the object (`"sections"`).
+      example: questionnaire_items
+    attributes: *SectionFullAttributes
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      required:
+        - questionnaire
+      properties:
+        questionnaire:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        questionnaire:
+          data:
+            id: '1'
+            type: questionnaires
+CreateSectionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"sections"`).
+          example: questionnaire_items
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties:
+            <<: *SectionBaseAttributes
+UpdateSectionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the requested resource.
+          example: '20'
+        type:
+          type: string
+          description: The classification of the object (`"questions"`).
+          example: questionnaire_items
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *SectionBaseAttributes
+SingleSectionResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Section

@@ -1,0 +1,2274 @@
+#
+# All parameters are captured here.
+#
+# Parameters tend to be re-usable, so it's worthwhile capturing here rather than
+# documenting them inline of path definitions.
+#
+
+orgIdParam:
+  in: path
+  name: org_id
+  description: The ID of the HighBond instance.
+  required: true
+  schema:
+    type: string
+    example: 1
+resourceIdParam: # A convenient parameter that'll reduce a ton of duplications.
+  in: path
+  name: id
+  description: The ID of the requested resource.
+  required: true
+  schema:
+    type: string
+    example: 9999
+EncodedUid:
+  in: path
+  name: encoded_uid
+  description: |
+    The IDs of the parent resource (project or framework) and user, in the `parent_resource_id:user_uid` format, which then must be encoded into Base64.
+
+    For example, if the `parent_resource_id` is `11955` and the `user_uid` is `yvqdNCtv8TeM47WQtzau`, you would encode `11955:yvqdNCtv8TeM47WQtzau` into Base64. The result is `MTE5NTU6eXZxZE5DdHY4VGVNNDdXUXR6YXU=`, which you would use as the `encoded_uid`.
+  required: true
+  schema:
+    type: string
+    example: MTE5NTU6eXZxZE5DdHY4VGVNNDdXUXR6YXU=
+uidPathParam:
+  name: uid
+  description: The UID of the user.
+  schema:
+    type: string
+    example: yvqdNCtv8TeM47WQtzau
+  in: path
+  required: true
+
+##################################
+# Robot specific parameters
+##################################
+robotEnvParam:
+  in: query
+  name: env
+  description: The environment of an analytic script.
+  required: false
+  schema:
+    type: string
+    enum:
+      - development
+      - production
+    default: development
+analyticsIncludeParam:
+  in: query
+  name: include
+  description: If specified, the associated analytic scripts will be included in the `included` object
+  required: false
+  schema:
+    type: string
+    enum: [analytics]
+  example: analytics
+robotJobsIncludeParam:
+  in: query
+  name: include
+  description: If specified, the associated objects will be included in the `included` list
+  required: false
+  schema:
+    type: string
+    enum: [robot, task, triggered_by]
+  example: robot,task,triggered_by
+robotPageSizeParam:
+  in: query
+  name: page[size]
+  description: The number of items returned per page. Default is 100.
+  required: false
+  schema:
+    type: string
+  example: 100
+robotPageNumberParam:
+  in: query
+  name: page[number]
+  description: The page number of records to return. Default is 1.
+  required: false
+  schema:
+    type: string
+  example: 1
+robotIdParam:
+  in: path
+  name: robot_id
+  description: The ID of the robot.
+  required: true
+  schema:
+    type: string
+    example: 2
+robotTaskIdParam:
+  in: path
+  name: robot_task_id
+  description: The ID of the robot task.
+  required: true
+  schema:
+    type: string
+    example: 2
+robotAppIdParam:
+  in: path
+  name: robot_app_id
+  description: The ID of the robot app.
+  required: true
+  schema:
+    type: string
+    example: 2
+versionIdParam:
+  in: path
+  name: version_id
+  description: The ID of the version.
+  required: true
+  schema:
+    type: string
+    example: 2
+
+##################################
+# Results specific parameters
+##################################
+collectionIdParam:
+  in: path
+  name: collection_id
+  description: The ID of the collection.
+  required: true
+  schema:
+    type: integer
+    example: 1
+questionnaireIdParam:
+  in: path
+  name: questionnaire_id
+  description: The ID of the questionnaire.
+  required: true
+  schema:
+    type: string
+    example: 10
+analysisIdParam:
+  in: path
+  name: analysis_id
+  description: The ID of the analysis where the requested table will be created.
+  required: true
+  schema:
+    type: integer
+    example: 20
+tableIdParam:
+  in: path
+  name: table_id
+  description: The ID of the table.
+  required: true
+  schema:
+    type: integer
+    example: 300
+
+############################################
+# Transactional Workflow specific parameters
+############################################
+workflowIdParam:
+  in: path
+  name: workflow_id
+  description: The ID of the workflow
+  required: true
+  schema:
+    type: string
+    example: 296f9069-4e4a-42bf-ba8a-e372e8f9e724
+resourceUuidParam:
+  in: path
+  name: id
+  description: The ID of the requested resource.
+  required: true
+  schema:
+    type: string
+    example: 296f9069-4e4a-42bf-ba8a-e372e8f9e724
+apiNameParam:
+  in: path
+  name: api_name
+  description: The api name of the workflow
+  required: true
+  schema:
+    type: string
+    example: my_workflow_api_name__c
+includeCountsHandlerParam:
+  in: query
+  name: include_counts
+  description: Include the number of conditions, actions and events for each handler.
+  required: false
+  schema:
+    type: boolean
+    default: false
+eventIncludeParam:
+  in: query
+  name: include
+  description: If specified, the event's associated statuses and/or handlers will be included in the `included` object
+  required: false
+  schema:
+    type: string
+    enum: [statuses, handlers]
+  example: statuses,handlers
+handlerIncludeParam:
+  in: query
+  name: include
+  description: If specified, the handler's associated events will be included in the `included` object
+  required: false
+  schema:
+    type: string
+    enum: [events]
+  example: events
+statusIncludeParam:
+  in: query
+  name: include
+  description: If specified, the status's associated events will be included in the `included` object
+  required: false
+  schema:
+    type: string
+    example: events
+    enum: [events]
+includeWithWorkflowParam:
+  in: query
+  name: include
+  description: Include information about the associated resources.
+  required: false
+  schema:
+    type: string
+    example: statuses.events.handlers
+    enum:
+      - statuses.events.handlers
+      - statuses.events
+      - statuses
+forceDeleteStatusParam:
+  in: query
+  name: force_delete
+  description: If set to true, the status will be deleted regardless of default, locked, or linked items conditions. System statuses cannot be deleted, even with this set to true.
+  required: false
+  schema:
+    type: boolean
+    default: false
+
+##################################
+# Asset Type specific parameters
+##################################
+assetTypeIdParam:
+  in: path
+  name: asset_type_id
+  description: The ID of the asset type.
+  required: true
+  schema:
+    type: string
+    example: 1
+recordTypeIdParam:
+  in: path
+  name: record_type_id
+  description: The ID of the asset record type.
+  required: true
+  schema:
+    type: string
+    example: 1
+parentIdParam:
+  in: path
+  name: parent_id
+  description: The ID of the parent in an asset record type parent-child relationship. May be for an asset type or a root asset record type.
+  required: true
+  schema:
+    type: string
+    example: 111
+childIdParam:
+  in: path
+  name: child_id
+  description: The ID of the child in an asset record type parent-child relationship. Can only be for an asset record type.
+  required: true
+  schema:
+    type: string
+    example: 222
+assetTypesIncludeParam:
+  in: query
+  name: include
+  description: Include information about the associated resources.
+  required: false
+  schema:
+    type: string
+    example: attribute_types
+    enum:
+      - attribute_types
+filterByCategories:
+  in: query
+  name: filter[category]
+  description: Filter the response to only include resources that belong to the given list of categories, separated by comma.
+  required: false
+  schema:
+    type: string
+    example: assets,risks
+filterByWorkflowIds:
+  in: query
+  name: workflow_id
+  description: Filter the response to only include resources that associate with the given list of workflow IDs, separated by comma.
+  required: false
+  schema:
+    type: string
+    example: 296f9069-4e4a-42bf-ba8a-e372e8f9e724,768cd1bc-d8af-4429-9aa0-8a4b477de42b
+fieldName:
+  in: query
+  name: filter[field_name]
+  description: An attribute type name to filter by. Response only includes matching resources.
+  required: false
+  schema:
+    type: string
+    example: LoremIpsum
+filterName:
+  in: query
+  name: filter[name]
+  description: Filter by name.  Response will include partial matches and ignore case.
+  required: false
+  schema:
+    type: string
+    example: LoremIpsum
+
+##################################
+# Assets specific parameters
+##################################
+assetIdParam:
+  in: path
+  name: asset_id
+  description: The ID of the asset.
+  required: true
+  schema:
+    type: string
+    example: 1
+
+recordIdParam:
+  in: path
+  name: record_id
+  description: The ID of the asset record.
+  required: true
+  schema:
+    type: string
+    example: 1
+
+eventIdParam:
+  in: path
+  name: event_id
+  description: The ID of the event
+  required: true
+  schema:
+    type: string
+    example: '415dc769-3e49-4501-a2fd-80908bea7a32'
+
+assetTypeSparseFieldsetParams:
+  in: query
+  name: fields[asset_types]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: asset_attributes
+
+assetSparseFieldsetParams:
+  in: query
+  name: fields[asset_attributes]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,metadata.created_at
+
+recordSparseFieldsetParams:
+  in: query
+  name: fields[record_attributes]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,metadata.created_at
+
+resourceSortParam:
+  in: query
+  name: sort
+  description: Orders the resulting resources by the given fields.
+    Metadata can be sorted with the 'metadata.' prefix.
+    Sorts ascending by default, prefix with - to sort descending.
+    Can only sort up to two fields at a time.
+  required: false
+  schema:
+    type: string
+    example: -vendor_name,metadata.id
+
+resourceSearchParam:
+  in: query
+  name: filter[query]
+  description: Requesting the API to return only resources with fields
+    that contain the search query string (any fields that have a string value).
+    Case-insensitive.
+  required: false
+  schema:
+    type: string
+    example: LoremIpsum
+
+relationshipFieldName:
+  in: query
+  name: field_name
+  description: The field name of the ad hoc attribute type you want to target. All relationships in the response will be related to this field name.
+  required: true
+  schema:
+    type: string
+    example: my_ad_hoc_field_name
+
+relationshipObjectTypeId:
+  in: query
+  name: target_object_type_id
+  description: The ID of the target asset type or asset record type to which this asset or record is linked.
+  required: true
+  schema:
+    type: string
+    example: '2423727'
+
+relationshipObjectId:
+  in: query
+  name: target_object_id
+  description: The ID of the target asset or asset record to which this asset or record is linked.
+  required: true
+  schema:
+    type: string
+    example: '1569286277732072'
+
+relationshipLabelFieldName:
+  in: query
+  name: label_field_name
+  description: The field name of the label from which the target asset or asset record is linked.
+  required: true
+  schema:
+    type: string
+    example: my_ad_hoc_attribute::causes
+
+pageSizeAssetsAttributesParam:
+  in: query
+  name: page[size]
+  description: The number of items returned per page. Default is 50. Maximum is 500.
+  required: false
+  schema:
+    type: string
+    example: 25
+
+pageSizeAssetsAttributeTypesParam:
+  in: query
+  name: page[size]
+  description: The number of items returned per page. Default is 50. Maximum is 1000.
+  required: false
+  schema:
+    type: string
+    example: 25
+
+##################################
+# Projects specific parameters
+##################################
+projectIdParam:
+  in: path
+  name: project_id
+  description: The ID of the project.
+  required: true
+  schema:
+    type: integer
+    example: 1
+parentResourceTypeParam:
+  in: path
+  name: parent_resource_type
+  description: The type of the parent resource.
+  required: true
+  schema:
+    type: string
+    enum:
+      - projects
+      - frameworks
+    default: projects
+parentResourceIdParam:
+  in: path
+  name: parent_resource_id
+  description: The ID of the parent resource.
+  required: true
+  schema:
+    type: integer
+    example: 1
+projectTypeIdParam:
+  in: path
+  name: project_type_id
+  description: The ID of the project type.
+  required: true
+  schema:
+    type: integer
+    example: 1
+projectPermanentDeleteParam:
+  in: query
+  name: permanent
+  description: Specifies that the project and all associated data should be permanently deleted.
+  required: false
+  schema:
+    type: string
+    enum:
+      - delete
+objectiveIdParam:
+  in: path
+  name: objective_id
+  description: The ID of the objective.
+  required: true
+  schema:
+    type: integer
+    example: 1
+issueIdParam:
+  in: path
+  name: issue_id
+  description: The ID of the issue.
+  required: true
+  schema:
+    type: integer
+    example: 1
+actionIdParam:
+  in: path
+  name: action_id
+  description: The ID of the action.
+  required: true
+  schema:
+    type: integer
+    example: 1
+projectTypeSparseFieldsetParams:
+  in: query
+  name: fields[project_types]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,description,workflow,project_terms,certification_terms,control_terms,finding_terms,control_test_terms,narrative_terms,objective_terms,planning_terms,results_terms,risk_terms,test_plan_terms,walkthrough_terms
+customAttributeSparseFieldsetParams:
+  in: query
+  name: fields[custom_attributes]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: term,options,customizable_type,field_type,weight
+controlSparseFieldsetParams:
+  in: query
+  name: fields[controls]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,control_id,owner,frequency,control_type,prevent_detect,method,status,position,created_at,updated_at,custom_attributes,objective,walkthrough,control_test_plan,control_tests,mitigations,owner_user,entities,framework_origin
+controlSortParam:
+  in: query
+  name: sort
+  description: Requesting the API to sort controls by the values in a given field.
+    The controls are sorted ascending by default, but you can prefix the field name with `-` to sort descending (e.g., `-id`).
+    You can sort controls by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - id
+      - title
+      - description
+      - control_id
+      - owner
+      - control_tests.1.assigned_user.name
+      - control_tests.2.assigned_user.name
+      - control_tests.3.assigned_user.name
+      - control_tests.4.assigned_user.name
+      - control_tests.not_applicable
+      - control_tests.testing_conclusion
+      - walkthrough.control_design
+      - frequency
+      - control_type
+      - prevent_detect
+      - method
+      - status
+      - position
+      - created_at
+      - updated_at
+      - objective.title
+    default: id
+controlFrequencyFilterParams:
+  in: query
+  name: filter[frequency]
+  description: Requesting the API to filter results by frequency.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Multiple Times Daily'
+controlOwnerFilterParams:
+  in: query
+  name: filter[owner]
+  description: Requesting the API to filter results by owner.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some@example.com'
+controlTestFirstAssigneeFilterParams:
+  in: query
+  name: filter[control_tests.1.assigned_user.id]
+  description: Requesting the API to filter results by the user assigned to the first testing round.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestSecondAssigneeFilterParams:
+  in: query
+  name: filter[control_tests.2.assigned_user.id]
+  description: Requesting the API to filter results by the user assigned to the second testing round.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestThirdAssigneeFilterParams:
+  in: query
+  name: filter[control_tests.3.assigned_user.id]
+  description: Requesting the API to filter results by the user assigned to the third testing round.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestFourthAssigneeFilterParams:
+  in: query
+  name: filter[control_tests.4.assigned_user.id]
+  description: Requesting the API to filter results by the user assigned to the fourth testing round.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestsNotApplicableFilterParams:
+  in: query
+  name: filter[control_tests.not_applicable]
+  description:
+    Requesting the API to filter results to only include controls that are not being tested as part of any given testing round.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - 'true'
+      - 'false'
+      - ''
+controlTestsTestingConclusionFilterParams:
+  in: query
+  name: filter[control_tests.testing_conclusion]
+  description: Requesting the API to filter results to only include controls that were marked as operating effectively.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - 'true'
+      - 'false'
+      - ''
+controlWalkthroughControlDesignFilterParams:
+  in: query
+  name: filter[walkthrough.control_design]
+  description: Requesting the API to filter results to only include controls that were marked as designed appropriately.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - 'true'
+      - 'false'
+      - ''
+ControlTypeFilterParams:
+  in: query
+  name: filter[control_type]
+  description: Requesting the API to filter results by control type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Application/System Control'
+controlStatusFilterParams:
+  in: query
+  name: filter[status]
+  description: Requesting the API to filter results by status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Key Control'
+controlObjectiveTitleFilterParams:
+  in: query
+  name: filter[objective.title]
+  description: Requesting the API to filter results by objective title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some objective title'
+controlObjectiveNameFilterParams:
+  in: query
+  name: filter[objective.name]
+  description: Requesting the API to filter results by objective name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some objective name'
+controlObjectiveReferenceFilterParams:
+  in: query
+  name: filter[objective.reference]
+  description: Requesting the API to filter results by objective reference.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'NM-INV'
+controlProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+controlProjectNameFilterParams:
+  in: query
+  name: filter[project.name]
+  description: Requesting the API to filter results by project name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some project name'
+controlProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlProjectStatusFilterParams:
+  in: query
+  name: filter[project.status]
+  description: Requesting the API to filter results by project status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlDescriptionFilterParams:
+  in: query
+  name: filter[description]
+  description: Requesting the API to filter results by control description.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Control description.'
+controlTitleFilterParams:
+  in: query
+  name: filter[title]
+  description: Requesting the API to filter results by control title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Control title.'
+controlQueryFilterParams:
+  in: query
+  name: filter[query]
+  description: Requesting the API to filter results by control description or title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Control description or title.'
+controlNumberFilterParams:
+  in: query
+  name: filter[control_id]
+  description: Requesting the API to filter results by control numbers.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '001,002,003'
+controlIDFilterParams:
+  in: query
+  name: filter[id]
+  description: Requesting the API to filter results by control IDs.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1,2,3'
+controlIncludeParam:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+  required: false
+  schema:
+    type: string
+    enum:
+      - objective
+      - walkthough
+      - control_tests
+      - control_tests.assigned_user
+  example: objective,walkthough,control_tests,control_tests.assigned_user
+controlTestSparseFieldsetParams:
+  in: query
+  name: fields[control_tests]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: testing_round_number,not_applicable,sample_size,testing_results,testing_conclusion,created_at,updated_at,control,assigned_user
+controlTestsSparseFieldsetParams:
+  in: query
+  name: fields[control_tests]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: testing_round_number,not_applicable,sample_size,testing_results,testing_conclusion,created_at,updated_at,custom_attributes,control,assigned_user
+controlTestsSortParams:
+  in: query
+  name: sort
+  description: Requesting the API to sort control tests by the values in a given field.
+    The control tests are sorted ascending by default, but you can prefix the field name with `-` to sort descending (e.g., `-id`).
+    You can sort control tests by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - id
+      - testing_round_number
+      - not_applicable
+      - sample_size
+      - testing_results
+      - testing_conclusion
+      - created_at
+      - updated_at
+    default: id
+controlTestProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+controlTestProjectNameFilterParams:
+  in: query
+  name: filter[project.name]
+  description: Requesting the API to filter results by project name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some project name'
+controlTestProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlTestControlIDFilterParams:
+  in: query
+  name: filter[control.id]
+  description: Requesting the API to filter results by control IDs.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1,2,3'
+controlTestProjectStatusFilterParams:
+  in: query
+  name: filter[project.status]
+  description: Requesting the API to filter results by project status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlTestObjectiveTitleFilterParams:
+  in: query
+  name: filter[objective.title]
+  description: Requesting the API to filter results by objective title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some objective title'
+controlTestObjectiveReferenceFilterParams:
+  in: query
+  name: filter[objective.reference]
+  description: Requesting the API to filter results by objective reference.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'ITC'
+controlTestControlStatusFilterParams:
+  in: query
+  name: filter[control.status]
+  description: Requesting the API to filter results by control status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Key Control'
+controlTestControlTitleFilterParams:
+  in: query
+  name: filter[control.title]
+  description: Requesting the API to filter results by control title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some control title'
+controlTestControlQueryFilterParams:
+  in: query
+  name: filter[control.query]
+  description: Requesting the API to filter results by control title or description.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some control title or description'
+controlTestControlOwnerFilterParams:
+  in: query
+  name: filter[control.owner]
+  description: Requesting the API to filter results by control owner.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some@example.com'
+controlTestControlFrequencyFilterParams:
+  in: query
+  name: filter[control.frequency]
+  description: Requesting the API to filter results by control frequency.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Multiple Times Daily'
+controlTestControlTypeFilterParams:
+  in: query
+  name: filter[control.control_type]
+  description: Requesting the API to filter results by control type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Application/System Control'
+controlTestControlNumberFilterParams:
+  in: query
+  name: filter[control.control_id]
+  description: Requesting the API to filter results by control numbers.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '001,002,003'
+controlTestControlControlTestFirstAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.1.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the first testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestControlControlTestSecondAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.2.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the second testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestControlControlTestThirdAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.3.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the third testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestControlControlTestFourthAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.4.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the fourth testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+controlTestPlanSparseFieldsetParams:
+  in: query
+  name: fields[control_test_plans]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: testing_method,total_sample_size,test_steps,created_at,updated_at,custom_attributes,control,framework_origin
+controlTestPlanSortParams:
+  in: query
+  name: sort
+  description: Requesting the API to sort test plans by the values in a given field.
+    The test plans are sorted ascending by default, but you can prefix the field name with `-` to sort descending (e.g., `-id`).
+    You can sort test plans by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - id
+      - testing_method
+      - total_sample_size
+      - test_steps
+      - created_at
+      - updated_at
+    default: id
+controlTestPlanProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+controlTestPlanProjectNameFilterParams:
+  in: query
+  name: filter[project.name]
+  description: Requesting the API to filter results by project name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some project name'
+controlTestPlanProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlTestPlanProjectStatusFilterParams:
+  in: query
+  name: filter[project.status]
+  description: Requesting the API to filter results by project status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+controlTestPlanControlIDFilterParams:
+  in: query
+  name: filter[control.id]
+  description: Requesting the API to filter results by control IDs.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1,2,3'
+narrativeSparseFieldsetParams:
+  in: query
+  name: fields[narratives]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,created_at,updated_at,objective,framework_origin
+objectiveSparseFieldsetParams:
+  in: query
+  name: fields[objectives]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,reference,division_department,owner,executive_owner,created_at,updated_at,project,assigned_user,custom_attributes,position,risk_control_matrix_id,walkthrough_summary_id,testing_round_1_id,testing_round_2_id,testing_round_3_id,testing_round_4_id,entities,framework,framework_origin,risk_assurance_data
+riskSparseFieldsetParams:
+  in: query
+  name: fields[risks]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,risk_id,position,impact,likelihood,custom_attributes,custom_factors,created_at,updated_at,objective,mitigations,entities,framework_origin,risk_assurance_data
+
+##################################
+# Issues specific parameters
+#################################
+issueSparseFieldsetParams:
+  in: query
+  name: fields[issues]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,creator_name,created_at,updated_at,position,owner,recommendation,deficiency_type,severity,published,identified_at,reference,reference_prefix,risk,scope,escalation,cause,effect,cost_impact,executive_summary,executive_owner,project_owner,closed,remediation_status,remediation_plan,remediation_date,actual_remediation_date,retest_deadline_date,actual_retest_date,retesting_results_overview,custom_attributes,project,entities,target,owner_user
+issueTargetTypeFilterParams:
+  in: query
+  name: filter[target.type]
+  description: Requesting the API to filter results by target's type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - objectives
+      - projects
+      - project_files
+      - issues
+      - objectives
+      - narratives
+      - walkthroughs
+      - walkthrough_summaries
+      - testing_rounds
+      - controls
+      - risks
+      - risk_control_matrices
+      - control_tests
+      - control_test_plans
+      - project_results
+      - project_plannings
+      - accounts
+      - test_plans
+issueProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project's ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '2'
+issueProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+issueTargetIdFilterParams:
+  in: query
+  name: filter[target.id]
+  description: Requesting the API to filter results by target's id.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: integer
+    example: 2
+issueClosedFilterParams:
+  in: query
+  name: filter[closed]
+  description: Requesting the API to filter results by closed status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: boolean
+    example: false
+issueSortParams:
+  in: query
+  name: sort
+  description: Orders the resulting resources by the given field.
+    Sorts ascending by default, prefix with `-` to sort descending. Can only sort up by only one field at a time.
+  required: false
+  schema:
+    type: string
+    example: closed
+
+entityCategorySparseFieldsetParams:
+  in: query
+  name: fields[entity_categories]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,position,entities_count,created_at,updated_at,entities
+projectSparseFieldsetParams:
+  in: query
+  name: fields[projects]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,state,status,created_at,updated_at,description,background,budget,position,header_alert_enabled,header_alert_text,certification,control_performance,risk_assurance,management_response,max_sample_size,number_of_testing_rounds,opinion,opinion_description,purpose,scope,start_date,target_date,tag_list,project_type,entities,collaborators,risk_assurance_data,collaborator_groups
+actionSparseFieldsetParams:
+  in: query
+  name: fields[actions]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,created_at,updated_at,owner_name,owner_email,send_recurring_reminder,include_issue_details,include_remediation_details,description,due_date,priority,closed,completed_date,status,submitted_on,custom_attributes,issue,assigned_by,cc_users
+actionCommentSparseFieldsetParams:
+  in: query
+  name: fields[action_comments]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: message_content,commenter_name,commenter_email,created_at,updated_at,action,commenter_user
+collaboratorSparseFieldsetParams:
+  in: query
+  name: fields[collaborators]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: project,framework,user,project_role,effective_role,organization_role,created_at,updated_at
+collaboratorGroupSparseFieldsetParams:
+  in: query
+  name: fields[collaborators_groups]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: project,framework,group_members,group,project_role,disabled,default,admin,created_at,updated_at
+collaboratorGroupEncodedUid:
+  in: path
+  name: encoded_uid
+  description: |
+    The IDs of the parent resource (project or framework) and Launchpad ID of the group, in the `parent_resource_id:group_lp_id` format, which then must be encoded into Base64.
+
+    For example, if the `parent_resource_id` is `11955` and the `group_lp_id` is `1337`, you would encode `11955:1337` into Base64. The result is `MTE5NTU6MTMzNw==`, which is the `id`.
+  required: true
+  schema:
+    type: string
+    example: MTE5NTU6MTMzNw==
+pageSizeParam:
+  in: query
+  name: page[size]
+  description: The number of items returned per page. Default is 50. Maximum is 100.
+  required: false
+  schema:
+    type: string
+    example: 25
+pageNumberEncodedParam:
+  in: query
+  name: page[number]
+  description: The Base64-encoded page number of records to return.
+  required: false
+  schema:
+    type: string
+    example: Mg==
+pageNumberParam:
+  in: query
+  name: page[number]
+  description: The page number of records to return. Default is 1.
+  required: false
+  schema:
+    type: string
+    example: 2
+riskIdParam:
+  in: path
+  name: risk_id
+  description: The ID of the risk.
+  required: true
+  schema:
+    type: integer
+    example: 1
+controlIdParam:
+  in: path
+  name: control_id
+  description: The ID of the control.
+  required: true
+  schema:
+    type: integer
+    example: 1
+entitySparseFieldsetParams:
+  in: query
+  name: fields[entities]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,description,created_at,updated_at,parent,children_count,entity_category
+planningFileSparseFieldsetParams:
+  in: query
+  name: fields[planning_files]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,reference_id,description,position,created_at,updated_at,custom_attributes,project,framework
+resultsFileSparseFieldsetParams:
+  in: query
+  name: fields[results_files]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,reference_id,description,position,created_at,updated_at,custom_attributes,project
+schedulerFilterSparseFieldsetParams:
+  in: query
+  name: fields[scheduler_filters]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,user_ids,project_ids,project_tags,project_statuses,can_edit
+actionIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: action_comments
+controlIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: objective
+riskIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: objective
+controlTestIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: control,control.objective
+controlTestPlanIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: control,control.objective
+walkthroughIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: control,control.objective
+walkthroughsSortParams:
+  in: query
+  name: sort
+  description: Requesting the API to sort walkthroughs by the values in a given field.
+    The walkthroughs are sorted ascending by default, but you can prefix the field name with `-` to sort descending (e.g., `-id`).
+    You can sort walkthroughs by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - id
+      - walkthrough_results
+      - control_design
+      - created_at
+      - updated_at
+    default: id
+walkthroughProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+walkthroughProjectNameFilterParams:
+  in: query
+  name: filter[project.name]
+  description: Requesting the API to filter results by project name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some project name'
+walkthroughProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+walkthroughProjectStatusFilterParams:
+  in: query
+  name: filter[project.status]
+  description: Requesting the API to filter results by project status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+walkthroughControlIDFilterParams:
+  in: query
+  name: filter[control.id]
+  description: Requesting the API to filter results by control IDs.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1,2,3'
+walkthroughControlDesignFilterParams:
+  in: query
+  name: filter[control_design]
+  description:
+    Requesting the API to filter results to only include walkthroughs that were marked as designed appropriately.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - 'true'
+      - 'false'
+      - ''
+walkthroughObjectiveTitleFilterParams:
+  in: query
+  name: filter[objective.title]
+  description: Requesting the API to filter results by objective title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some objective title'
+walkthroughObjectiveReferenceFilterParams:
+  in: query
+  name: filter[objective.reference]
+  description: Requesting the API to filter results by objective reference.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'ITC'
+walkthroughControlNumberFilterParams:
+  in: query
+  name: filter[control.control_id]
+  description: Requesting the API to filter results by numbers of the control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '001,002,003'
+walkthroughControlTitleFilterParams:
+  in: query
+  name: filter[control.title]
+  description: Requesting the API to filter results by control title.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some control title'
+walkthroughControlQueryFilterParams:
+  in: query
+  name: filter[control.query]
+  description: Requesting the API to filter results by control title or description.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some control title or description'
+walkthroughControlStatusFilterParams:
+  in: query
+  name: filter[control.status]
+  description: Requesting the API to filter results by control status.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Key Control'
+walkthroughControlOwnerFilterParams:
+  in: query
+  name: filter[control.owner]
+  description: Requesting the API to filter results by control owner.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some@example.com'
+walkthroughControlFrequencyFilterParams:
+  in: query
+  name: filter[control.frequency]
+  description: Requesting the API to filter results by control frequency.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Multiple Times Daily'
+walkthroughControlTypeFilterParams:
+  in: query
+  name: filter[control.control_type]
+  description: Requesting the API to filter results by control type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'Application/System Control'
+walkthroughControlControlTestFirstAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.1.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the first testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+walkthroughControlControlTestSecondAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.2.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the second testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+walkthroughControlControlTestThirdAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.3.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the third testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+walkthroughControlControlTestFourthAssigneeFilterParams:
+  in: query
+  name: filter[control.control_tests.4.assigned_user.id]
+  description:
+    Requesting the API to filter results by the user assigned to the fourth testing round in the related control.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'uid1'
+timeEntrySparseFieldsetParams:
+  in: query
+  name: fields[time_entries]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: date,description,time,created_at,updated_at,position,project,objective,target
+timeEntryIncludeParams:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: target,project,objective,category,assigned_user
+timeEntryUserFilterParams:
+  in: query
+  name: filter[uid]
+  description: Requesting the API to filter results by user.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: integer
+    example: Hdf7sKAHWAiGsqeKhACh
+timeEntryStartDateFilterParams:
+  in: query
+  name: filter[date][start]
+  description: Requesting the API to filter results by start date.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '2021-04-28'
+timeEntryEndDateFilterParams:
+  in: query
+  name: filter[date][end]
+  description: Requesting the API to filter results by end date.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '2021-04-30'
+timeEntryTargetTypeFilterParams:
+  in: query
+  name: filter[target.type]
+  description: Requesting the API to filter results by target's type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - objectives
+      - projects
+      - project_files
+      - issues
+      - objectives
+      - narratives
+      - walkthroughs
+      - walkthrough_summaries
+      - testing_rounds
+      - controls
+      - risks
+      - risk_control_matrices
+      - control_tests
+      - control_test_plans
+      - project_results
+      - project_plannings
+      - accounts
+      - test_plans
+timeEntryTargetIdFilterParams:
+  in: query
+  name: filter[target.id]
+  description: Requesting the API to filter results by target's id.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: integer
+    example: 2
+timeEntrySortParams:
+  in: query
+  name: sort
+  description: Orders the resulting resources by the given field.
+    Sorts ascending by default, prefix with `-` to sort descending. Can only sort up by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - date
+    default: id
+accountFieldsetParams:
+  in: query
+  name: fields[accounts]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: fy_end_day,fy_end_month
+testPlanFieldsetParams:
+  in: query
+  name: fields[test_plans]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: full_title
+projectFileFieldsetParams:
+  in: query
+  name: fields[project_files]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,reference,file_type,is_editable,is_signed_off
+testingRoundFieldsetParams:
+  in: query
+  name: fields[testing_rounds]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: round_number,full_title
+walkthroughFieldsetParams:
+  in: query
+  name: fields[walkthroughs]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: walkthrough,control_verified,original_updated_at,preparer_signoff,preparer_id,preparer_name,prepared_at,detail_reviewer_signoff,detail_reviewer_id,detail_reviewer_name,detail_reviewed_at,general_reviewer_signoff,general_reviewer_id,general_reviewer_name,general_reviewed_at,control_performance_enabled,control_performance_readonly,signed_off,readonly,locked,enabled
+walkthroughSummaryFieldsetParams:
+  in: query
+  name: fields[walkthrough_summaries]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: full_title
+projectPlanningFieldsetParams:
+  in: query
+  name: fields[project_plannings]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: full_title
+projectResultFieldsetParams:
+  in: query
+  name: fields[project_results]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: full_title
+riskControlMatrixFieldsetParams:
+  in: query
+  name: fields[risk_control_matrices]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: full_title
+controlTestPlanFieldsetParams:
+  in: query
+  name: fields[control_test_plans]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: title,test_steps,sanitized_description,reference_prefix,self_link,update_linked_control_test_plans_link,preparer_signoff,preparer_id,preparer_name,prepared_at,detail_reviewer_signoff,detail_reviewer_id,detail_reviewer_name,detail_reviewed_at,general_reviewer_signoff,general_reviewer_id,general_reviewer_name,general_reviewed_at,sample_size,test_method,audit_name,sanitized_test_steps
+timesheetsActivitiesDateParam:
+  in: query
+  name: date
+  description: Requesting the API to filter results by date.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: true
+  schema:
+    type: string
+    example: '2021-04-30'
+timesheetsActivitiesIncludeParam:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+  required: false
+  schema:
+    type: string
+    enum:
+      - targets
+  example: targets
+timesheetsProjectsIncludeParam:
+  in: query
+  name: include
+  description: Requesting the API to return related resources.
+  required: false
+  schema:
+    type: string
+    enum:
+      - all
+      - recent
+  example: all,recent
+organizationWalkthroughsFieldsetParams:
+  in: query
+  name: fields[walkthroughs]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+  example: walkthrough_results,control_design,created_at,updated_at,custom_attributes,control
+##################################
+# Frameworks specific parameters
+##################################
+frameworkIdParam:
+  in: path
+  name: framework_id
+  description: The ID of the framework.
+  required: true
+  schema:
+    type: integer
+    example: 1
+frameworkSparseFieldsetParams:
+  in: query
+  name: fields[frameworks]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,created_at,updated_at,folder_name,description,background,position,purpose,scope,risk_assurance,entities,project_type,collaborators,risk_assurance_data,collaborator_groups
+
+##################################
+# Toolkits specific parameters
+##################################frameworkIdParam:
+toolkitIdParam:
+  in: path
+  name: id
+  description: The ID of the toolkit.
+  required: true
+  schema:
+    type: string
+    example: my-first-toolkit
+toolkitActionParam:
+  in: path
+  name: toolkit_action
+  description: Request the API to return toolkit resources information for respective action.
+  required: true
+  schema:
+    type: string
+    example: info, apply, destroy
+
+##################################
+# Roles specific parameters
+##################################
+roleIdPathParam:
+  in: path
+  name: role_id
+  description: The UID of the a Role.
+  required: true
+  schema:
+    type: string
+    example: '5fe686da-282a-11eb-adc1-0242ac120002'
+
+##################################
+# Compliance Maps specific parameters
+##################################
+
+complianceRegulationSparseFieldsetParams:
+  in: query
+  name: fields[compliance_regulations]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: name,description,created_at,updated_at,external_id,source,disclaimer,report_disclaimer,requirement_disclaimer,available_tags,tags,locked,premium,subscription_types
+
+complianceRequirementSparseFieldsetParams:
+  in: query
+  name: fields[compliance_requirements]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: identifier,name,description,created_at,updated_at,external_id,external_parent_id,tags,rationale,applicable,covered,coverage,compliance_regulation,parent,compliance_mappings
+
+complianceRegulationIdParam:
+  in: path
+  name: compliance_regulation_id
+  description: The ID of the regulation.
+  required: true
+  schema:
+    type: integer
+    example: 1
+
+complianceMappingSparseFieldsetParams:
+  in: query
+  name: fields[compliance_mappings]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: coverage,created_at,updated_at,compliance_requirement,control
+
+complianceMapsSuggestedControlsSparseFieldsetParams:
+  in: query
+  name: fields[suggested_controls]
+  description: Requesting the API to return only the specified fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: is_dismissed,source,mapped_compliance_requirements
+
+complianceMapsSuggestedControlsSourceFilterParam:
+  in: query
+  name: filter[source]
+  description: |
+    Requesting the API to return suggested controls from specified source only.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+    Values can be:
+      * `maestra` - for controls suggested by Maestra
+      * `human` - for controls suggested by Content Team
+  required: false
+  schema:
+    type: string
+    example: maestra
+
+complianceMapsSuggestedControlsDismissedFilterParam:
+  in: query
+  name: filter[is_dismissed]
+  description: |
+    Requesting the API to return suggested controls with specific status only.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+    Values can be:
+      * `true` - for dismissed controls
+      * `false` - for controls available for mapping
+  required: false
+  schema:
+    type: string
+    example: false
+
+##################################
+# Scheduler specific parameters
+##################################
+schedulerStartDateFilterParams:
+  in: query
+  name: filter[date][start]
+  description: |
+    Requesting the API to filter results by start date.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '2021-04-28'
+schedulerEndDateFilterParams:
+  in: query
+  name: filter[date][end]
+  description: |
+    Requesting the API to filter results by end date.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '2021-04-30'
+schedulerTypeFilterParams:
+  in: query
+  name: filter[schedule_type]
+  description: |
+    Requesting the API to filter results by schedule type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+    Values can be:
+      * `project` - for getting project schedules
+      * `non_project` - for getting non project schedules
+  required: false
+  schema:
+    type: string
+    example: 'project'
+schedulerScheduledProjectFilterParams:
+  in: query
+  name: filter[scheduled_project_id]
+  description: |
+    Requesting the API to filter results by scheduled project IDs.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1,2,3'
+schedulerProjectStateFilterParams:
+  in: query
+  name: filter[scheduled_project_state]
+  description: Requesting the API to filter results by scheduler project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+##################################
+# Importer specific parameters
+##################################
+sessionIdParam:
+  in: path
+  name: session_id
+  description: The unique identifier for an import.
+  required: true
+  schema:
+    type: string
+    example: 58e559b1-31bf-4341-b761-c30364376adf
+
+##################################
+# Impact Reports specific parameters
+##################################
+reportIdParam:
+  in: path
+  name: id
+  description: The ID of the report.
+  required: true
+  schema:
+    type: string
+    example: 3a2c8b37-c23c-4b13-8bd1-2f253cd43df7
+reportTargetIdParam:
+  in: path
+  name: id
+  description: The ID of the report target.
+  required: true
+  schema:
+    type: string
+    example: 78ff9fa0-fa71-4a03-9415-5e5fe2c54cee
+targetTypeParam:
+  in: path
+  name: target_type
+  description: The target type of the report .
+  required: true
+  schema:
+    type: string
+    example: asset_types
+targetTypeIdParam:
+  in: path
+  name: target_type_id
+  description: The ID of the target type.
+  required: true
+  schema:
+    type: string
+    example: 123456
+targetResourceParam:
+  in: query
+  name: target_resource
+  description: The target resource of the report.
+  required: false
+  schema:
+    type: string
+    example: asset
+targetResourceIdParam:
+  in: query
+  name: target_resource_id
+  description: The ID of the target resource.
+  required: false
+  schema:
+    type: string
+    example: 150584
+dataArgsParams:
+  in: query
+  name: dataArgs
+  description: Variables required for the graphql query.
+  required: false
+  schema:
+    type: string
+    example: '{"id": 654, "symbolic_name": "it_asset___cloud", "format": "CSV"}'
+
+############################################
+# Activity Tracker API specific parameters
+############################################
+activitiesExportEventOriginFilterParam:
+  in: query
+  name: filter[event_origin]
+  description: Requesting the API to filter activities by event origin.
+    Event origin is an identifier specifying where an activity originated from.
+  required: true
+  schema:
+    type: string
+    example: assets-inventory
+
+##################################
+# Launchpad Users specific parameters
+##################################
+listUsersTypeFilterParam:
+  in: query
+  name: filter[user_type]
+  description: Requesting the API to filter Users by their type.
+    Can only be one of the following types `"user"`, `"system"`, and `"root"`
+  required: false
+  schema:
+    type: string
+    example: user
+
+listUsersSearchParam:
+  in: query
+  name: filter[query]
+  description:
+    Requesting the API to return only Users matching their name or email if it contains the search query string.
+    Case-insensitive.
+  required: false
+  schema:
+    type: string
+    example: diligent.com
+groupIdPathParam:
+  name: group_id
+  description: The ID of the group.
+  schema:
+    type: string
+    example: 10
+  in: path
+  required: true
+
+##################################
+# Organization request_items specific parameters
+##################################
+organizationRequestItemsFieldsetParams:
+  in: query
+  name: fields[request_items]
+  description: Requesting the API to return only specific fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+  example: created_at,updated_at,description,owner,owner_email,received,requestor,due_date,send_recurrent_notifications,email_subject,email_message,position,project_type,owner,project,owner_user,requestor_user,cc_users,cc_contacts,target
+orgRequestItemsProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+orgRequestItemsProjectNameFilterParams:
+  in: query
+  name: filter[project.name]
+  description: Requesting the API to filter results by project name.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'some project name'
+orgRequestItemsProjectStatusFilterParams:
+  in: query
+  name: filter[project.status]
+  description: Requesting the API to filter results by project status.
+    Draft, Proposed, Active, Completed (these values are customizable by customers)
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+orgRequestItemsTargetIdFilterParams:
+  in: query
+  name: filter[target.id]
+  description: Requesting the API to filter results by target ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+orgRequestItemsTargetTypeFilterParams:
+  in: query
+  name: filter[target.type]
+  description: Requesting the API to filter results by target type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'test_plans'
+orgRequestItemsReceivedFilterParams:
+  in: query
+  name: filter[received]
+  description: Requesting the API to filter results by received state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    enum:
+      - 'true'
+      - 'false'
+orgRequestItemsSortParams:
+  in: query
+  name: sort
+  description: Orders the resulting resources by the given field.
+    Sorts ascending by default, prefix with `-` to sort descending. Can only sort up by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - id
+      - created_at
+      - updated_at
+      - description
+      - owner
+      - owner_email
+      - received
+      - requestor
+      - due_date
+      - send_recurrent_notifications
+      - email_subject
+      - email_message
+      - position
+    default: id
+
+##################################
+# Organization projects_todos specific parameters
+##################################
+orgProjectsTodosFieldsetParams:
+  in: query
+  name: fields[projects_todos]
+  description: Requesting the API to return only specific fields.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+  example: description,created_at,updated_at,due_date,status,project,target
+orgProjectsTodosProjectIdFilterParams:
+  in: query
+  name: filter[project.id]
+  description: Requesting the API to filter results by project ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+orgProjectsTodosProjectStateFilterParams:
+  in: query
+  name: filter[project.state]
+  description: Requesting the API to filter results by project state.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'active'
+orgProjectsTodosTargetIdFilterParams:
+  in: query
+  name: filter[target.id]
+  description: Requesting the API to filter results by target ID.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: '1'
+orgProjectsTodosTargetTypeFilterParams:
+  in: query
+  name: filter[target.type]
+  description: Requesting the API to filter results by target type.
+    For more information, see <a href="#section/Making-requests">Making requests</a>
+  required: false
+  schema:
+    type: string
+    example: 'test_plans'
+orgProjectsTodosSortParams:
+  in: query
+  name: sort
+  description: Orders the resulting resources by the given field.
+    Sorts ascending by default, prefix with `-` to sort descending. Can only sort up by only one field at a time.
+  required: false
+  schema:
+    type: string
+    enum:
+      - status
+    default: id

@@ -1,0 +1,445 @@
+AssetTypeBaseAttributes: &AssetTypeBaseAttributes
+  name:
+    type: string
+    description: The name of the asset type
+    example: Vendor
+  category:
+    type: string
+    description: Category to group the asset type under. The default category is "assets".
+    example: assets
+  collection_id:
+    type: string
+    description: |
+      The collection id associated with the asset type used for sending assessment questionnaires.
+      This is an optional property: if the asset type does not have assessments enabled, this property should not be included or returned.
+    example: abcde-fghij-klmno-pqrst
+  description:
+    type: string
+    description: The description of the asset type
+    example: A company or contractor offering services to our business as a third-party.
+  display_name:
+    type: string
+    description: The name that will be displayed for this asset type
+    example: Vendor
+  admin_notes:
+    type: string
+    maxLength: 500
+    description: Administrator's notes on the asset type.
+    example: Used to represent a third party vendor we work with.
+  workflow_id:
+    type: string
+    description: |
+      The UUID of the Workflow that will manage the state for assets created using this asset type.
+
+      > **Note -**
+      The linked Workflow must be valid and must contain a default status.
+    example: 768cd1bc-d8af-4429-9aa0-8a4b477de42b
+
+AssetTypeDefaultAttributes: &AssetTypeDefaultAttributes
+  <<: *AssetTypeBaseAttributes
+  symbolic_name:
+    type: string
+    description: The symbolic name for this asset type
+    example: vendor
+  is_archived:
+    type: boolean
+    description: Whether or not this asset type is archived
+    example: false
+  created_by: &created_by
+    type: string
+    description: The user ID of the user who created this asset type
+    example: 3QRJaisXyg-qtQJvmGPA
+  updated_by: &updated_by
+    type: string
+    description: The user ID of the last user who updated this asset type
+    example: 3QRJaisXyg-qtQJvmGPA
+  created_at: &created_at
+    type: string
+    description: The date the asset type was created.
+    example: '2019-02-09T13:17:26Z'
+    format: date-time
+  updated_at: &updated_at
+    type: string
+    description: The date the asset type was updated.
+    example: '2019-03-18T22:02:05Z'
+    format: date-time
+
+AssetType: &AssetType
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the asset type.
+      example: '9123'
+    type: &type
+      type: string
+      description: The classification of the object (`"asset_types"`).
+      example: asset_types
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties: *AssetTypeDefaultAttributes
+
+Sections: &Sections
+  type: array
+  description: |
+    Sections are groupings of attribute types that display together in the UI. A user can be granted permissions to work with a section.
+    The entire sections array is updated at once. If a section is not included with the rest of the update, it will be deleted.
+  items:
+    type: object
+    description: Represents a subset or group of attribute types that are linked to the asset type.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: The ID of the section.
+        example: 0
+      name:
+        type: string
+        description: The name of the section. This value is unique for each section.
+        example: Section Name
+      items:
+        type: array
+        items:
+          type: object
+          description: Represents the ID and classification of an attribute type.
+          properties:
+            id:
+              type: string
+              description: The ID of the attribute type.
+              example: '384312'
+            type:
+              type: string
+              description: The classification of the attribute type.
+              example: attribute_types
+
+AssetTypeWithRelationships: &AssetTypeWithRelationships
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *id
+    type: *type
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties: *AssetTypeDefaultAttributes
+    relationships: &Relationships
+      type: object
+      description: The resources associated with this asset type. Each asset type has related Attribute Types.
+      required:
+        - attribute_types
+      properties:
+        attribute_types:
+          type: object
+          description: The Attribute Types linked to this asset type.
+          required:
+            - data
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                description: The data associated with the resource.
+                required:
+                  - id
+                  - type
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the Attribute Type.
+                    example: '384312'
+                  type:
+                    type: string
+                    description: The classification of the object (`"attribute_types"`).
+                    example: attribute_types
+
+CreateAssetTypePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties:
+            <<: *AssetTypeBaseAttributes
+
+UpdateAssetTypePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - id
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *AssetTypeBaseAttributes
+            sections: *Sections
+
+ListAssetTypesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *AssetType
+    links:
+      type: object
+      required:
+        - next
+        - prev
+        - first
+        - last
+      properties:
+        next:
+          type: string
+          description: Next page url
+          nullable: true
+          example: '/asset_types/:asset_type_id?page[size]=5&page[number]=2'
+        prev:
+          type: string
+          description: Previous page url
+          nullable: true
+          example: null
+        first:
+          type: string
+          description: First page url
+          nullable: false
+          example: '/asset_types/:asset_type_id?page[size]=5&page[number]=1'
+        last:
+          type: string
+          description: Last page url
+          nullable: false
+          example: '/asset_types/:asset_type_id?page[size]=5&page[number]=3'
+    meta:
+      type: object
+      required:
+        - count
+      properties:
+        count:
+          type: number
+          description: |
+            The total number of Asset Types in the query result.
+            Note that due to pagination this number is not necessarily equivalent to the
+            number of Asset Types returned in the data array.
+          nullable: false
+          example: 500
+
+SingleAssetTypeResponseWithAttributeTypes:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *AssetTypeWithRelationships
+    included: &IncludedAttributeTypes
+      type: array
+      description: All the objects related to the resource
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the Attribute Type.
+            example: '384312'
+          type:
+            type: string
+            description: The classification of the object (`"attribute_types"`).
+            example: attribute_types
+          attributes:
+            type: object
+            properties:
+              field_name:
+                type: string
+                description: The name of the attribute type as it appears in the system
+                example: metadata.created_at
+              name:
+                type: string
+                description: The name of the attribute type
+                example: Created At
+              display_name:
+                type: string
+                description: The name that will be displayed for this attribute type
+                example: Created At
+              org_id:
+                type: string
+                description: The ID of the organization that this attribute type belongs to
+                example: '100067'
+              data_type:
+                type: string
+                description: the data type of the attribute type
+                example: dateTime
+              is_global:
+                type: boolean
+                description: Whether the attribute type is global
+                example: true
+              is_required:
+                type: boolean
+                description: If this attribute type is associated with an object with a handler, the handler indicates either that all of the associated attribute types, or specific attribute types, must be checked for whether they have values for the workflow to advance. In the former case, this property indicates whether this attribute type is one that needs to have a value. In the latter case, all attribute types listed in the handler must have values.
+                example: true
+              tooltip:
+                type: string
+                description: Text information for the UI element
+                example: 'Created At'
+              type_options: &type_options
+                type: object
+                description: Additional optional information related to the data type of the attribute. Note that the options differ depending on the data_type.
+                $ref: '../../components/schemas.yml#/AttributeTypeOptions'
+              is_metadata:
+                type: boolean
+                description: Whether the attribute type is metadata
+                example: true
+              created_by: *created_by
+              updated_by: *updated_by
+              created_at: *created_at
+              updated_at: *updated_at
+
+SingleAssetTypeResponseWithRootRelationship:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *AssetTypeWithRelationships
+    included:
+      type: array
+      description: All the objects related to the resource
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the Attribute Type.
+            example: '384312'
+          type:
+            type: string
+            description: The classification of the object (`"attribute_types"`).
+            example: attribute_types
+          attributes:
+            type: object
+            properties:
+              field_name:
+                type: string
+                description: The name of the attribute type as it appears in the system
+                example: incidents
+              name:
+                type: string
+                description: The name of the attribute type
+                example: Incidents
+              display_name:
+                type: string
+                description: The name that will be displayed for this attribute type
+                example: Incidents
+              org_id:
+                type: string
+                description: The ID of the organization that this attribute type belongs to
+                example: '100067'
+              data_type:
+                type: string
+                description: the data type of the attribute type
+                example: relationship
+              is_global:
+                type: boolean
+                description: Whether the attribute type is global
+                example: true
+              is_required:
+                type: boolean
+                description: If this attribute type is associated with an object with a handler, the handler indicates either that all of the associated attribute types, or specific attribute types, must be checked for whether they have values for the workflow to advance. In the former case, this property indicates whether this attribute type is one that needs to have a value. In the latter case, all attribute types listed in the handler must have values.
+                example: false
+              tooltip:
+                type: string
+                description: Text information for the UI element
+                example: ''
+              is_metadata:
+                type: boolean
+                description: Whether the attribute type is metadata
+                example: false
+              type_options: *type_options
+              created_by: *created_by
+              updated_by: *updated_by
+              created_at: *created_at
+              updated_at: *updated_at
+
+CreateAssetTypeResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      properties:
+        type: *type
+        id: *id
+        attributes:
+          type: object
+          properties: *AssetTypeDefaultAttributes
+
+GetOneAssetTypeResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      properties:
+        type: *type
+        id: *id
+        attributes:
+          type: object
+          properties:
+            <<: *AssetTypeDefaultAttributes
+            sections: *Sections
+        relationships: *Relationships
+    included: *IncludedAttributeTypes
+
+UpdateAssetTypeResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      properties:
+        type: *type
+        id: *id
+        attributes:
+          type: object
+          properties:
+            <<: *AssetTypeDefaultAttributes
+            sections: *Sections

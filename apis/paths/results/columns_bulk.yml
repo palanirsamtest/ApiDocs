@@ -1,0 +1,103 @@
+post:
+  tags:
+    - Table columns
+  operationId: bulkCreateColumns
+  summary: Create columns in a table
+  description: |
+    Add new columns to a table.
+
+    <strong>Limitations:</strong>
+    * Once a table exists, you cannot change a column's data type.
+    * You cannot set a primary key when adding columns to a table.
+    * Each table can contain a maximum of 500 columns.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/tableIdParam'
+  requestBody:
+    description: The data required to create a column.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateColumnPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiColumnsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingTableId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      description: Unsupported media type.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 415
+                code: unsupported_media_type
+                title: Unsupported media type
+                detail: >
+                  The endpoint supports only the application/json Content-Type.
+                  This request specified application/vnd.api+json.
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: record_not_unique
+                detail: field_name must be unique amoung all columns in a table!
+              - status: 422
+                code: unprocessable_entity
+                detail: Maximum number of 500 Table Columns reached.
+delete:
+  tags:
+    - Table columns
+  operationId: bulkDeleteColumns
+  summary: Delete table columns
+  description: |
+    Delete all the columns in a table.
+
+    > **Caution —**
+    Once you delete columns, the data is permanently removed. You cannot access or restore deleted columns.
+    Once a table is created and populated with records, deleting a column can break workflows in HighBond that depend on the affected column,
+    like metrics, visualizations, and triggers.
+
+    <strong>Limitations:</strong> You cannot delete metadata columns (Priority, Status, Published, Publisher Name, Updated, Closed, Assignee, and Workflow Group) or primary key fields.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/tableIdParam'
+  requestBody:
+    description: An array of column objects.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/DeleteColumnPayload'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

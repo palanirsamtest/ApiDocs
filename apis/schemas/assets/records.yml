@@ -1,0 +1,221 @@
+RelationshipValue:
+  type: object
+  required:
+    - id
+    - object_type_id
+  properties:
+    id:
+      type: string
+      description: The instance of the class for the parent object. For example, if this asset record is the child of an asset, this is the asset's id. If this asset record is the child of another asset record, this is the asset record id.
+    object_type_id:
+      type: string
+      description: The class that defines the instance for the parent object. For example, if this asset record is the child of an asset, this is the asset type id. If this asset record is the child of an asset record, this is the asset record type id.
+
+RecordAttributeRequestValue:
+  description: Value varies depending on the type of attribute.
+  anyOf:
+    - $ref: '../../components/schemas.yml#/RelationshipValue'
+    - $ref: '../../components/schemas.yml#/UserLookupValue'
+    - $ref: '../../components/schemas.yml#/StringValues'
+
+RecordAttributeResponseValue:
+  description: Value varies depending on the type of attribute.
+  anyOf:
+    - $ref: '../../components/schemas.yml#/RelationshipValue'
+    - $ref: '../../components/schemas.yml#/UserLookupValue'
+    - $ref: '../../components/schemas.yml#/StringValues'
+    - $ref: '../../components/schemas.yml#/WorkflowStatusValue'
+
+Record: &Record
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"records"`).
+      example: records
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        record_attributes:
+          type: array
+          description: An array of records attributes defined for the asset record type.
+          items:
+            type: object
+            properties:
+              field_name:
+                type: string
+                description: The field_name of the asset record attribute.
+              value:
+                $ref: '../../components/schemas.yml#/RecordAttributeResponseValue'
+          example:
+            - field_name: 'metadata.created_at'
+              value:
+                - '2019-02-09T13:17:26Z'
+            - field_name: name
+              value:
+                - Slack outage
+            - field_name: parent
+              value:
+                id: '101'
+                object_type_id: '111'
+
+GetRecordResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Record
+
+CreateRecordRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - record_attributes
+          properties:
+            record_attributes:
+              type: array
+              description: An array of asset record attributes defined for the asset record type.
+              items:
+                type: object
+                minItems: 1
+                properties:
+                  field_name:
+                    type: string
+                    description: The field_name of the asset record attribute.
+                  value:
+                    $ref: '../../components/schemas.yml#/RecordAttributeRequestValue'
+
+              example:
+                - field_name: name
+                  value:
+                    - Slack outage
+                - field_name: parent
+                  value:
+                    id: '101'
+                    object_type_id: '111'
+
+UpdateRecordRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - record_attributes
+          properties:
+            record_attributes:
+              type: array
+              description: An array of asset record attributes defined for the asset record type.
+              items:
+                type: object
+                minItems: 1
+                properties:
+                  field_name:
+                    type: string
+                    description: The field_name of the asset record attribute.
+                  value:
+                    $ref: '../../components/schemas.yml#/RecordAttributeRequestValue'
+              example:
+                - field_name: name
+                  value:
+                    - Jira outage
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+    - first
+    - last
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/record-types/:record-type-id/records?page[size]=5&page[number]=2'
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+    first:
+      type: string
+      description: First page url
+      nullable: false
+      example: '/record-types/:record-type-id/records?page[size]=5&page[number]=1'
+    last:
+      type: string
+      description: Last page url
+      nullable: false
+      example: '/record-types/:record-type-id/records?page[size]=5&page[number]=3'
+
+Meta: &Meta
+  type: object
+  required:
+    - count
+  properties:
+    count:
+      type: number
+      description: |
+        The total number of Asset Records in the query result.
+        Note that due to pagination this number is not necessarily equivalent to the
+        number of Asset Records returned in the data array.
+      nullable: false
+      example: 500
+
+RecordWithSparseFieldset: &RecordWithSparseFieldset
+  <<: *Record
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+
+GetRecordsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      description: Array of asset records.
+      items: *RecordWithSparseFieldset
+    links: *Links
+    meta: *Meta

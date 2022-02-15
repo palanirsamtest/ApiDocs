@@ -1,0 +1,69 @@
+get:
+  tags:
+    - System Users
+  operationId: getSystemUser
+  summary: Get a system user
+  description: Retrieves the basic information of a system user
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSystemUserResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+patch:
+  tags:
+    - System Users
+  operationId: updateSystemUser
+  summary: Update a system user
+  description: Updates the basic information of a system user.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  requestBody:
+    description: The data required to update a system user.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateSystemUserRequest'
+  responses:
+    200:
+      description: System user updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSystemUserResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'
+
+delete:
+  tags:
+    - System Users
+  operationId: deleteSystemUser
+  summary: Delete a system user
+  description: Removes the membership of a system user to an org
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'

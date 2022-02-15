@@ -1,0 +1,95 @@
+get:
+  tags:
+    - Attribute types
+  operationId: getAttributeTypes
+  summary: Get attribute types
+  description: Get a list of all attribute types in a HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributeTypesParam'
+    - $ref: '../../components/parameters.yml#/pageNumberParam'
+    - $ref: '../../components/parameters.yml#/fieldName'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ListAttributeTypesResponsePaginated'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+post:
+  tags:
+    - Attribute types
+  operationId: createAttributeType
+  summary: Create an attribute type
+  description: |
+    Create a new attribute type.
+
+    Note that the `type_options` attribute changes depending on the `data_type`. For available options, see individual attribute type payload example.
+
+    In the request payload, when `data_type` is `dateTime` or `userLookup`, there is an option to set the `default` value (part of `type_options`) to `current`. This means that
+    at the time of asset creation, the date of a `dateTime` attribute will be set to the current time. Or that the user assigned
+    to a `userLookup` attribute will be the user who is creating the asset.
+
+    `data_type` cannot be set to `relationship` in the payload.
+
+    <strong>Limitations</strong>:
+    * Your organization can have a maximum of 1000 attribute types. Attribute types with `data_type` set to `relationship`, or where `display name` is `id`, do not count towards the limit.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create an attribute type.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateAttributeTypePayload'
+        examples:
+          adHocRelationshipAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/CreateAttributeTypePayloadExamples/AdHocRelationshipAttributeType'
+          selectAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/CreateAttributeTypePayloadExamples/SelectAttributeType'
+          dateTimeAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/CreateAttributeTypePayloadExamples/DateTimeAttributeType'
+          userLookupAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/CreateAttributeTypePayloadExamples/UserLookupAttributeType'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAttributeTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: ValidationError
+                detail: 'body.data.attributes.data_type should be equal to one of the allowed values'
+              - status: 422
+                code: UnprocessibleEntity
+                detail: 'Maximum number of 1000 attribute types reached.'

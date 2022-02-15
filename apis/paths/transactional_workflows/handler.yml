@@ -1,0 +1,93 @@
+get:
+  tags:
+    - Handlers
+  operationId: getHandler
+  summary: Get a handler
+  description: Get information about a handler.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceUuidParam'
+    - $ref: '../../components/parameters.yml#/handlerIncludeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleHandlerWithEventsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+patch:
+  tags:
+    - Handlers
+  operationId: updateHandler
+  summary: Update a handler
+  description: Make changes to an existing handler.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceUuidParam'
+  requestBody:
+    description: The data required to update a handler.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateHandlerPayload'
+  responses:
+    200:
+      description: Updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleHandlerResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Handlers
+  operationId: deleteHandler
+  summary: Delete a handler
+  description: Permanently delete a handler.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceUuidParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

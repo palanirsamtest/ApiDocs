@@ -1,0 +1,84 @@
+get:
+  tags:
+    - Objectives
+  operationId: getObjectives
+  summary: Get objectives
+  description: Get all objectives in a project or framework.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentResourceTypeParam'
+    - $ref: '../../components/parameters.yml#/parentResourceIdParam'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetObjectivesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Objectives
+  operationId: createObjective
+  summary: Create an objective
+  description: |
+    Create a new objective in an existing project or framework.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 500 objectives per project or framework.
+    * Specifying a person's name or email in the following fields does not automatically notify them via email: `owner`, `executive_owner`.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentResourceTypeParam'
+    - $ref: '../../components/parameters.yml#/parentResourceIdParam'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+  requestBody:
+    description: The data required to create an objective.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateObjectiveRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetObjectiveResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/title'
+                code: invalid_resource
+                detail: can't be blank

@@ -1,0 +1,111 @@
+get:
+  tags:
+    - Mitigations
+  operationId: getMitigation
+  summary: Get a mitigation
+  description: |
+    Get information about a mitigation.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetMitigationResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Mitigations
+  operationId: updateMitigation
+  summary: Update a mitigation
+  description: |
+    Make changes to a mitigation.
+
+    <strong>Limitations</strong>:
+    * You cannot update the mitigation if the objective it belongs to has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to update a mitigation.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateMitigationRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetMitigationResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/weight'
+                code: invalid_resource
+                detail: must be less than or equal to 100
+delete:
+  tags:
+    - Mitigations
+  operationId: deleteMitigation
+  summary: Delete a mitigation
+  description: |
+    Permanently delete a mitigation.
+
+    <strong>Limitations</strong>:
+    * You cannot delete the mitigation if the objective it belongs to has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+
+    > **Caution —**
+    Deleting a mitigation is permanent. Once deleted, you cannot access or restore the mitigation.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

@@ -1,0 +1,579 @@
+ProjectEntitiesRelationship: &ProjectEntityRelationship
+  type: object
+  description: Each project has an associated project entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+EntitiesRelationship: &EntitiesRelationship
+  type: object
+  description: |
+    The passed entities list should match the following conditions:
+    1. It should be the full exact list of entities you would like to be linked to the resource.
+
+    2. The passed entities should consist of valid sub-trees with all ancestor entities as well as descendent entities.
+
+    3. Inherited entities should be included too.
+
+    Otherwise, the whole request will be rejected with the corresponding error.
+  properties:
+    data:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+ProjectEmptyEntitiesRelationship: &ProjectEmptyEntitiesRelationship
+  type: object
+  description: Each project has an associated project entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      example: []
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+ProjectRelationships: &ProjectRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - project_type
+  properties:
+    project_type: &ProjectTypeRelationship
+      type: object
+      nullable: true
+      description: |
+        Each project has an associated project type. Project types define the structure of a project, including the terminology used in the project.
+        The project type defines which workflow the project uses and which custom attributes are available on the project. Because of this dependency
+        the project type can't be updated at the same time as the custom attributes.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the project type.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"project_types"`).
+              example: project_types
+
+ProjectSparseRelationships: &ProjectSparseRelationships
+  <<: *ProjectRelationships
+  properties:
+    project_type: *ProjectTypeRelationship
+    entities: *ProjectEntityRelationship
+
+ProjectEmptySparseRelationships: &ProjectEmptySparseRelationships
+  <<: *ProjectRelationships
+  properties:
+    project_type: *ProjectTypeRelationship
+    entities: *ProjectEmptyEntitiesRelationship
+
+ProjectStatus: &ProjectStatus
+  type: string
+  description: |
+    A user configurable classification. Each project can have one status. Default statuses are: "draft", "proposed", "active", "completed".
+    The default status is "active", if not specified. For more information, see <a href=
+    "https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-statuses" target="_blank">Configuring project statuses</a>.
+  example: 'active'
+
+Project: &Project
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"projects"`).
+      example: projects
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        name: &name
+          type: string
+          description: The name of the project.
+          maxLength: 120
+          example: 'Example Application'
+        state: &state
+          type: string
+          description: |
+            A default system classification. A project can have one of the following states: `"active"`, `"archive"`, `"delete"`. When you create a project,
+            the project is created in an `"active"` state. Projects with the state `"active"` or `"delete"` can be updated. Projects in the state `"active"`,
+            `"archive"`, or `"delete"` can be deleted. Projects in the state `"framework"` cannot be accessed using the API. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-statuses" target="_blank">Configuring project statuses</a>.
+          example: 'active'
+        status: *ProjectStatus
+        created_at: &created_at
+          type: string
+          description: The timestamp specifying when the project was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp specifying when the project's settings were updated.
+          example: '2019-03-18T22:02:05Z'
+          format: date-time
+        description: &description
+          type: string
+          description: A detailed description of the project.
+          maxLength: 524288
+          example: 'Project description.'
+        background: &background
+          type: string
+          description: The contextual circumstances of the project.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Project background description.</p>'
+        budget: &budget
+          type: integer
+          nullable: true
+          description: The budgeted hours that have been allocated for the project. `budget` must be a value between `0` and `2147483647`.
+          example: 1
+        certification: &certification
+          type: boolean
+          description: |
+            Specifies if the Certifications feature has been enabled (`true`) or disabled (`false`) for the project. The default is `false`.
+            You must be a System Admin with a Professional subscription to configure this field. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-certifications"
+            target="_blank">Creating certification programs</a>.
+          example: false
+        control_performance: &control_performance
+          type: boolean
+          description: |
+            Specifies if the Control Performance feature has been enabled (`true`) or disabled (`false`) for the project. The default is `false`.
+            You must be a System Admin with a Professional subscription to configure this field. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/fieldwork/control_performance/scheduling_control_performance.htm"
+            target="_blank">Scheduling Control Performance</a>.
+          example: false
+        risk_assurance: &risk_assurance
+          type: boolean
+          description: |
+            Specifies if the Risk Assurance feature has been enabled (`true`) or disabled (`false`) for the project. The default is `false`.
+            You must be a System Admin with a Professional subscription to configure this field. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/risk_assurance/getting_started_with_assurance_for_risk.html"
+            target="_blank">Getting started with assurance for risk</a>.
+          example: false
+        management_response: &management_response
+          type: string
+          description: A description of management's response to the overall rating of the project.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Management response description.</p>'
+        max_sample_size: &max_sample_size
+          type: integer
+          description: |
+            The total sample size, split among testing rounds, defined in the project. The default is `0`. This field depends on `project_type`,
+            which is dependent on workflow. For Workplan workflow projects, `max_sample_size` must be `0`. For Internal Control workflow
+            projects, `max_sample_size` must be a value between `0` and `2147483647`. For more information, see <a href=
+            "https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">Workflows and project types</a> and
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_blank">Executing procedures and
+            testing controls</a>.
+          example: 25
+        number_of_testing_rounds: &number_of_testing_rounds
+          type: integer
+          description: |
+            The number of testing rounds performed in the project. The default is `0`. This field depends on `project_type`, which is dependent on workflow.
+            For Workplan workflow projects, `number_of_testing_rounds` must be `0`. For Internal Control workflow projects,
+            `number_of_testing_rounds` must be one of the following values: `0`,`1`,`2`, or `4`. The number of testing rounds can only be set on create. This field cannot be updated. For more information,
+            see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">Workflows and project
+            types</a> and <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_blank">Executing
+            procedures and testing controls</a>.
+          example: 4
+        opinion: &opinion
+          type: string
+          description: |
+            A user configurable final rating of the project outcome.
+          example: 'Excellent'
+        opinion_description: &opinion_description
+          type: string
+          description: A formal statement about the project outcome, including remarks or recommendations.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Project opinion description.</p>'
+        purpose: &purpose
+          type: string
+          description: The intended results, aims, or goals of the project.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Project purpose description.</p>'
+        scope: &scope
+          type: string
+          description: What is, and is not, covered by this project.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Project scope description.</p>'
+        start_date: &start_date
+          type: string
+          description: The date specifying when the project is scheduled to begin.
+          example: '2019-02-01'
+          format: date
+        target_date: &target_date
+          type: string
+          description: The date specifying when the project is scheduled to be completed.
+          example: '2019-04-01'
+          format: date
+        tag_list: &tag_list
+          type: array
+          description: |
+            A comma separated list of tags associated with the project. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-organize-projects" target="_blank">Tagging projects</a>.
+          example: ['tag 1', 'tag 2', 'tag 3']
+          items:
+            type: string
+        position:
+          type: integer
+          format: int64
+          description: |
+            Legacy field that was used to determine the order in which it is displayed in the index action. This field is no longer supported and will always return 0.
+          example: 0
+        header_alert_enabled:
+          type: boolean
+          description: |
+            Specifies if the Header Alert feature has been enabled (`true`) or disabled (`false`) for the project. The default is `false`.
+            Some of the projects have highly sensitive information. That data has restricted access and more controls apply to it.
+          example: false
+        header_alert_text:
+          type: string
+          description: Custom message displayed at the top (header) of each project with sensitive data.
+          maxLength: 255
+          example: 'This Project is not authorized for sensitive data'
+        custom_attributes: &custom_attributes
+          type: array
+          description: |
+            An array of custom attributes defined on the project type used by this project. <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">Learn more about project types</a>.
+            Make a PATCH request to modify the value of a custom attribute. Custom attributes can't be updated at the same time as the project type because the project type determines which custom attributes apply to the project and its resources.
+            Custom attributes are not available on creation during a POST request, because the custom attributes are defined by the project type that is set when the project is created.
+          items:
+            type: object
+            description: A user defined custom attribute value.
+            properties:
+              id:
+                type: string
+                description: The ID of this custom attribute. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify this custom attribute. Optional if id is included.
+                example: 'Custom Project Planning Attribute'
+              value:
+                type: array
+                description: The value or values (for multiselect) for this custom attribute.
+                example: ['Custom Select Option Text']
+                items:
+                  type: string
+        risk_assurance_data:
+          type: object
+          description: |
+            Fields that determines assurance values. Assurance is an expression of confidence that risk is effectively mitigated. Returns `null` if Risk Assurance feature is disabled.
+          properties:
+            inherent_risk:
+              type: number
+              format: float
+              description: |
+                The risk that an activity would pose if no controls or other mitigating factors were in place. Can also be referred to as the gross risk, or risks before controls, and can act as the baseline for your organization's risk tolerance or appetite.
+              example: 1.1
+            residual_risk:
+              type: number
+              format: float
+              description: |
+                The risk that remains after controls are taken into account. Can also be referred to as the net risk or risk after controls.
+              example: 1.1
+            assurance:
+              type: number
+              description: |
+                The level of assurance that the controls in place effectively mitigate risk to the business.
+              example: 0
+    relationships: *ProjectRelationships
+
+ProjectWithSparseFieldset: &ProjectWithSparseFieldset
+  <<: *Project
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *ProjectSparseRelationships
+
+ProjectWithEmptySparseFieldset: &ProjectWithEmptySparseFieldset
+  <<: *Project
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *ProjectEmptySparseRelationships
+
+ProjectIncluded: &ProjectIncluded
+  type: array
+  description: The data included in the response.
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the included resource.
+        example: '1'
+      type:
+        type: string
+        description: The classification of the object (`"project_types"`).
+        example: project_types
+      attributes:
+        type: object
+        description: The attributes associated with the resource.
+
+CreateProjectRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+        - relationships
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - start_date
+            - target_date
+          properties:
+            name: *name
+            start_date: *start_date
+            target_date: *target_date
+            status: *ProjectStatus
+            description: *description
+            background: *background
+            budget: *budget
+            management_response: *management_response
+            max_sample_size: *max_sample_size
+            number_of_testing_rounds: *number_of_testing_rounds
+            opinion: *opinion
+            opinion_description: *opinion_description
+            purpose: *purpose
+            scope: *scope
+            tag_list: *tag_list
+        relationships: *ProjectRelationships
+
+UpdateProjectRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - start_date
+            - target_date
+          properties:
+            name: *name
+            start_date: *start_date
+            target_date: *target_date
+            status: *ProjectStatus
+            description: *description
+            background: *background
+            budget: *budget
+            certification: *certification
+            control_performance: *control_performance
+            risk_assurance: *risk_assurance
+            management_response: *management_response
+            max_sample_size: *max_sample_size
+            number_of_testing_rounds: *number_of_testing_rounds
+            opinion: *opinion
+            opinion_description: *opinion_description
+            purpose: *purpose
+            scope: *scope
+            tag_list: *tag_list
+            custom_attributes: *custom_attributes
+        relationships:
+          type: object
+          nullable: true
+          description: The relationships associated with the resource.
+          properties:
+            project_type: *ProjectTypeRelationship
+            entities: *EntitiesRelationship
+
+GetProjectResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *ProjectWithEmptySparseFieldset
+    meta: &ProjectMetadata
+      type: object
+      required:
+        - status_translations
+      properties:
+        status_translations:
+          type: object
+          description: Translations, or customized values for the project status states.
+          properties:
+            draft:
+              type: string
+              description: Term to use when a project is in a draft state.
+              example: Draft
+            proposed:
+              type: string
+              description: Term to use when a project is in a proposed state.
+              example: Proposed
+            active:
+              type: string
+              description: Term to use when a project is in an active state.
+              example: Active
+            completed:
+              type: string
+              description: Term to use when a project has been completed.
+              example: Completed
+
+GetProjectResponseWithIncludes:
+  type: object
+  description: The data included in the response.
+  required:
+    - data
+  properties:
+    data: *ProjectWithSparseFieldset
+    meta: *ProjectMetadata
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetProjectsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      description: Array of projects
+      items: *ProjectWithSparseFieldset
+    links: *Links
+    meta: *ProjectMetadata
+
+CreateProjectEntityRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the project.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities
+
+CreateProjectEntityResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the project.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities

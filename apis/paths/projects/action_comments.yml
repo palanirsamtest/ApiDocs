@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Actions
+  operationId: getActionComments
+  summary: List action comments in an action
+  description: Get a list of all action comments associated with an action.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/actionIdParam'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+    - $ref: '../../components/parameters.yml#/actionCommentSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetActionCommentsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

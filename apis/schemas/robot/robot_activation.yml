@@ -1,0 +1,200 @@
+RobotActivation:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the robot.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot_activations"`).
+      example: robot_activations
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        activated_at:
+          type: string
+          description: The date when the script was activated.
+          example: 2019-03-21T20:22:48.282Z
+        comment:
+          type: string
+          description: An informative statement in the version history of the script.
+          example: The orthogonal features, when combined, can explode into complexity
+        version:
+          type: integer
+          description: The script version number.
+          example: 1
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      properties:
+        activator:
+          $ref: '#/RobotActivationRelationship'
+      example:
+        activator:
+          data:
+            id: 2
+            type: user
+
+RobotActivationRelationship:
+  type: object
+  description: User that activated the script activation.
+  properties:
+    data:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the user.
+        type:
+          type: string
+          description: The classification of the object (`"user"`).
+
+RobotActivationError:
+  type: object
+  required:
+    - errors
+  properties:
+    errors:
+      type: array
+      items:
+        type: object
+        required:
+          - status
+          - source
+          - meta
+        properties:
+          status:
+            type: string
+            description: A HTTP response status code indicating an unprocessable entity.
+            enum: ['422']
+          source:
+            type: object
+            properties:
+              parameter:
+                type: string
+                description: Indicates the parameter in conflict. Parameters are compared between the current production version of the script and the version you are activating.
+                example: version
+          meta:
+            type: object
+            properties:
+              task_id:
+                type: integer
+                description: The ID of the robot task.
+                example: 1
+              conflicts:
+                type: object
+                properties:
+                  missing_analytics:
+                    type: array
+                    description: Specifies a script name conflict. This occurs when when a script that is selected to run in an existing production task or tasks has been renamed in the development script version or removed from the development script version.
+                    items:
+                      type: string
+                    example:
+                      - Monitored zero administration superstructure
+                  missing_values:
+                    type: array
+                    description: Specifies a parameter conflict. This occurs when a new input parameter has been added in the development script version.
+                    items:
+                      type: string
+                    example:
+                      - Adaptive attitude-oriented customer loyalty
+                  changed_attributes:
+                    type: array
+                    description: Specifies a parameter conflict. This occurs when the attributes of an existing input parameter have been changed in the development script version.
+                    items:
+                      type: string
+                    example:
+                      - Streamlined background algorithm
+
+CreateRobotActivationRequest:
+  type: string
+
+CreateRobotActivationResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/RobotActivation'
+
+GetRobotActivationsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        $ref: '#/RobotActivation'
+    included:
+      type: array
+      description: All users related to the resource
+      items:
+        $ref: '#/RobotActivationIncludedUsers'
+
+RobotActivationIncludedUsers:
+  type: object
+  properties:
+    id:
+      type: string
+      description: The ID of the user.
+    type:
+      type: string
+      description: The classification of the object (`"user"`).
+    attributes:
+      type: object
+      description: The attributes associated with the flow.
+      properties:
+        name:
+          type: string
+          description: Name of the user
+        email:
+          type: string
+          description: Email of the user.
+        user_type:
+          type: string
+          description: User type.
+
+examples:
+  RobotActivations:
+    data:
+      - id: 2
+        type: robot_activations
+        attributes:
+          activated_at: 2019-02-11T19:59:49.008Z
+          comment: Version 2 replaces version 1
+          version: 2
+        relationships:
+          activator:
+            data:
+              id: 2
+              type: user
+
+      - id: 1
+        type: robot_activations
+        attributes:
+          activated_at: 2019-02-11T19:49:49.008Z
+          comment: Version 1 comes first
+          version: 1
+        relationships:
+          activator:
+            data:
+              id: 2
+              type: user
+    included:
+      - id: 2
+        type: user
+        attributes:
+          name: Example User
+          email: example_user@example.com
+          user_type: user

@@ -1,0 +1,103 @@
+get:
+  tags:
+    - Asset Relationships
+  operationId: getRelationshipsOnAsset
+  summary: Get an asset's relationships
+  description: Gets all ad hoc relationships that are both linked to a given asset, and that are also associated with a particular ad hoc relationship attribute type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+    - $ref: '../../components/parameters.yml#/relationshipFieldName'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAssetRelationshipsResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+
+post:
+  tags:
+    - Asset Relationships
+  operationId: createRelationshipOnAsset
+  summary: Create an asset relationship
+  description: |
+    Create an ad hoc relationship to link an asset to either another asset or to an asset record.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+  requestBody:
+    description: The data required to link objects through an ad hoc relationship.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateAssetRelationshipRequest'
+  responses:
+    204:
+      description: Created.
+    400:
+      $ref: '../../components/responses.yml#/MissingAssetTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+
+delete:
+  tags:
+    - Asset Relationships
+  operationId: deleteRelationshipOnAsset
+  summary: Remove an asset relationship
+  description: |
+    Unlink an asset from an asset or asset record through its ad hoc relationship.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+    - $ref: '../../components/parameters.yml#/relationshipFieldName'
+    - $ref: '../../components/parameters.yml#/relationshipObjectTypeId'
+    - $ref: '../../components/parameters.yml#/relationshipObjectId'
+    - $ref: '../../components/parameters.yml#/relationshipLabelFieldName'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

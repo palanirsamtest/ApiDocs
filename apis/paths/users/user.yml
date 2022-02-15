@@ -1,0 +1,56 @@
+get:
+  tags:
+    - Users
+  operationId: getUser
+  summary: Get user information
+  description: Get basic information for a single user.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetUserResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+patch:
+  tags:
+    - Users
+  operationId: updateUser
+  summary: Update user information
+  description: Updates basic information for a single user.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  requestBody:
+    description: The data required to update a user.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateUserRequest'
+  responses:
+    200:
+      description: User updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetUserResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'
+    429:
+      $ref: '../../components/responses.yml#/TooManyRequests'

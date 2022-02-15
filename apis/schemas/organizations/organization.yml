@@ -1,0 +1,62 @@
+OrganizationId: &OrganizationId
+  type: string
+  description: The ID of the HighBond instance.
+  example: 12345
+
+OrganizationType: &OrganizationType
+  type: string
+  description: The classification of the object (`"organizations"`).
+  example: organizations
+
+Organization: &Organization
+  type: object
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *OrganizationId
+    type: *OrganizationType
+    attributes:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of your HighBond instance. This is not necessarily your organization's name. If your organization has multiple HighBond instances, each instance can have a name that describes the purpose of that instance.
+          example: Vandelay Industries
+        tagline:
+          type: string
+          description: The slogan for your organization. It displays under your logo on your reports.
+          example: Supplying high-quality rubber for industrial applications since 1959.
+        small_logo:
+          type: string
+          description: The URL for your organization's small logo, which is normally displayed in reports and email notifications. It is no larger than 300x300px.
+          example: https:\/\/accounts-stage.s3.amazonaws.com\/...\/Image.png
+        large_logo:
+          type: string
+          description: The URL for your organization's larger, report cover logo. It is no larger than 900x300px.
+          example: https:\/\/accounts-stage.s3.amazonaws.com\/...\/Image.png
+        primary_color:
+          type: string
+          description: The hexadecimal color code for your organization's primary color.
+          example: '#575453'
+        secondary_color:
+          type: string
+          description: The hexadecimal color code for your organization's secondary color.
+          example: '#575453'
+        locale:
+          type: string
+          description: The language code for your organization's locale, which is the default language for new users and System Admins. When new users are created and invited to a HighBond instance, their language locale will default to the organization's locale. Invitation emails are received in the language of the user locale. Existing users' locales will not change when the organization's locale changes.
+          example: en
+        timezone:
+          type: string
+          description: The time zone in which your organization operates. The default setting is based on the time zone of the first user added to the HighBond instance.
+          example: (GMT-03:00) Greenland
+
+GetOrganizationResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Organization

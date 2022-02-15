@@ -1,0 +1,46 @@
+post:
+  tags:
+    - Workflows
+  operationId: createStatusEventMapping
+  summary: Create a status event mapping
+  description: Associating an event to a status
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a status event mapping.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateStatusEventMappingPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleStatusEventMappingResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/status_id'
+                code: invalid_resource
+                detail: can't be blank

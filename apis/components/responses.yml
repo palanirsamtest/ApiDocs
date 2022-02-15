@@ -1,0 +1,206 @@
+#
+# Re-usable responses are captured in this document. This works well for
+# error responses that tend to be similar. However, for JSON API responses,
+# they tend to each be slightly differently so they are documented inline
+# with their path definitions.
+#
+Accepted:
+  description: Accepted.
+NoContent:
+  description: No content.
+NotFound:
+  description: Not found.
+Forbidden:
+  description: Forbidden.
+NotAllowed:
+  description: NotAllowed.
+BadCredentials:
+  description: Bad credentials.
+UnprocessableEntity:
+  description: Unprocessable entity.
+TooManyRequests:
+  description: Too many requests.
+ResourceTypeMismatch:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ResourceTypeMismatch'
+ResourceIdConflict:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ResourceIdConflict'
+NotJsonapiMediaType:
+  description: Unsupported media type.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/NotJsonapiMediaType'
+MissingOrgId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingOrgId'
+MissingResourceId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingResourceId'
+MissingIssueId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingIssueId'
+MissingProjectId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingProjectId'
+MissingCollectionId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingCollectionId'
+MissingTableId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingTableId'
+MissingRobotId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingRobotId'
+MissingRobotTaskId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingRobotTaskId'
+MissingActivityEventOrigin:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingActivityEventOrigin'
+NameNotUnique:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/NameNotUnique'
+SchemaValidationFailed:
+  description: Bad Request
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/BadFastifyRequest'
+ToolkitIdNotFound:
+  description: Not Found.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ToolkitIdNotFound'
+InvalidToolkitId:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidToolkitId'
+MissingAssetTypeId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingAssetTypeId'
+MissingRecordTypeId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingRecordTypeId'
+InvalidImportData:
+  description: Invalid import data.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidImportData'
+InvalidReportData:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidReportData'
+InvalidReportTargetData:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidReportTargetData'
+ReportNotFound:
+  description: Not Found.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ReportNotFound'
+ReportTargetNotFound:
+  description: Not Found.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ReportTargetNotFound'

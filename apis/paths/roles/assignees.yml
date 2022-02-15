@@ -1,0 +1,104 @@
+get:
+  tags:
+    - Roles
+  operationId: listAssignees
+  summary: Lists role assignees
+  description: Returns a list of the role assignees. Can contain both users and groups.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/roleIdPathParam'
+  responses:
+    200:
+      description: Role Assignees.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRoleAssigneesResponse'
+          example:
+            data:
+              - id: '9MPv9sWRs8zaQHfLsPDT'
+                type: 'users'
+                attributes:
+                  email: nar_uza@hokage.com
+                  subscription: grc_full
+                  name: Naruto Uzamaki
+              - id: '29'
+                type: groups
+                attributes:
+                  name: Anbu
+    400:
+      $ref: '../../components/responses.yml#/SchemaValidationFailed'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+post:
+  tags:
+    - Roles
+  operationId: addRoleAssignees
+  summary: Add assignees to a role
+  description: Array which can contain both users and groups to assign.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/roleIdPathParam'
+  requestBody:
+    description: The data required to add one or more users or groups.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/AddRoleAssigneesRequest'
+        example:
+          data:
+            - id: '9MPv9sWRs8zaQHfLsPDT'
+              type: 'users'
+            - id: '29'
+              type: groups
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/SchemaValidationFailed'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+delete:
+  tags:
+    - Roles
+  operationId: removeRoleAssignees
+  summary: Remove assignees from a role
+  description: Array which can contain both users and groups to assign.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/roleIdPathParam'
+  requestBody:
+    description: The data required to remove one or more users or groups.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/RemoveRoleAssigneesRequest'
+        example:
+          data:
+            - id: '9MPv9sWRs8zaQHfLsPDT'
+              type: 'users'
+            - id: '29'
+              type: groups
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/SchemaValidationFailed'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

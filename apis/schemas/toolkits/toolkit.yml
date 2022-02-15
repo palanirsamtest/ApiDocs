@@ -1,0 +1,207 @@
+ToolkitFullAttributes: &ToolkitFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    created_by: &CreatedBy
+      type: string
+      description: The id of the user who installed the toolkit.
+      example: 'xyz'
+    current_version: &CurrentVersion
+      type: string
+      description: Version of currently installed toolkit.
+      example: '1.0.0'
+    created_at: &CreatedAt
+      type: string
+      description: The timestamp specifying when the toolkit was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at: &UpdatedAt
+      type: string
+      description: The timestamp specifying when the toolkit were updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+    description:
+      type: string
+      description: The description of currently installed toolkit.
+      example: 'QA Toolkit 1'
+    name:
+      type: string
+      description: Name of currently installed toolkit.
+      example: 'Toolkit 1'
+    toolkit_status:
+      type: string
+      description: Toolkit installation/deletion status.
+      example: 'completed'
+    is_toolkit_installed:
+      type: boolean
+      description: Is the toolkit installed or not
+      example: 'true'
+    error_description:
+      type: string
+      description: The error description when toolkit installation or deletion fails.
+    is_displayed:
+      type: string
+      description: Is toolkit displayable to the user.
+    is_localized:
+      type: string
+      description: Is toolkit localized.
+TemplateToolkitFullAttributes: &TemplateToolkitFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    name:
+      type: string
+      description: The name of the toolkit.
+      example: 'My first toolkit'
+    description:
+      type: string
+      description: The description of My first toolkit.
+      example: 'Description My first toolkit'
+    version:
+      type: string
+      description: The version of My first toolkit.
+      example: '1.0.0'
+    release_state:
+      type: string
+      description: The release state of My first toolkit.
+      example: 'production'
+    deprecated:
+      type: string
+      description: Is this My first toolkit is deprecated or not.
+      example: 'true'
+    is_displayed:
+      type: string
+      description: Is toolkit displayable to the user.
+    is_localized:
+      type: string
+      description: Is toolkit localized.
+ToolkitResourcesFullAttributes: &ToolkitResourcesFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    type:
+      type: string
+      description: The type of the toolkit resource.
+      example: 'highbond_resource'
+    name:
+      type: string
+      description: The name of the resource.
+      example: 'Resource 1'
+ToolkitOutputFullAttributes: &ToolkitOutputFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    installed_version: *CurrentVersion
+    updated_by: *CreatedBy
+    created_at: *CreatedAt
+    updated_at: *UpdatedAt
+    outputs:
+      type: object
+      description: The output of toolkit.
+      example: { 'my-first-toolkit': { 'name': 'My first toolkit' } }
+Toolkit: &Toolkit
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: 'my-first-toolkit'
+    type:
+      type: string
+      description: The classification of the object (`"toolkits"`).
+      example: toolkits
+    attributes: *ToolkitFullAttributes
+TemplateToolkit: &TemplateToolkit
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: 'my-first-toolkit'
+    type:
+      type: string
+      description: The classification of the object (`"template_toolkits"`).
+      example: template_toolkits
+    attributes: *TemplateToolkitFullAttributes
+ToolkitResource: &ToolkitResource
+  type: object
+  description: The data associated with the resource.
+  required:
+    - type
+    - attributes
+  properties:
+    type:
+      type: string
+      description: The classification of the object (`"toolkit_resources"`).
+      example: toolkit_resources
+    attributes: *ToolkitResourcesFullAttributes
+ToolkitOutput: &ToolkitOutput
+  type: object
+  description: The data associated with the resource.
+  required:
+    - type
+    - attributes
+  properties:
+    type:
+      type: string
+      description: The classification of the object (`"toolkit_output"`).
+      example: toolkit_output
+    attributes: *ToolkitOutputFullAttributes
+MultipleToolkitsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *Toolkit
+MultipleTemplateToolkitsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *TemplateToolkit
+MultipleToolkitResourcesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *ToolkitResource
+GetToolkitOutputResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"toolkit_output"`).
+          example: toolkit_output
+        attributes: *ToolkitOutputFullAttributes

@@ -1,0 +1,124 @@
+get:
+  tags:
+    - Project types
+  operationId: getProjectType
+  summary: Get a project type
+  description: |
+    Get information about a project type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/projectTypeSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetProjectTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+patch:
+  tags:
+    - Project types
+  operationId: updateProjectType
+  summary: Update a project type
+  description: |
+    Make changes to a project type, like renaming it or updating its description.
+
+    <strong>Limitations</strong>:
+    * You cannot update the attribute if a term is not compatible with workflow. <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">Learn more about project types</a>.
+
+    > **Caution —**
+    Updates to project types apply to all active projects, archived projects, temporarily deleted projects, and frameworks associated with the project type.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/projectTypeSparseFieldsetParams'
+  requestBody:
+    description: The data required to update a project type.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateProjectTypeRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetProjectTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Project types
+  operationId: deleteProjectType
+  summary: Delete a project type
+  description: |
+    Delete a project type from a HighBond instance.
+
+    <strong>Limitation</strong>:
+    You cannot delete project types that are associated with active projects, archived projects, temporarily deleted projects, or frameworks.
+
+    > **Caution —**
+    Deleting a project type is permanent. Once deleted, you cannot access or restore the project type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/base'
+                code: invalid_resource
+                title: Invalid resource
+                detail: has existing projects

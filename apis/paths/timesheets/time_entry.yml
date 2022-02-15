@@ -1,0 +1,120 @@
+get:
+  tags:
+    - Time entries
+  operationId: getTimeEntry
+  summary: Get information about a time entry
+  description: |
+    Get information about a time entry.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/timeEntryIncludeParams'
+    - $ref: '../../components/parameters.yml#/timeEntrySparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlTestSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/issueSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/narrativeSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/riskSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/accountFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlTestPlanFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectFileFieldsetParams'
+    - $ref: '../../components/parameters.yml#/testingRoundFieldsetParams'
+    - $ref: '../../components/parameters.yml#/walkthroughFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetTimeEntryResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+patch:
+  tags:
+    - Time entries
+  operationId: updateTimeEntry
+  summary: Update a time entry
+  description: |
+    Make changes to a time entry.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/timeEntryIncludeParams'
+    - $ref: '../../components/parameters.yml#/timeEntrySparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlTestSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/issueSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/narrativeSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/riskSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/accountFieldsetParams'
+    - $ref: '../../components/parameters.yml#/controlTestPlanFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectFileFieldsetParams'
+    - $ref: '../../components/parameters.yml#/testingRoundFieldsetParams'
+    - $ref: '../../components/parameters.yml#/walkthroughFieldsetParams'
+  requestBody:
+    description: The data required to update an objective.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateTimeEntryRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetTimeEntryResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Time entries
+  operationId: deleteTimeEntry
+  summary: Delete a time entry
+  description: |
+    Permanently delete a time entry.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

@@ -1,0 +1,82 @@
+get:
+  tags:
+    - Control test plans
+  operationId: getControlTestPlan
+  summary: Get a test plan
+  description: Get information about a test plan.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/controlTestPlanIncludeParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetControlTestPlanResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Control test plans
+  operationId: updateControlTestPlan
+  summary: Update a test plan
+  description: |
+    Make changes to a test plan in a project or framework, like updating the testing method or test steps.
+
+    <strong>Limitations</strong>:
+    * You cannot update the test plan if it is signed off.
+    * You cannot update the test plan if the objective it belongs to has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/controlTestPlanIncludeParams'
+  requestBody:
+    description: The data required to update a control test.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateControlTestPlanRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetControlTestPlanResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/total_sample_size'
+                code: invalid_resource
+                detail: can't be blank

@@ -1,0 +1,77 @@
+get:
+  tags:
+    - Custom attributes
+  operationId: getCustomAttributes
+  summary: Get custom attributes
+  description: Get a list of all custom attributes associated with a project type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/projectTypeIdParam'
+    - $ref: '../../components/parameters.yml#/customAttributeSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCustomAttributesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Custom attributes
+  operationId: createCustomAttribute
+  summary: Create a custom attribute
+  description: |
+    Create a new custom attribute in an existing project type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/projectTypeIdParam'
+    - $ref: '../../components/parameters.yml#/customAttributeSparseFieldsetParams'
+  requestBody:
+    description: The data required to create a custom attribute.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateCustomAttributeRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCustomAttributeResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/customizable_type'
+                code: invalid_resource
+                detail: Must include customizable_type.

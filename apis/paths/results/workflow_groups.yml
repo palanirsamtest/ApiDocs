@@ -1,0 +1,40 @@
+get:
+  tags:
+    - Workflow Groups
+  operationId: getWorkflowGroups
+  summary: >
+    List all workflow groups
+  description: Get a list of all workflow groups
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiWorkflowGroupsResponse'
+          example:
+            data:
+              - id: '22'
+                type: workflow_groups
+                attributes:
+                  name: group 2
+                  users: []
+              - id: '21'
+                type: workflow_groups
+                attributes:
+                  name: group 1
+                  users:
+                    - id: 1
+                      name: bob
+                      email: bob@example.com
+                    - id: 2
+                      name: alice
+                      email: alice@exmaple.com
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'

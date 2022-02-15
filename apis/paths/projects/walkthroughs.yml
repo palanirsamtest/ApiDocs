@@ -1,0 +1,57 @@
+get:
+  tags:
+    - Walkthroughs
+  operationId: getOrganizationWalkthroughs
+  summary: Get organization walkthroughs
+  description: |
+    Get a list of all of the walkthroughs in an organization.
+
+    > **Note:**
+    By default, this endpoint only returns walkthroughs from active projects. To fetch objects from archived projects or frameworks, do one of the following:
+    > * Specify the project or framework ID using `filter[project.id]`
+    > * Specify that you want results from archived projects using `filter[project.state]=archive`
+    > * Specify that you want results from frameworks using `filter[project.state]=framework`
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/organizationWalkthroughsFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+    - $ref: '../../components/parameters.yml#/walkthroughsSortParams'
+    - $ref: '../../components/parameters.yml#/walkthroughProjectIdFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughProjectNameFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughProjectStateFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughProjectStatusFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlIDFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlDesignFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughObjectiveTitleFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughObjectiveReferenceFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlNumberFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlTitleFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlQueryFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlStatusFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlOwnerFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlFrequencyFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlTypeFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlControlTestFirstAssigneeFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlControlTestSecondAssigneeFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlControlTestThirdAssigneeFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughControlControlTestFourthAssigneeFilterParams'
+    - $ref: '../../components/parameters.yml#/walkthroughIncludeParams'
+    - $ref: '../../components/parameters.yml#/controlSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetWalkthroughsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

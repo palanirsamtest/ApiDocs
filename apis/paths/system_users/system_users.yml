@@ -1,0 +1,49 @@
+get:
+  tags:
+    - System Users
+  operationId: getSystemUsers
+  summary: >
+    List of system users
+  description: Get a list of system users with memberships in the organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleSystemUsersResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+post:
+  tags:
+    - System Users
+  operationId: createSystemUser
+  summary: Create a system user
+  description: Create a new system user in an org.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a system user.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateSystemUserRequest'
+  responses:
+    200:
+      description: System user updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSystemUserResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'

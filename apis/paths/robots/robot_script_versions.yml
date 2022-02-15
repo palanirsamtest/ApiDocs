@@ -1,0 +1,42 @@
+post:
+  tags:
+    - Robot Script Versions
+  operationId: createRobotScriptVersion
+  summary: Create a robot script version
+  description: Create a new robot app version and flow.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+    - $ref: '../../components/parameters.yml#/analyticsIncludeParam'
+  requestBody:
+    description: The data required to create a script for highbond robots or workflow robots.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotScriptVersionRequest'
+  responses:
+    200:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotScriptVersionResponse'
+          example:
+            $ref: '../../schemas/robot/robot_script_version.yml#/examples/RobotScriptVersion'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'

@@ -1,0 +1,107 @@
+get:
+  tags:
+    - Analyses
+  operationId: getAnalyses
+  summary: >
+    List analyses inside a collection
+  description: Get a list of all analyses inside a collection.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collectionIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiAnalysesResponse'
+          example:
+            data:
+              - id: '22'
+                type: analyses
+                attributes:
+                  name: analysis 2
+                  description: analysis 2 description
+                  created_at: '2019-02-09T13:17:38Z'
+                  updated_at: '2019-02-09T13:17:38Z'
+                relationships:
+                  collection:
+                    data:
+                      id: '2'
+                      type: 'collections'
+              - id: '21'
+                type: analyses
+                attributes:
+                  name: analysis 1
+                  description: analysis 1 description
+                  created_at: '2019-02-09T13:17:26Z'
+                  updated_at: '2019-03-09T20:23:09Z'
+                relationships:
+                  collection:
+                    data:
+                      id: '2'
+                      type: 'collections'
+    400:
+      $ref: '../../components/responses.yml#/MissingCollectionId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Analyses
+  operationId: createAnalysis
+  summary: Create an analysis
+  description: |
+    Create a new analysis in an existing collection.
+
+    <strong>Limitations</strong>:
+    * Your organization can have a maximum of 2,000 analyses.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collectionIdParam'
+  requestBody:
+    description: The data required to create an analysis.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateAnalysisPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAnalysisResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+              - status: 422
+                code: unprocessable_entity
+                detail: Maximum number of 2,000 Analyses reached.

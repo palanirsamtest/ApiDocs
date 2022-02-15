@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Collections
+  operationId: getCollectionMembers
+  summary: >
+    List of collection members
+  description: Get a list of all members inside a collection.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/collectionIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiCollectionMembersResponse'
+          example:
+            data:
+              - id: '29'
+                type: collection_members
+                attributes:
+                  name: Basil Ryan
+                  email: maryjo@bruen.biz
+                  role: Professional User
+                relationships:
+                  collection:
+                    data:
+                      id: '2'
+                      type: 'collections'
+              - id: '22'
+                type: collection_members
+                attributes:
+                  name: Stevie Breitenberg
+                  email: lenard_mcdermott@haley.net
+                  role: Contributor User
+                relationships:
+                  collection:
+                    data:
+                      id: '2'
+                      type: 'collections'
+              - id: '21'
+                type: collection_members
+                attributes:
+                  name: Yuko Runte
+                  email: frederic_kuhic@konopelskiquigley.info
+                  role: Professional Manager
+                relationships:
+                  collection:
+                    data:
+                      id: '2'
+                      type: 'collections'
+    400:
+      $ref: '../../components/responses.yml#/MissingCollectionId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

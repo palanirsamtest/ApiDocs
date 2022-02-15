@@ -1,0 +1,50 @@
+post:
+  tags:
+    - Questionnaires
+  operationId: createPageBreak
+  summary: Create a page break
+  description: |
+    Create a new questionnaire page break in an existing questionnaire.
+
+    > **Note**: - Request body is **optional** when creating a Page Break.
+    >
+    > When absent, the new page break will be appended to bottom of the items in the questionnaire.
+    >
+    > When present, the `position` value must be provided according to the schema.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/questionnaireIdParam'
+  requestBody:
+    description: The data required to create a page break.
+    required: false
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreatePageBreakPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SinglePageBreakResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: unprocessable_entity
+                detail: Maximum number of 900 Questionnaire Questions reached.

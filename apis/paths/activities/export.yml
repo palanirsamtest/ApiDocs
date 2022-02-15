@@ -1,0 +1,23 @@
+get:
+  tags:
+    - Activities
+  operationId: getActivitiesExport
+  summary: Export Activity log
+  description: |
+    Generate a log in CSV format containing your organization's activity over the last six months.
+    An email with a link where you can download the activity log will be sent to you.
+
+    > **Note —**
+    The download link will expire 30 minutes after you receive the email.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/activitiesExportEventOriginFilterParam'
+  responses:
+    202:
+      description: Accepted. [A link to download will be emailed.]
+    400:
+      $ref: '../../components/responses.yml#/MissingActivityEventOrigin'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'

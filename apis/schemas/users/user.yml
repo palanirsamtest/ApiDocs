@@ -1,0 +1,173 @@
+UserUID: &UserUID
+  type: string
+  description: The user ID for the user, used accross all HighBond instances.
+  example: 'P2tuGWyTWxCAQgTd1XKx'
+
+UserType: &UserType
+  type: string
+  description: The classification of the object (`"users"`) for API schema serialization purposes.
+  example: users
+
+UserProfileInformation: &UserProfileInformation
+  email:
+    type: string
+    description: The user's email address, defined when that user was created. This value cannot be updated.
+    example: 'john.smith.test@wegalvanize.com'
+  first_name:
+    type: string
+    description: First name for the user. The character limit is 40.
+    example: John
+  last_name:
+    type: string
+    description: Last name for the user. The character limit is 40.
+    example: Smith
+  title:
+    type: string
+    description: The user's professional title. The character limit is 255.
+    example: Prof.
+  initials:
+    type: string
+    description: The initials of this user's first and last names. The character limit is 255.
+    example: JS
+  phone:
+    type: string
+    description: The user's phone number. This can be with or without hyphens.
+    example: 555-555-5555
+  phone_extension:
+    type: string
+    description: The user's phone extension.
+    example: 555
+  date_format:
+    type: string
+    description: The date format this user uses when they view timestamped fields in HighBond.
+    example: "%m\/%d\/%Y"
+  timezone:
+    type: string
+    description: The user's timezone.
+    example: UTC
+  locale:
+    type: string
+    description: |
+      The two letter code representing the user's chosen locale in their HighBond profile.
+      The available locales are `"de"`, `"en"`, `"es"`, `"fr"`, `"pt"`, `"ja"`, and `"zh"`.
+    example: en
+
+UserMembershipInformation: &UserMembershipInformation
+  user_type:
+    type: string
+    description: The type of user in the HighBond instance, one of `"user"`, `"system"` or `"root"`.
+    example: user
+  enabled:
+    type: boolean
+    description: Shows if the user is enabled or not in the platform.
+    example: true
+  subscription:
+    type: string
+    description: |
+      The type of user subscription in this HighBond instance. This field will be returned to provide information, currently it cannot be updated via APIs.
+      Available codes are: `"grc_full"` for _Professional_, `"grc_lite"` for _Contributor_, `"grc_intermediate"` _Oversight_,
+      `"grc_results_cloud_admin"` for _Results Lite Professional_, `"grc_results_cloud_user"` for _Results Lite Contributor_, and `null` for _None_.
+    example: grc_full
+  is_system_admin:
+    type: boolean
+    description: Returns true when the user is a System Admin in this HighBond instance.
+    example: false
+
+User: &User
+  type: object
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *UserUID
+    type: *UserType
+    attributes:
+      type: object
+      properties:
+        <<: *UserProfileInformation
+        name:
+          type: string
+          description: The user's full name. This value is system generated, based on `"first_name"` and `"last_name"`.
+          example: John Smith
+        preferred_community_org:
+          type: string
+          description: The name of the user's preferred community instance.
+          example: Organization A
+        <<: *UserMembershipInformation
+
+UpdateUserRequest:
+  type: object
+  description: The parameters required to update a user.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data to update.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *UserType
+        attributes:
+          type: object
+          description: The attributes associated with the user.
+          required:
+            - name
+          properties:
+            <<: *UserProfileInformation
+            preferred_community_org_id:
+              type: integer
+              format: int64
+              description: The id of the preferred HighBond instance for the user to access community.
+              example: 12345
+
+CreateUserRequest:
+  type: object
+  description: The parameters required to create a new user.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the new user.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *UserType
+        attributes:
+          type: object
+          description: The attributes associated with the new user.
+          required:
+            - name
+            - first_name
+            - last_name
+            - email
+          properties:
+            <<: *UserProfileInformation
+            preferred_community_org_id:
+              type: integer
+              format: int64
+              description: The id of the preferred HighBond instance for the user to access community.
+              example: 12345
+
+GetUserResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *User
+
+MultipleUsersResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: An array of the users within this HighBond instance.
+      items: *User

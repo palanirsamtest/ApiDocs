@@ -1,0 +1,121 @@
+get:
+  tags:
+    - Results files
+  operationId: getResultsFile
+  summary: Get a results file
+  description: |
+    Get information about a results file.
+
+    <strong>Limitation</strong>:
+    Existing Citation Mode highlights and links are not displayed in the `description` field.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/resultsFileSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetResultsFileResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+patch:
+  tags:
+    - Results files
+  operationId: updateResultsFile
+  summary: Update a results file
+  description: |
+    Make changes to a results file, like renaming it or updating its description.
+
+    <strong>Limitations</strong>:
+    * You cannot update the results file if it is signed off.
+    * Existing Citation Mode highlights and links are not displayed in the `description` field.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/resultsFileSparseFieldsetParams'
+  requestBody:
+    description: The data required to update a results file.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateResultsFileRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetResultsFileResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Results files
+  operationId: deleteResultsFile
+  summary: Delete a results file
+  description: |
+    Delete a results file from a project.
+
+    > **Caution —**
+    Deleting a results file is permanent. Once deleted, you cannot access or restore the results file.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/base'
+                code: invalid_resource
+                title: Invalid resource
+                detail: This results file cannot be deleted because the preparer has already signed off.

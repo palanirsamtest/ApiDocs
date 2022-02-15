@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "validate:custom": "node ./scripts/validate.js",
+    "validate:public": "swagger-cli validate ./apis/public.yml && npm run validate:custom",
+    "validate:private": "swagger-cli validate ./apis_private/private.yml",
+    "validate:yaml": "bash ./scripts/check-dup-yaml-anchors.sh",
+    "validate": "npm run validate:public && npm run validate:private && npm run lint && npm run validate:yaml",
+    "bundle:public": "swagger-cli bundle -o dist/public/public.yml -t yaml ./apis/public.yml",
+    "bundle:customer": "swagger-cli bundle -o dist/public/customer.yml -t yaml ./apis/customer.yml",
+    "bundle:private": "swagger-cli bundle -o dist/private/private.yml -t yaml ./apis_private/private.yml",
+    "prebundle": "node ./scripts/prebundle.js",
+    "bundle": "npm run bundle:public && npm run bundle:private && npm run bundle:customer",
+    "live": "npm run public",
+    "public": "npm run prebundle && http-server ./apis -c-1 -p 8085 -o",
+    "private": "npm run prebundle && http-server ./apis_private -c-1 -p 8086 -o",
+    "lint": "prettier --check 'apis/**/*.yml' 'apis_private/**/*.yml' 'scripts/**/*.js'",
+    "prettier": "prettier --write 'apis/**/*.yml' 'apis_private/**/*.yml' 'scripts/**/*.js'",
+    "test": "npm run jest",
+    "jest": "jest"
+  },
+  "dependencies": {
+    "http-server": "^14.0.0",
+    "jest": "^27.3.1",
+    "js-yaml": "^3.13.1",
+    "prettier": "^1.17.0",
+    "swagger-cli": "^2.3.5"
+  },
+  "devDependencies": {
+    "@arkweid/lefthook": "^0.7.2",
+    "lodash": "^4.17.21"
+  }
+}

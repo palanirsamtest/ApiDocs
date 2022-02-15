@@ -1,0 +1,194 @@
+RobotTask:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the task.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot_tasks"`).
+      example: robot_tasks
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        analytic_names:
+          type: array
+          description: A list of the names of scripts to run.
+          items:
+            type: string
+          example: ['Analyze']
+        app_version:
+          type: integer
+          description: The version of the script.
+          example: 1
+        conflicts:
+          type: object
+          description: Specifies the conflicts related to a script activation.
+          example: 2019-03-21T16:25:00.478Z
+        count:
+          type: integer
+          description: The folder name that is automatically created in the Robots Agent. The folder corresponds to an individual task.
+          example: 1
+        created_at:
+          type: string
+          description: The date the task was created.
+          example: '2019-03-21T20:22:48.282Z'
+        email_notifications_enabled:
+          type: boolean
+          description: If `true`, an email notification is sent to one or more specific users if the task fails.
+          example: true
+        enabled:
+          type: boolean
+          description: Specifies whether the task is enabled. You cannot run a disabled task.
+          example: true
+        environment:
+          type: string
+          description: The environment of the script.
+          enum: ['production', 'development']
+        log_enabled:
+          type: boolean
+          description: If `true`, a log is available every time the analytic is run.
+          example: true
+        name:
+          type: string
+          description: The name of the task.
+          example: 'Incredible Copper Pants'
+        public_key_name:
+          type: string
+          description: The public RSA key for encrypting password values.
+          example: 'Super_secret_public_key_name'
+        publish_to_results:
+          type: boolean
+          description: This is not currently supported.
+          example: true
+        share_encrypted:
+          type: boolean
+          description: If `true`, any user with access to the robot can run, disable, or enable the task. If `false`, only the user who entered the password can run, disable, or enable the task.
+          example: false
+        updated_at:
+          type: string
+          description: The date when the task was updated.
+          example: '2019-03-21T20:22:48.282Z'
+        next_runs:
+          type: array
+          description: Specifies when the task will next run.
+          items:
+            type: string
+            example: '2019-03-21T20:22:48.282Z'
+
+CreateRobotTaskRequest:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"robot_tasks"`).
+          example: 'robot_tasks'
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            app_version:
+              type: integer
+              description: The version of the script.
+              example: 1
+            email_notifications_enabled:
+              type: boolean
+              description: If `true`, an email notification is sent to one or more specific users if the task fails.
+            environment:
+              type: string
+              description: The environment of the script.
+              enum: ['production', 'development']
+            log_enabled:
+              type: boolean
+              description: If `true`, a log is available every time the analytic is run.
+            name:
+              type: string
+              description: The name of the task.
+              example: Intelligent Iron Clock
+            public_key_name:
+              type: string
+              example: Super_secret_public_key_name
+              description: The public RSA key for encrypting password values.
+            publish_to_results:
+              type: boolean
+              description: This is not currently supported.
+            share_encrypted:
+              type: boolean
+              description: If `true`, any user with access to the robot can run, disable, or enable the task. If `false`, only the user who entered the password can run, disable, or enable the task.
+              example: true
+            analytic_names:
+              type: array
+              description: A list of the names of scripts to run.
+              items:
+                type: string
+                example: 'Analyze'
+
+GetRobotTasksResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        $ref: '#/RobotTask'
+
+GetRobotTaskResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/RobotTask'
+
+examples:
+  RobotTasks:
+    data:
+      - id: 1
+        type: robot_tasks
+        attributes:
+          analytic_names: ['Analyze']
+          app_version: 1
+          conflicts: { 'missing_analytics': Lost analytic }
+          count: 0
+          created_at: '2019-03-22T18:12:43.003Z'
+          email_notifications_enabled: true
+          enabled: true
+          environment: production
+          log_enabled: true
+          name: Ergonomic Wooden Lamp
+          public_key_name: null
+          publish_to_results: false
+          share_encrypted: true
+          updated_at:
+          next_runs: []
+      - id: 2
+        type: robot_tasks
+        attributes:
+          analytic_names: ['Extract']
+          app_version: 1
+          conflicts: { 'missing_analytics': Lost analytic }
+          count: 1
+          created_at: '2019-03-22T18:12:43.003Z'
+          email_notifications_enabled: true
+          enabled: true
+          environment: production
+          log_enabled: true
+          name: Ergonomic Wooden Lamp
+          public_key_name: null
+          publish_to_results: false
+          share_encrypted: false
+          updated_at:
+          next_runs: []

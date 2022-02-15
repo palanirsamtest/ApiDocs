@@ -1,0 +1,659 @@
+AttributeTypeBaseAttributes: &AttributeTypeBaseAttributes
+  name:
+    type: string
+    description: |
+      The name of the attribute type.
+    example: Test Incident
+  display_name:
+    type: string
+    description: The name that will be displayed for this attribute type
+    example: Test Incident
+  is_global:
+    type: boolean
+    description: Whether the attribute type is global
+    example: true
+  is_required:
+    type: boolean
+    description: If this attribute type is associated with an object with a handler, the handler indicates either that all of the associated attribute types, or specific attribute types, must be checked for whether they have values for the workflow to advance. In the former case, this property indicates whether this attribute type is one that needs to have a value. In the latter case, all attribute types listed in the handler must have values.
+    example: true
+  tooltip:
+    type: string
+    description: Text information for the UI element
+    example: 'Created At'
+
+booleanTypeOption: &booleanTypeOption
+  type: object
+  title: BooleanTypeOption
+  properties:
+    default:
+      type: boolean
+      nullable: true
+      description: Default boolean value
+      example: true
+
+dateTimeTypeOption: &dateTimeTypeOption
+  type: object
+  title: DateTimeTypeOption
+  properties:
+    default:
+      type: string
+      description: Default dateTime value
+      nullable: true
+      example: 2020-12-25T17:42
+    is24_hour:
+      type: boolean
+      description: Specifies whether the value is in 24-hour format. This property is required during POST requests
+      example: true
+
+paragraphTypeOption: &paragraphTypeOption
+  type: object
+  title: ParagraphTypeOption
+  properties:
+    default:
+      type: string
+      nullable: true
+      description: Default paragraph value
+      example: Paragraph Value
+    is_rich_text:
+      type: boolean
+      description: Specifies whether the value is in Rich Text format. This property is required during POST requests
+      example: true
+
+numberTypeOption: &numberTypeOption
+  type: object
+  title: NumberTypeOption
+  properties:
+    default:
+      type: number
+      nullable: true
+      description: Default number value
+      example: 1
+    is_decimal:
+      type: boolean
+      description: Specifies whether the value is in decimal format. This property is required during POST requests
+      example: false
+
+textTypeOption: &textTypeOption
+  type: object
+  title: TextTypeOption
+  properties:
+    default:
+      type: string
+      nullable: true
+      description: Default text value
+      example: Default Text
+
+selectTypeOption: &selectTypeOption
+  type: object
+  title: SelectTypeOption
+  properties:
+    select_values: &select_values
+      description: Represents a list of options in a dropdown-style field. This property is only available and is required when the data_type value is *select*
+      type: array
+      items:
+        type: object
+        description: Represents a user-selected option among a range in a dropdown-style field.
+        required:
+          - name
+        properties:
+          id:
+            type: string
+            nullable: false
+            description: UUID assigned to the option before saving to Bigfoot. Determined by system, not available for CREATE requests
+            example: '11111111-1111-1111-1111-11111111111a'
+          name:
+            type: string
+            nullable: false
+            description: The name of the option value
+            example: 'R&D'
+          score:
+            type: number
+            format: double
+            nullable: true
+            description: A decimal that enables calculation on the selected values of the list
+            example: 999.999
+          color:
+            type: string
+            nullable: true
+            description: Hexadecimal value to capture a color for the field, used in display and reporting
+            example: '#7D00FF'
+          sort_order:
+            type: integer
+            format: int64
+            nullable: true
+            description: Numeric value used to determine the display order of the options
+            example: 1
+          default:
+            type: boolean
+            default: false
+            description: Specifies that the option is the default selected one
+            example: true
+          removed:
+            type: boolean
+            default: false
+            description: Used to delete an existing option during UPDATE request. Not available for CREATE requests
+            example: false
+
+UserLookupTypeOption: &UserLookupTypeOption
+  type: object
+  title: UserLookupTypeOption
+  properties:
+    is_multi_select:
+      type: boolean
+      description: Specifies whether the userLookup attribute can be assgined to multiple user/groups. This property is only available and is required when the data_type value is *userLookup*.
+      example: true
+    is_select_user:
+      type: boolean
+      description: Specifies whether the userLookup attribute can select users. This property is only available and is required when the data_type value is *userLookup*. Must be true if is_select_group is false.
+      example: true
+    is_select_group:
+      type: boolean
+      description: Specifies whether the userLookup attribute can select groups. This property is only available and is required when the data_type value is *userLookup*. Must be true if is_select_user is false.
+      example: true
+    roles:
+      type: array
+      description: |
+        Represent the userLookup role_id that is assigned to the attribute. This property is only available and is required when the data_type value is *userLookup*.
+
+        If no roles are to be granted for the attribute, pass an empty array as vaule.
+        Otherwise, the role_ids should be passed as an array of strings.
+
+        Note that all role_ids must be valid otherwise the operation will be rejected.
+      items:
+        type: string
+      example: [role_id_1, role_id_2]
+    default:
+      type: object
+      nullable: true
+      description: 'Default userlookup attribute value. Only value that is equal to `{ "user_id": ["current"], "group_ids": [] }` is supported at the moment.'
+      required:
+        - user_ids
+        - group_ids
+      properties:
+        user_ids:
+          type: array
+          items:
+            type: string
+        group_ids:
+          type: array
+          items:
+            type: string
+
+RelationshipTypeOption: &RelationshipTypeOption
+  type: object
+  title: RelationshipTypeOption
+  properties:
+    target_id:
+      type: string
+      description: The ID of the permitted parent or child asset type or record type.
+      example: '384312'
+    target_type:
+      type: string
+      description: The type classification of the permitted parent object.
+      example: asset_types
+    has_one:
+      type: boolean
+      description: Specifies if this is a child relationship or parent relationship.
+      example: false
+
+CreateAdHocRelationshipTypeOption: &CreateAdHocRelationshipTypeOption
+  type: object
+  title: AdHocRelationshipTypeOption
+  properties:
+    labels:
+      type: array
+      items:
+        type: object
+        description: Defines the type of relationship between two objects.
+        required:
+          - name
+          - type
+        properties: &CreateAdHocRelationshipTypeOptionProperties
+          name:
+            type: string
+            description: Must be unique within the attribute type.
+            example: Caused by
+          type:
+            type: string
+            enum: [downstream, upstream, parallel]
+            example: downstream
+          related_label:
+            type: object
+            description: Required for upstream/downstream relationships. This specifies the reverse relationship.
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                description: Display name of the label.
+                example: Causes
+
+AdHocRelationshipTypeOption: &AdHocRelationshipTypeOption
+  type: object
+  title: AdHocRelationshipTypeOption
+  properties:
+    labels:
+      type: array
+      items:
+        type: object
+        description: Defines the type of relationship between two objects.
+        required:
+          - name
+          - type
+        properties:
+          <<: *CreateAdHocRelationshipTypeOptionProperties
+          field_name:
+            type: string
+            description: Unique identifier assigned by the system. Required when modifying a label.
+            example: it_cloud::caused_by
+          related_label:
+            type: object
+            description: Required for upstream/downstream relationships. This specifies the reverse relationship.
+            properties:
+              field_name:
+                type: string
+                description: Unique identifier assigned by the system. Required when changing the related label.
+                example: causes
+              name:
+                type: string
+                description: Display name of the label.
+                example: Causes
+    permitted_relationships:
+      type: array
+      items:
+        type: object
+        description: Defines the allowed set of objects that can take part in the relationships.
+        required:
+          - primary_object_type_id
+          - label_field_name
+          - secondary_object_type_id
+        properties:
+          primary_object_type_id:
+            type: string
+            description: The upstream object type for non-parallel relationships.
+            example: 1
+          label_field_name:
+            type: string
+            description: The label for the relationship. **Note:** This only accepts parallel or upstream label. The reverse relationship will be implied from the settings created for the upstream label.
+            example: it_cloud::causes
+          secondary_object_type_id:
+            type: string
+            description: The downstream object type for non-parallel relationships.
+            example: 2
+
+AttributeTypeOptions:
+  anyOf:
+    - *selectTypeOption
+    - *booleanTypeOption
+    - *dateTimeTypeOption
+    - *textTypeOption
+    - *paragraphTypeOption
+    - *numberTypeOption
+    - *UserLookupTypeOption
+    - *RelationshipTypeOption
+    - *AdHocRelationshipTypeOption
+
+CreateAttributeTypeOptions:
+  anyOf:
+    - *selectTypeOption
+    - *booleanTypeOption
+    - *dateTimeTypeOption
+    - *textTypeOption
+    - *paragraphTypeOption
+    - *numberTypeOption
+    - *UserLookupTypeOption
+    - *RelationshipTypeOption
+    - *CreateAdHocRelationshipTypeOption
+
+AttributeTypeFullAttributes: &AttributeTypeFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *AttributeTypeBaseAttributes
+    data_type:
+      type: string
+      enum:
+        [boolean, paragraph, dateTime, number, text, select, userLookup, assessment, relationship, adHocRelationship]
+      description: the data type of the attribute type. "relationship" data types cannot be created or updated in POST or PATCH requests.
+      example: boolean
+    type_options: &type_options
+      type: object
+      description: Additional optional information related to the data type of the attribute. Note that the options differ depending on the data_type.
+      $ref: '../../components/schemas.yml#/AttributeTypeOptions'
+    field_name:
+      type: string
+      description: The name of the attribute type as it appears in the system. This value must be unique for each attribute type.
+      example: test_incident
+    is_metadata:
+      type: boolean
+      description: Whether the attribute type is metadata
+      example: false
+    created_by: &created_by
+      type: string
+      description: The user ID of the user who created this attribute type
+      example: 3QRJaisXyg-qtQJvmGPA
+    updated_by: &updated_by
+      type: string
+      description: The user ID of the last user who updated this attribute type
+      example: 3QRJaisXyg-qtQJvmGPA
+    created_at: &created_at
+      type: string
+      description: The date the attribubte type was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at: &updated_at
+      type: string
+      description: The date the attribute type was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+
+AttributeType: &AttributeType
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the attribute type.
+      example: '9123'
+    type: &type
+      type: string
+      description: The classification of the object (`"attribute_types"`).
+      example: attribute_types
+    attributes: *AttributeTypeFullAttributes
+
+CreateAttributeTypePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - display_name
+            - data_type
+          properties:
+            <<: *AttributeTypeBaseAttributes
+            field_name:
+              type: string
+              description: |
+                The name of the attribute type as it appears in the system. This value must be unique for each attribute type and must satisfy the following restrictions:
+                - No uppercase letters
+                - No whitespace (use `"_"` to separate words)
+                - Cannot begin with `"-"`
+                - Certain special characters will not be allowed
+
+                > **Note —**
+                If this field is not defined in the payload, the `field_name` value will be derived from `name` field, in lowercase with `_` replacing whitespace, and forbidden characters stripped.
+              example: test_incident
+            data_type:
+              type: string
+              enum: [boolean, paragraph, dateTime, number, text, select, userLookup, assessment, adHocRelationship]
+              description: the data type of the attribute type
+              example: dateTime
+            type_options:
+              <<: *type_options
+              $ref: '../../components/schemas.yml#/CreateAttributeTypeOptions'
+
+CreateAttributeTypePayloadExamples:
+  AdHocRelationshipAttributeType:
+    summary: AdHocRelationship Attribute Type
+    value:
+      data:
+        type: attribute_types
+        attributes: &AdhocRelationshipAttributeTypeAttributes
+          name: Third Party
+          display_name: Third Party
+          is_global: true
+          is_required: false
+          tooltip: Third Party
+          data_type: adHocRelationship
+          type_options:
+            labels:
+              [
+                { name: 'Relates To', type: 'parallel' },
+                { name: 'Causes', type: 'upstream', related_label: { name: 'Caused By' } },
+                { name: 'Caused By', type: 'downstream', related_label: { name: 'Causes' } },
+              ]
+  SelectAttributeType:
+    summary: Select Attribute Type
+    value:
+      data:
+        type: attribute_types
+        attributes:
+          field_name: department
+          name: department
+          display_name: Department
+          is_global: true
+          is_required: false
+          tooltip: Select a department that the asset belongs to.
+          data_type: select
+          type_options:
+            select_values:
+              [
+                { 'name': 'R&D', 'score': 1337, 'sort_order': 1, 'color': '#7D00FF', 'default': true },
+                { 'name': 'Sales', 'score': 999.999, 'sort_order': 2, 'color': '#7D00FF', 'default': false },
+              ]
+  DateTimeAttributeType:
+    summary: DateTime Attribute Type
+    value:
+      data:
+        type: attribute_types
+        attributes: &DateTimeAttributeTypeAttributes
+          name: Created At
+          display_name: Created At
+          is_global: true
+          is_required: false
+          tooltip: Created At
+          data_type: dateTime
+          type_options:
+            default: 2020-12-25T17:42
+            is24_hour: true
+  UserLookupAttributeType:
+    summary: UserLookup Attribute Type
+    value:
+      data:
+        type: attribute_types
+        required:
+          - type_options
+        attributes: &UserLookupAttributeTypeAttributes
+          name: Owner
+          display_name: Owner
+          is_global: true
+          is_required: true
+          tooltip: Owner
+          data_type: userLookup
+          type_options:
+            default:
+              user_ids: [current]
+              group_ids: []
+            is_multi_select: true
+            is_select_user: true
+            is_select_group: true
+            roles: [role_id_1, role_id_2]
+
+UpdateAttributeTypePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - id
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *AttributeTypeBaseAttributes
+            type_options: *type_options
+
+UpdateAttributeTypePayloadExamples:
+  AdHocRelationshipAttributeType:
+    summary: AdHocRelationship Attribute Type
+    value:
+      data:
+        id: '9123'
+        type: attribute_types
+        attributes:
+          <<: *AdhocRelationshipAttributeTypeAttributes
+          type_options:
+            labels:
+              [
+                { field_name: 'third_party::relates_to', name: 'Relates To Updated', type: 'parallel' },
+                {
+                  field_name: 'third_party::causes',
+                  name: 'Causes Updated',
+                  type: 'upstream',
+                  related_label: { field_name: 'third_party::caused_by' },
+                },
+                {
+                  field_name: 'third_party::caused_by',
+                  name: 'Caused By Updated',
+                  type: 'downstream',
+                  related_label: { field_name: 'third_party::causes' },
+                },
+                { name: 'New Label', type: 'parallel' },
+              ]
+            permitted_relationships:
+              [
+                {
+                  primary_object_type_id: '1134',
+                  label_field_name: 'third_party::relates_to',
+                  secondary_object_type_id: '4567',
+                },
+                {
+                  primary_object_type_id: '1134',
+                  label_field_name: 'third_party::causes',
+                  secondary_object_type_id: '4567',
+                },
+                {
+                  primary_object_type_id: '3456',
+                  label_field_name: 'third_party::causes',
+                  secondary_object_type_id: '8907',
+                },
+              ]
+  SelectAttributeType:
+    summary: Select Attribute Type
+    value:
+      data:
+        id: '9123'
+        type: attribute_types
+        attributes:
+          name: department
+          display_name: Department
+          is_global: true
+          is_required: false
+          tooltip: Select a department that the asset belongs to.
+          data_type: select
+          type_options:
+            select_values:
+              [
+                { 'id': '11111111-1111-1111-1111-11111111111a', 'name': 'R&D', 'removed': true },
+                { 'name': 'Marketing', 'score': 9999.999, 'sort_order': 3, 'color': '#7D00FF', 'default': false },
+              ]
+  DateTimeAttributeType:
+    summary: DateTime Attribute Type
+    value:
+      data:
+        id: '9123'
+        type: attribute_types
+        attributes: *DateTimeAttributeTypeAttributes
+  UserLookupAttributeType:
+    summary: UserLookup Attribute Type
+    value:
+      data:
+        id: '9123'
+        type: attribute_types
+        attributes: *UserLookupAttributeTypeAttributes
+
+ListAttributeTypesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *AttributeType
+
+ListAttributeTypesResponsePaginated:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *AttributeType
+    links:
+      type: object
+      required:
+        - next
+        - prev
+        - first
+        - last
+      properties:
+        next:
+          type: string
+          description: Next page url
+          nullable: true
+          example: '/attribute_types/:attribute_type_id?page[size]=5&page[number]=2'
+        prev:
+          type: string
+          description: Previous page url
+          nullable: true
+          example: null
+        first:
+          type: string
+          description: First page url
+          nullable: false
+          example: '/attribute_types/:attribute_type_id?page[size]=5&page[number]=1'
+        last:
+          type: string
+          description: Last page url
+          nullable: false
+          example: '/attribute_types/:attribute_type_id?page[size]=5&page[number]=3'
+    meta:
+      type: object
+      required:
+        - count
+      properties:
+        count:
+          type: number
+          description: |
+            The total number of Attribute Types in the query result.
+            Note that due to pagination this number is not necessarily equivalent to the
+            number of Attribute Types returned in the data array.
+          nullable: false
+          example: 500
+
+SingleAttributeTypeResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *AttributeType

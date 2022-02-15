@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>HighBond APIs</title>
+    <meta name="description" content="API documentation for the HighBond platform." />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png" />
+
+    <!-- Link unfurling -->
+    <meta property="og:title" content="HighBond APIs" />
+    <meta property="og:description" content="API documentation for the HighBond platform" />
+    <meta property="og:image" content="https://docs-apis.highbond.com/assets/logo.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="stylesheet" href="./assets/styles.css">
+</head>
+
+<body>
+<div id="redoc"/>
+<script src="https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.41/bundles/redoc.standalone.js"></script>
+<script type="text/javascript" src="./assets/theme.js"></script>
+<script>
+  Redoc.init('./customer.yml', theme, document.getElementById('redoc'))
+</script>
+</body>
+</html>

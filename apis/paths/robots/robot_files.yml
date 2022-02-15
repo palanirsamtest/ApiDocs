@@ -1,0 +1,70 @@
+get:
+  tags:
+    - Robot Files
+  operationId: getRobotFiles
+  summary: List a robot's related files
+  description: Get a list of related files for a robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+    - $ref: '../../components/parameters.yml#/robotEnvParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotFilesResponse'
+          example:
+            $ref: '../../schemas/robot/robot_file.yml#/examples/RobotFiles'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+
+post:
+  tags:
+    - Robot Files
+  operationId: createRobotFile
+  summary: Create a related file
+  description: Create a related file for a robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+    - $ref: '../../components/parameters.yml#/robotEnvParam'
+  requestBody:
+    description: The data required to create a related file.
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotFileRequest'
+  responses:
+    200:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotFileResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'

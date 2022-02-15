@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Timesheets
+  operationId: getTimesheetsActivities
+  summary: Get activity records for Timesheets
+  description: Get a list of activity records for Timesheets for specific date grouped by projects
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/timesheetsActivitiesIncludeParam'
+    - $ref: '../../components/parameters.yml#/timesheetsActivitiesDateParam'
+    - $ref: '../../components/parameters.yml#/projectSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/issueSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/narrativeSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/objectiveSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/walkthroughSummaryFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectPlanningFieldsetParams'
+    - $ref: '../../components/parameters.yml#/projectResultFieldsetParams'
+    - $ref: '../../components/parameters.yml#/riskControlMatrixFieldsetParams'
+    - $ref: '../../components/parameters.yml#/testPlanFieldsetParams'
+    - $ref: '../../components/parameters.yml#/testingRoundFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetTimesheetsActivitiesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

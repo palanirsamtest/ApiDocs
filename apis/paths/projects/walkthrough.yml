@@ -1,0 +1,88 @@
+get:
+  tags:
+    - Walkthroughs
+  operationId: getWalkthrough
+  summary: Get a walkthrough
+  description: |
+    Get information about a walkthrough.
+
+    <strong>Limitation</strong>:
+    Existing Citation Mode highlights and links are not displayed in the `walkthrough_results` field.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/walkthroughIncludeParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetWalkthroughResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Walkthroughs
+  operationId: updateWalkthrough
+  summary: Update a walkthrough
+  description: |
+    Make changes to a walkthrough in a project, like updating the walkthrough results or specifying whether or not the control was designed appropriately.
+
+    <strong>Limitations</strong>:
+    * You cannot update the walkthrough if it is signed off or if the objective it belongs to has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+    * You cannot update the `control_design` field if the field is automated using an
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-automate-control-assessments" target="_blank">assessment driver</a>.
+    * Existing Citation Mode highlights and links are not displayed in the `walkthrough_results` field.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/walkthroughIncludeParams'
+  requestBody:
+    description: The data required to update a walkthrough.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateWalkthroughRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetWalkthroughResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/control_design'
+                code: invalid_resource
+                detail: This field cannot be updated because it is currently being automated by an assessment driver.

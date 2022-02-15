@@ -1,0 +1,256 @@
+TimeEntry: &TimeEntry
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"time_entries"`).
+      example: time_entries
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - date
+      properties:
+        date: &date
+          type: string
+          description: The date of the time entry.
+          maxLength: 60
+          example: '2021-03-15'
+        time: &time
+          type: number
+          format: double
+          nullable: false
+          description: The time of the time entry.
+          example: 8.0
+        description: &description
+          type: string
+          description: A detailed description of the time entry.
+          example: TimeEntry description
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the time entry was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the time entry was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+
+TimeEntryRelationships: &TimeEntryRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - target
+  properties:
+    target: &TargetRelationship
+      type: object
+      description: Specifies the resource that the time entry is associated with.
+      required:
+        - data
+        - links
+      properties:
+        data:
+          type: object
+          description: The data associated with a time entry.
+          properties:
+            id:
+              type: string
+              description: The ID of the resource.
+              example: '1'
+            type:
+              type: string
+              description: |
+                The classification of the object.
+
+                A target can have one of the following types: `"projects`", `"narratives`", `"objectives`", `"walkthrough_summaries`",
+                `"project_plannings`", `"walkthroughs`", `"control_tests`", `"control_test_plans`", `"project_results`", `"project_files`",
+                `"risk_control_matrices`", `"testing_rounds`", `"risks`", `"controls`"
+              example: objectives
+        links:
+          type: object
+          description: Links associated with a target relationship.
+          properties:
+            ui:
+              type: string
+              description: URL of page providing user interface for target resource.
+              example: 'https://myorg.projects.highbond.com/audits/1/dashboard'
+    project: &ProjectRelationship
+      type: object
+      description: |
+        Each time entry has an associated project or framework. Project/framework is a management system that allows you to define and compile information
+        for reporting purposes.
+      required:
+        - data
+        - links
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the project.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"projects"`).
+              example: projects
+        links:
+          type: object
+          description: Links associated with a project.
+          properties:
+            ui:
+              type: string
+              description: URL of page providing user interface for project.
+              example: 'https://myorg.projects.highbond.com/audits/1/dashboard'
+    objective: &ObjectiveRelationship
+      type: object
+      description: |
+        Time Entry can have an associated objective. Objectives are the organizing containers for the work done in a project or framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the objective.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"objectives"`).
+              example: objectives
+    category: &CategoryRelationship
+      type: object
+      description: |
+        Time Entry can have a category, if target is NOT a project or project-related entity like Risk, Narrative, Control, etc.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the category.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"time_entry_categories"`).
+              example: work_types
+
+TimeEntrySparseRelationships: &TimeEntrySparseRelationships
+  <<: *TimeEntryRelationships
+  properties:
+    objective: *ObjectiveRelationship
+    project: *ProjectRelationship
+    target: *TargetRelationship
+    category: *CategoryRelationship
+
+TimeEntryWithSparseFieldset: &TimeEntryWithSparseFieldset
+  <<: *TimeEntry
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *TimeEntrySparseRelationships
+
+GetTimeEntriesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *TimeEntryWithSparseFieldset
+      description: Array of time entries
+
+GetTimeEntryResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *TimeEntryWithSparseFieldset
+
+CreateTimeEntryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes: &updatableAttributes
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            date: *date
+            description: *description
+            time: *time
+            position: *position
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            target: *TargetRelationship
+            category: *CategoryRelationship
+UpdateTimeEntryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *updatableAttributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            target: *TargetRelationship
+            category: *CategoryRelationship

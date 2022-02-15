@@ -1,0 +1,39 @@
+patch:
+  tags:
+    - Importer
+  operationId: updateImport
+  summary: Update import
+  description: |
+    Responsible for updating HighBond resources
+
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/planning_projects/bulk_uploading_importing_content/bulk_uploading_requests.htm?cshid=lp-highbond-importer#navlink-4" target="_blank">Learn more</a>.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/sessionIdParam'
+  requestBody:
+    description: The data required to update a resource.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateImporterPayload'
+        examples:
+          selectAttributeType:
+            $ref: '../../schemas/importer/importer.yml#/ImporterPayloadExamples/SelectRequestsType'
+          dateTimeAttributeType:
+            $ref: '../../schemas/importer/importer.yml#/ImporterPayloadExamples/SelectProjectsType'
+          userLookupAttributeType:
+            $ref: '../../schemas/importer/importer.yml#/ImporterPayloadExamples/SelectIssuesType'
+  responses:
+    200:
+      description: OK.
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/InvalidImportData'

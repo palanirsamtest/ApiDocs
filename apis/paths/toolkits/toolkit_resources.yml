@@ -1,0 +1,38 @@
+get:
+  tags:
+    - Toolkits
+  operationId: getToolkitResources
+  summary: >
+    List toolkit resources
+  description: Get a list of all resources of toolkit.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/toolkitIdParam'
+    - $ref: '../../components/parameters.yml#/toolkitActionParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleToolkitResourcesResponse'
+          example:
+            data:
+              - type: toolkit_resources
+                attributes:
+                  type: 'highbond_resource1'
+                  name: 'Resource 1'
+              - type: toolkit_resources
+                attributes:
+                  type: 'highbond_resource2'
+                  name: 'Resource 2'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/ToolkitIdNotFound'
+    422:
+      $ref: '../../components/responses.yml#/InvalidToolkitId'

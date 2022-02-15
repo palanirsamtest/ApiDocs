@@ -1,0 +1,24 @@
+get:
+  tags:
+    - Asset record types
+  operationId: getRecordTypeAttributeTypes
+  summary: Get attribute types belonging to a specific asset record type
+  description: Get a list of all attribute types for an asset record type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ListAttributeTypesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

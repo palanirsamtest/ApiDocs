@@ -1,0 +1,133 @@
+get:
+  tags:
+    - Robot Tasks
+  operationId: getSchedule
+  summary: Get a robot task's schedule
+  description: See when a task is scheduled to run and additional information, like time zone and its last run date.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotTaskIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskScheduleResponse'
+          example:
+            $ref: '../../schemas/robot/schedule.yml#/examples/Schedule'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotTaskId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+
+post:
+  tags:
+    - Robot Tasks
+  operationId: createSchedule
+  summary: Create a robot task's schedule
+  description: Schedule a task to run it on an automated basis.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotTaskIdParam'
+  requestBody:
+    description: The data required to update a robot task's schedule.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotTaskScheduleRequest'
+  responses:
+    200:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskScheduleResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotTaskId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'
+put:
+  tags:
+    - Robot Tasks
+  operationId: putSchedule
+  summary: Update a robot task's schedule
+  description: Change when a task runs.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotTaskIdParam'
+  requestBody:
+    description: The data required to create a robot task.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotTaskScheduleRequest'
+  responses:
+    200:
+      description: Updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskScheduleResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotTaskId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'
+delete:
+  tags:
+    - Robot Tasks
+  operationId: deleteSchedule
+  summary: Delete a robot task's schedule
+  description: Delete a task's schedule. Unscheduled tasks can still be run on an ad hoc basis.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotTaskIdParam'
+  responses:
+    200:
+      description: Deleted.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskScheduleResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotTaskId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

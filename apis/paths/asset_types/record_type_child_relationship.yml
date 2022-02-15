@@ -1,0 +1,58 @@
+post:
+  tags:
+    - Asset record types
+  operationId: createRecordTypeChildRelationship
+  summary: Relate two asset record types
+  description: Configure a parent-child relationship between a parent asset record type and a child asset record type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentIdParam'
+    - $ref: '../../components/parameters.yml#/childIdParam'
+  requestBody:
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/EmptyRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleRecordTypeResponseWithChildRelationship'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+delete:
+  tags:
+    - Asset record types
+  operationId: deleteRecordTypeChildRelationship
+  summary: Disconnect two asset record types
+  description: Remove the parent-child relationship between two asset record types. The relationship can't be deleted if it is in use.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentIdParam'
+    - $ref: '../../components/parameters.yml#/childIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleRecordTypeResponseWithAttributeTypes'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

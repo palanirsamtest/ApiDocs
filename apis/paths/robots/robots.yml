@@ -1,0 +1,66 @@
+get:
+  tags:
+    - Robots
+  operationId: getRobots
+  summary: Get a list of robots
+  description: Get a list of all the robots in your HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotsResponse'
+          example:
+            $ref: '../../schemas/robot/robot.yml#/examples/Robots'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+
+post:
+  tags:
+    - Robots
+  operationId: createRobot
+  summary: Create a robot
+  description: Create a robot to automate repetitive tasks. The robot contains analytic scripts and related files, and carries out any scheduled tasks that you configure.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a robot.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotRequest'
+  responses:
+    200:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'

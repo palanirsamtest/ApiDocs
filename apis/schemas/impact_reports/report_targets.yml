@@ -1,0 +1,124 @@
++ReportTarget: &ReportTarget
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '2ed52026-bacd-4d30-be18-05ca2c9b0ff2'
+    type: &type
+      type: string
+      description: The classification of the object (`"impact_report_targets"`).
+      example: impact_report_targets
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - name
+        - report_id
+        - target_type
+        - target_type_id
+      properties:
+        name: &name
+          type: string
+          description: The unique name of the report target.
+          example: My Report Target
+        report_id: &report_id
+          type: string
+          description: Id of the Report to be linked to.
+          example: 2ed52026-bacd-4d30-be18-05ca2c9b0ff2
+        report_name: &report_name
+          type: string
+          description: The unique name of the report.
+          example: My Report
+        report_group_by: &report_group_by
+          type: string
+          description: group by report format.
+          example: report_format
+        report_generate: &report_generate
+          type: string
+          description: The format of the report to generate.
+          example: docx
+        target_type: &target_type
+          type: string
+          description: HighBond resource type. Ex- Asset Type in the context of Asset Inventory.
+          example: asset_types
+        target_type_id: &target_type_id
+          type: string
+          description: HighBond resource type ID. Ex- Asset Type ID in the context of Asset Inventory.
+          example: 12345
+        target_resource: &target_resource
+          type: string
+          description: HighBond resource. Ex- Asset in the context of Asset Inventory.
+          example: asset
+        target_resource_id: &target_resource_id
+          type: string
+          description: HighBond resource ID. Ex- Asset ID in the context of Asset Inventory.
+          example: 150584
+        position: &position
+          type: integer
+          format: int64
+          description: The order of the report targets to be displayed.
+          example: 0
+        variables: &variables
+          type: object
+          description: Variables required by the graphql.
+          example:
+            id: 654
+            format: 'csv'
+            symbolic_name: 'it_asset___cloud'
+
+CreateReportTargetRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - report_id
+            - target_type
+            - target_type_id
+          properties:
+            name: *name
+            report_id: *report_id
+            target_type: *target_type
+            target_type_id: *target_type_id
+            target_resource: *target_resource
+            target_resource_id: *target_resource_id
+            position: *position
+            variables: *variables
+
+GetReportTargetResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *ReportTarget
+
+GetAllReportTargetsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: Array of compliance regulations
+      items: *ReportTarget

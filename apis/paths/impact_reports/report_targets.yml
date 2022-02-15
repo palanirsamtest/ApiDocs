@@ -1,0 +1,38 @@
+post:
+  tags:
+    - Impact Reports
+  operationId: CreateReportTarget
+  summary: Create a report target
+  description: |
+    Create a report target.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 100 report targets per asset type.
+    * There can be a maximum of 200 report targets per asset, which can be divided as follows:
+      * A maximum of 100 report targets can be associated to all assets within an asset type.
+      * A maximum of 100 report targets can be associated to a specific asset within an asset type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/reportTargetIdParam'
+  requestBody:
+    description: The data required to create a report target.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateReportTargetRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetReportTargetResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    422:
+      $ref: '../../components/responses.yml#/InvalidReportTargetData'

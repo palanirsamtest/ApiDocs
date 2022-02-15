@@ -1,0 +1,96 @@
+get:
+  tags:
+    - Assets
+  operationId: getAssets
+  summary: Get assets
+  description: Get a list of all assets for a given asset type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributesParam'
+    - $ref: '../../components/parameters.yml#/pageNumberParam'
+    - $ref: '../../components/parameters.yml#/resourceSortParam'
+    - $ref: '../../components/parameters.yml#/resourceSearchParam'
+    - $ref: '../../components/parameters.yml#/assetSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAssetsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingAssetTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                title: UnprocessableEntityError
+                detail: 'Too many fields to sort: sorting is limited to a maximum of 2 fields (given 3)'
+post:
+  tags:
+    - Assets
+  operationId: createAsset
+  summary: Create an asset
+  description: |
+    Create a new asset. Before you create an asset, ensure there is an <a href="#tag/Asset-types">asset type</a> for it.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 200000 assets per asset type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+  requestBody:
+    description: The data required to create an asset.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateAssetsRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAssetResponse'
+    204:
+      description: No content. Returned when user was able to create the asset but does not have read permission.
+    400:
+      $ref: '../../components/responses.yml#/MissingAssetTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/description'
+                code: invalid_resource
+                detail: can't be blank

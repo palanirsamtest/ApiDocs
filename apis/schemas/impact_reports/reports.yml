@@ -1,0 +1,242 @@
+Report: &GetReportResponse
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '2ed52026-bacd-4d30-be18-05ca2c9b0ff2'
+    type: &type
+      type: string
+      description: The classification of the object (`"impact_reports"`).
+      example: impact_reports
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - name
+        - query
+        - engine
+        - format
+        - generate
+      properties:
+        name: &name
+          type: string
+          description: The unique name of the report.
+          example: My Report
+        api_name: &api_name
+          type: string
+          description: critical-assets-report.
+          example: template name
+        group_by: &group_by
+          type: string
+          description: group by report format.
+          example: report_format
+        query: &query
+          type: string
+          description: The graphql query.
+          example: 'query fetchAssetType($id: ID) {asset_type: data_table(id: $id) {query {rows totalRowCount}}}'
+        shared: &shared
+          type: boolean
+          description: Defines whether the report is shared across the organization.
+          example: false
+        engine: &engine
+          type: string
+          description: The engine to generate report with.
+          example: docxtemplater
+        format: &format
+          type: string
+          description: Format of the supplied report template.
+          example: docx
+        generate: &generate
+          type: string
+          description: The format of the report to generate.
+          example: docx
+        csv_root: &csv_root
+          type: string
+          description: pointer to array element in JSON payload from which to create CSV.
+          example: ''
+        signed_url:
+          type: string
+          description: Signed url returned by S3 which can be used by the client to download the template
+          example: 'https://acl-impact-reports-api-us2-main-s3.s3.us-west-2.amazonaws.com/templates/1/700b6b7c-7b6a-4f2d-a1e1-f9ca62727492?AWSAccessKeyId=ASIA46554PY2UM56ODVW&Content-Type=application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document&Expires=1621575926&Signature=VArl9Yx7u7K%2BKPfJLWJtmTlwWPQ%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEAYaCXVzLXdlc3QtMiJIMEYCIQCx06tpzLsWsuhYjwlwr2V4pvvFgi9kqSLYKMSQUQy6mQIhAMaNX4N4OZeMnn%2BH7Jx6IsjbyhLJZxSO6qqfdsOgnDWQKqUCCJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQAxoMODkxMDY3MDcyMDUzIgwLk8y8%2B%2BsEpu6CPTgq%2BQGhPkQ77N9O9riEwnxzKL70IP%2BRBZA%2F3UNvX7tW9nxMpFY8%2Fn%2BMtnieCFgIuBNL%2BW2LCs%2FMBK5d11Y2PzKjjDoO53MjJxYtgOS5dq8fPerm2iZ4rNAn7ZXc07P1NiZt7xOvXYKoxZrC6SxifARc7L%2FLxojR7qoxz6CttZTlNICbO1YwGU4ZPws%2B42pBuTYUwpjtjI2poEx0Jb%2FQOvPt%2BKrNMkDCwjFuXqH1r1ynnV%2BIIqQ96vAtqQca5qkIBpFasbb66HKt0Lby66KZXl%2BqaWmxAabolyf2E5UGIgBma9ldqwnfkshSXvx%2F%2FPTmRGhCNmi73bx3RnmBbrgwhoqdhQY6mQFb9cUhmVb1ay18sbxjUpKoXi4Gp6FGveqJFip%2Fm6YFFR673i7aoe3UU2G3l4pLd0k3iRYyHdWxurkfZ%2BHXT8Vc0K6Ly0OKFclxLH%2Ft%2BIvU2SQtzSCM%2Fkt4VaPlfps4xYopu9n53U2oJx2580J%2F8fPnBJsH%2F2GcbReEDcQL3JylPRKGeqpv4APQlTZGL4%2Bg%2FKHxUYs2SIRFFSg%3D'
+
+ReportResponse: &ReportResponse
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *id
+    type: *type
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - name
+        - query
+        - engine
+        - format
+        - generate
+      properties:
+        name: *name
+        api_name: *api_name
+        group_by: *group_by
+        query: *query
+        shared: *shared
+        engine: *engine
+        format: *format
+        generate: *generate
+        csv_root: *csv_root
+        signed_url:
+          type: string
+          description: Signed url returned by S3 which can be used by the client to upload the template to S3
+          example: 'https://acl-impact-reports-api-us2-main-s3.s3.us-west-2.amazonaws.com/templates/1/700b6b7c-7b6a-4f2d-a1e1-f9ca62727492?AWSAccessKeyId=ASIA46554PY2UM56ODVW&Content-Type=application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document&Expires=1621575926&Signature=VArl9Yx7u7K%2BKPfJLWJtmTlwWPQ%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEAYaCXVzLXdlc3QtMiJIMEYCIQCx06tpzLsWsuhYjwlwr2V4pvvFgi9kqSLYKMSQUQy6mQIhAMaNX4N4OZeMnn%2BH7Jx6IsjbyhLJZxSO6qqfdsOgnDWQKqUCCJ%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQAxoMODkxMDY3MDcyMDUzIgwLk8y8%2B%2BsEpu6CPTgq%2BQGhPkQ77N9O9riEwnxzKL70IP%2BRBZA%2F3UNvX7tW9nxMpFY8%2Fn%2BMtnieCFgIuBNL%2BW2LCs%2FMBK5d11Y2PzKjjDoO53MjJxYtgOS5dq8fPerm2iZ4rNAn7ZXc07P1NiZt7xOvXYKoxZrC6SxifARc7L%2FLxojR7qoxz6CttZTlNICbO1YwGU4ZPws%2B42pBuTYUwpjtjI2poEx0Jb%2FQOvPt%2BKrNMkDCwjFuXqH1r1ynnV%2BIIqQ96vAtqQca5qkIBpFasbb66HKt0Lby66KZXl%2BqaWmxAabolyf2E5UGIgBma9ldqwnfkshSXvx%2F%2FPTmRGhCNmi73bx3RnmBbrgwhoqdhQY6mQFb9cUhmVb1ay18sbxjUpKoXi4Gp6FGveqJFip%2Fm6YFFR673i7aoe3UU2G3l4pLd0k3iRYyHdWxurkfZ%2BHXT8Vc0K6Ly0OKFclxLH%2Ft%2BIvU2SQtzSCM%2Fkt4VaPlfps4xYopu9n53U2oJx2580J%2F8fPnBJsH%2F2GcbReEDcQL3JylPRKGeqpv4APQlTZGL4%2Bg%2FKHxUYs2SIRFFSg%3D'
+
+GenerateReport: &GenerateReport
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '7141a568f317a69d18f9c9988fd91813'
+    type: &generateReportType
+      type: string
+      description: The classification of the object (`"generated_reports"`).
+      example: generated_reports
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        key: &key
+          type: string
+          description: The s3 key.
+          example: generated/1000822/1620993835362-95a72d20-d8f0-47f2-9f37-279cb3bd6db3.docx
+        signed_url:
+          type: string
+          description: Signed url from where the report can be downloaded.
+          example: https://acl-impact-reports-api-us2-main-s1.s3.us-west-2.amazonaws.com/generated/1000822/1620993835362-95a72d20-d8f0-47f2-9f37-279cb3bd6db3.docx?AWSAccessKeyId=ASIAZOVLMCMNCT6LWT26&Expires=1620994138&Signature=r3p3eSDwGTSqnYI5Xt1Bgzo%2BMsE%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEGQaCXVzLXdlc3QtMiJIMEYCIQCGRdw2sgR51mvlDjCP83094GSWM5%2Bj0nObh4HiTa1ZiAIhAJuAbc6T4IALkWNeSNOH5QWMXQEWrUlknv8bxy3nUxHDKqUCCO3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNjQ5OTczMjA3ODM0IgwA7DRJBiFbqfDpUkUq%2BQF8Hthy%2BAZVtU5bDTNtB8cMjX9TxaffFsqmC1keaNNW203xdawNsTr4veFKWGd9S4j6HRdKiKsaCgK34osAtxpTg90brNbVniNHsbPdwSHbqtBETdoYDLN14WrRs1L9wDdIpADdXajn2ccPOhE8trs5oOdzurIBIqa2afy6x%2Bh0xkfIVNe5O1WALKYfeiJUAepxeS029mo4%2F93mQcHjAoKkGEv3AKjHCUBcFJLjxEULBfGc%2FXL4%2B5UrOILXrS8eIb2Z3N4agOWxN9Ds65UJS0UgCxenzjnOR%2BAneuPPBXwfOP7BMlVg2Woc6EPPPCQM%2B6k50jZxg%2FVeV9Uwqc75hAY6mQHoVYChnzFSCB9g2VeZqYeJjG42u1b02abcgA74kguZwNofRk%2FaNyHsN3Gtl8aVZ5ahlIvQkl62mQMM%2B%2BR5Ko1ZPnKUgptU2781MmAsbOPP%2FSfr%2BcWeZ5E2gNCK6O26SZLVWILPXrIKBKBbnAVFV9BwrzfaFNz34YBTr6dCi0BDwyUeSy48oJbRkQCgNdzoDz0qLaYqbeDvdJo%3D
+
+GenerateReportRequest: &GenerateReportRequest
+  type: object
+  description: Variables required by the graphql.
+  properties:
+    dataArgs:
+      type: object
+      description: Variables required by the graphql.
+      example:
+        id: 654
+        format: 'CSV'
+        symbolic_name: 'it_asset___cloud'
+
+CreateReportRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - api_name
+            - query
+            - engine
+            - format
+            - generate
+          properties:
+            name: *name
+            api_name: *api_name
+            group_by: *group_by
+            query: *query
+            shared: *shared
+            engine: *engine
+            format: *format
+            generate: *generate
+            csv_root: *csv_root
+
+UpdateReportRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            name: *name
+            group_by: *group_by
+            query: *query
+            shared: *shared
+            engine: *engine
+            format: *format
+            generate: *generate
+            csv_root: *csv_root
+            update_template:
+              type: boolean
+              description: Defines whether the template needs to be updated.
+              example: true
+
+GetReportResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *GetReportResponse
+
+GenerateReportResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *GenerateReport
+
+GetAllReportsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: Array of compliance regulations
+      items: *GetReportResponse
+
+CreateReportResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *ReportResponse

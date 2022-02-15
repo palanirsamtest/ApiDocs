@@ -1,0 +1,135 @@
+get:
+  tags:
+    - Actions
+  operationId: getAction
+  summary: Get an action
+  description: Get information about an action.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/actionSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetActionResponseWithIncluded'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Actions
+  operationId: updateAction
+  summary: Update an action
+  description: |
+    Make changes to an action, like renaming it or specifying an owner.
+
+    <strong>Limitations</strong>:
+    You cannot update the action in the following scenarios:
+    * if the <strong>Follow-up & Remediation</strong> subtab of the associated issue is signed off
+    * if the action belongs to an objective that has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>
+
+    Specifying a person's name or email in the following fields does not immediately notify them via email: `owner_name`, `owner_email`.
+    Email notifications about actions are only sent if `send_recurring_reminder` is `true`.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+    - $ref: '../../components/parameters.yml#/actionSparseFieldsetParams'
+  requestBody:
+    description: The data required to update an action.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateActionRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetActionResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/title'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Actions
+  operationId: deleteAction
+  summary: Delete an action
+  description: |
+    Delete an action from an existing issue.
+
+    <strong>Limitations</strong>:
+    You cannot delete the action in the following scenarios:
+    * if the <strong>Follow-up & Remediation</strong> subtab of the associated issue is signed off
+    * if the action belongs to an objective that has been checked out using
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+    <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>
+
+    > **Caution —**
+    Deleting an action is permanent. Once deleted, you cannot access or restore the action.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/base'
+                code: invalid_resource
+                title: Invalid resource
+                detail: This Follow-up & Remediation cannot be updated as the preparer has already signed off.

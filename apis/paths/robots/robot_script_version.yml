@@ -1,0 +1,30 @@
+get:
+  tags:
+    - Robot Script Versions
+  operationId: getRobotScriptVersion
+  summary: Get script version of a robot
+  description: Get version of a robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+    - $ref: '../../components/parameters.yml#/versionIdParam'
+    - $ref: '../../components/parameters.yml#/analyticsIncludeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotScriptVersionResponse'
+          example:
+            $ref: '../../schemas/robot/robot_script_version.yml#/examples/RobotScriptVersion'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

@@ -1,0 +1,91 @@
+get:
+  tags:
+    - Workflows
+  operationId: getWorkflows
+  summary: List Workflows
+  description: List Workflows and their metadata for an organization. Does not include relationships with other entities (statuses, events, etc).
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleWorkflowsResponse'
+          example:
+            data:
+              - id: '9af02c4a-3c98-4283-8c5d-8dc47e3bf663'
+                type: workflows
+                attributes:
+                  name: 'My Workflow'
+                  description: 'My Workflow description'
+                  locked: true
+                  system: false
+                  created_at: '2019-02-09T13:17:38Z'
+                  updated_at: '2019-02-09T13:17:38Z'
+                  api_name: 'my_workflow_api_name__c'
+              - id: '768cd1bc-d8af-4429-9aa0-8a4b477de42b'
+                type: workflows
+                attributes:
+                  name: 'My other Workflow'
+                  description: 'My other Workflow description'
+                  locked: false
+                  system: false
+                  created_at: '2019-02-09T13:17:26Z'
+                  updated_at: '2019-03-09T20:23:09Z'
+                  api_name: 'my_other_workflow_api_name__c'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+post:
+  tags:
+    - Workflows
+  operationId: createWorkflow
+  summary: Create a workflow
+  description: Create a new, empty workflow in an organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a workflow.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateWorkflowPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleWorkflowResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank

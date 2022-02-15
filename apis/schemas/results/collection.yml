@@ -1,0 +1,167 @@
+CollectionBaseAttributes: &CollectionBaseAttributes
+  name:
+    type: string
+    description: The name of the collection.
+    maxLength: 255
+    example: My first Collection
+  description:
+    type: string
+    description: The description of the collection.
+    example: Description of My first Collection
+CollectionSharedFullAttributes: &CollectionSharedFullAttributes
+  default:
+    type: boolean
+    description: Specifies if the collection is a default (system created) collection.
+    example: false
+  archived:
+    type: boolean
+    description: Specifies if the collection is archived (in a read-only state).
+    example: false
+  created_at:
+    type: string
+    description: The date the collection was created.
+    example: '2019-02-09T13:17:26Z'
+    format: date-time
+  updated_at:
+    type: string
+    description: The date the collection was updated.
+    example: '2019-03-18T22:02:05Z'
+    format: date-time
+CollectionCreateAttributes: &CollectionCreateAttributes
+  <<: *CollectionBaseAttributes
+  collection_type:
+    type: string
+    description: The type of a collection
+    enum: [RegularProject, AssessmentProject]
+    example: RegularProject
+    default: RegularProject
+CollectionCreatableAttributes: &CollectionCreatableAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - name
+  properties:
+    <<: *CollectionCreateAttributes
+CollectionUpdatableAttributes: &CollectionUpdatableAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - name
+  properties:
+    <<: *CollectionBaseAttributes
+CollectionFullAttributes: &CollectionFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *CollectionBaseAttributes
+    <<: *CollectionSharedFullAttributes
+    collection_type:
+      type: string
+      description: The type of a collection
+      enum: [RegularProject, ProjectsAppIntegrationProject, ReportingProject, ReferenceProject, AssessmentProject]
+      example: RegularProject
+CollectionCreateFullAttributes: &CollectionCreateFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *CollectionCreateAttributes
+    <<: *CollectionSharedFullAttributes
+Collection: &Collection
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type:
+      type: string
+      description: The classification of the object (`"collections"`).
+      example: collections
+    attributes: *CollectionFullAttributes
+CreateCollection: &CreateCollection
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type:
+      type: string
+      description: The classification of the object (`"collections"`).
+      example: collections
+    attributes: *CollectionCreateFullAttributes
+CreateCollectionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"collections"`).
+          example: collections
+        attributes: *CollectionCreatableAttributes
+UpdateCollectionPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the requested resource.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"collections"`).
+          example: collections
+        attributes: *CollectionUpdatableAttributes
+SingleCollectionResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Collection
+CreateCollectionResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *CreateCollection
+MultiCollectionsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *Collection

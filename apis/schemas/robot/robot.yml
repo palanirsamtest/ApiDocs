@@ -1,0 +1,111 @@
+Robot:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the robot.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot"`).
+      example: robot
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the robot.
+          example: R2D2
+        app_versions_count:
+          type: integer
+          description: The number of analytic script versions committed to the robot.
+          example: 0
+
+CreateRobotRequest:
+  type: object
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      description: The name of the robot.
+      example: R2D2
+    category:
+      type: string
+      description: The category of the robot.
+      enum: [acl, highbond, workflow]
+      default: acl
+      example: workflow
+
+GetRobotResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/Robot'
+
+GetRobotsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        $ref: '#/Robot'
+
+## Robot module error response
+RobotsError:
+  type: object
+  required:
+    - errors
+  properties:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+            description: A HTTP response status code indicating an unprocessable entity.
+            enum: ['422']
+            example: '422'
+          source:
+            type: object
+            properties:
+              pointer:
+                type: string
+                description: Indicates the specific source of the error.
+                example: /data/attributes/name
+          title:
+            type: string
+            description: A title of the error.
+            example: can't be blank
+          detail:
+            type: string
+            description: A descriptive statement of the error.
+            example: Name can't be blank
+
+examples:
+  Robots:
+    data:
+      - id: 1
+        type: robot
+        attributes:
+          name: Heavy Duty Wooden Coat
+          app_versions_count: 0
+      - id: 2
+        type: robot
+        attributes:
+          name: Enormous Paper Pants
+          app_versions_count: 0

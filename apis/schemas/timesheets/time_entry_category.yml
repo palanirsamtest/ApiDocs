@@ -1,0 +1,115 @@
+TimeEntryCategory: &TimeEntryCategory
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"time_entry_categories"`).
+      example: time_entry_categories
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - name
+      properties:
+        name: &name
+          type: string
+          description: The name of the time entry category.
+          maxLength: 255
+          example: 'Administration'
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        active: &active
+          type: boolean
+          description: The value that determines if the time entry category is active.
+          example: true
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the time entry category was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the time entry category was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+
+TimeEntryCategoryWithSparseFieldset: &TimeEntryCategoryWithSparseFieldset
+  <<: *TimeEntryCategory
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+
+GetTimeEntryCategoriesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *TimeEntryCategoryWithSparseFieldset
+      description: Array of time entries
+
+GetTimeEntryCategoryResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *TimeEntryCategoryWithSparseFieldset
+
+CreateTimeEntryCategoryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes: &updatableAttributes
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties:
+            name: *name
+            position: *position
+            active: *active
+UpdateTimeEntryCategoryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *updatableAttributes

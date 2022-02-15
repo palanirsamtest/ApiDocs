@@ -1,0 +1,445 @@
+EventBaseAttributes: &EventBaseAttributes
+  admin_name:
+    type: string
+    description: The name of the event. This field is case-insensitive unique.
+    example: 'VRM: submit request review'
+  display_name:
+    type: string
+    description: |
+      The display name of the event.
+
+      > **Note —**
+      If not provided, display_name will default to the admin_name of this event.
+    example: Submit request for review
+  description:
+    type: string
+    description: The description of the event.
+    example: Description of the event.
+  type:
+    type: string
+    description: Configures the type of the event. It controls the appearance of interactable UI element for this event.
+    enum:
+      - button
+      - overflow
+      - hidden
+    example: button
+  position:
+    type: integer
+    format: int64
+    description: |
+      Each event is shown as a button in UI; this attribute determines the order of the button displayed among other events for statuses.
+
+      > **Note —**
+      This ordering is global. Same order will be applied to Events used across all workflows for displaying of Event buttons on Statuses only.
+    example: 4
+  shared:
+    type: boolean
+    description: Events can be marked as "shared". Only shared events can be reused across multiple workflows.
+    default: false
+    example: false
+
+EventUpdateAttributes: &EventUpdateAttributes
+  <<: *EventBaseAttributes
+  triggers:
+    type: array
+    description: An array of triggers
+    items:
+      type: object
+      properties:
+        trigger_type:
+          type: string
+          description: The trigger type of the event. Only one instance of a given triggerType is allowed in the triggers array.
+          enum:
+            - fieldUpdated
+            - questionnaireResponded
+        configuration:
+          type: object
+          description: Each trigger type requires its own set of configurations.
+          properties:
+            field_names:
+              type: array
+              description: |
+                The field names of an attribute that, when updated, will trigger the event. Required by the `fieldUpdated` trigger_type.
+              items:
+                type: string
+            questionnaire_ids:
+              type: array
+              description: |
+                The questionnaire ids that trigger the handler. Required by the `questionnaireResponded` trigger_type.
+              items:
+                type: string
+            trigger_conjunction:
+              type: string
+              description: |
+                The conjunction used when performing the trigger check. Required by the `fieldUpdated` trigger_type, which supports both `anyOf` and `allOf`. For other trigger types, `anyOf` is implicitly used.
+              enum:
+                - anyOf
+                - allOf
+    example:
+      [
+        {
+          'trigger_type': 'questionnaireResponded',
+          'configuration': { 'questionnaire_ids': ['1', '2'], 'trigger_conjunction': 'anyOf' },
+        },
+      ]
+
+EventStatusRelationship: &EventStatusRelationship
+  statuses:
+    type: object
+    description: The data associated with the resource.
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the status.
+              example: 9d1c57e0-13a4-4cac-8374-b4b67836b0f0
+            type:
+              type: string
+              description: The classification of the object (`"statuses"`).
+              example: statuses
+        example:
+          - id: 345a4117-ef52-473b-9af4-75347d28ea67
+            type: statuses
+          - id: 568ee1e2-d7cc-4cb3-a1f9-95e085771121
+            type: statuses
+
+EventHandlerRelationshipItems: &EventHandlerRelationshipItems
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+  properties:
+    id:
+      type: string
+      description: The ID of the handler.
+      example: e5079e91-3aed-40f0-b3d1-96b83a0bc159
+    type:
+      type: string
+      description: The classification of the object (`"handlers"`).
+      example: handlers
+    meta:
+      type: object
+      description: The metadata for the event<->handler relationship
+      properties:
+        scopes:
+          type: array
+          description: The relationship of the handler to the scope of the event
+          items:
+            type: string
+          example: ['self']
+        position:
+          type: integer
+          format: int64
+          description: The order in which the handler will be executed when an event is invoked
+          example: 1
+
+EventHandlerRelationshipRequest: &EventHandlerRelationshipRequest
+  handlers:
+    type: object
+    description: The data associated with the resource.
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items: *EventHandlerRelationshipItems
+        example:
+          - id: 67880347-a683-4933-9b77-59a6997a9da6
+            type: handlers
+            meta: { scopes: ['self'] }
+          - id: 757ad0be-556b-434c-9abc-f4b39b5d7b57
+            type: handlers
+            meta: { scopes: ['self'] }
+
+EventHandlerRelationshipResponse: &EventHandlerRelationshipResponse
+  handlers:
+    type: object
+    description: The data associated with the resource.
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items: *EventHandlerRelationshipItems
+        example:
+          - id: 67880347-a683-4933-9b77-59a6997a9da6
+            type: handlers
+            meta: { scopes: ['self'], position: 1 }
+          - id: 757ad0be-556b-434c-9abc-f4b39b5d7b57
+            type: handlers
+            meta: { scopes: ['self'], position: 2 }
+
+EventRelationshipsResponse: &EventRelationshipsResponse
+  type: object
+  description: The relationships associated with the resource.
+  properties:
+    <<: *EventStatusRelationship
+    <<: *EventHandlerRelationshipResponse
+
+EventRelationshipPayload: &EventRelationshipPayload
+  type: object
+  description: The relationships associated with the resource.
+  properties:
+    <<: *EventHandlerRelationshipRequest
+
+EventInvocationContext: &EventInvocationContext
+  invocation_context:
+    type: array
+    description: The context information to invoke the event.
+    items:
+      type: object
+      description: The invocation context information of each handler in the event.
+      properties:
+        handler_id:
+          type: string
+          description: The ID of the handler
+        context:
+          type: array
+          description: The invocation context information of the handler
+          items:
+            type: object
+            description: The invocation context information of each condition/action in the handler
+            properties:
+              handler_condition_type:
+                type: string
+                description: Type of the condition (only available when it is a condition)
+              handler_action_type:
+                type: string
+                description: Type of the action (only available when it is a action)
+              context:
+                type: array
+                description: The invocation context information of the condition/action
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                      description: Key of the context
+                    data_type:
+                      type: string
+                      enum:
+                        - string
+                        - string[]
+    example:
+      - handler_id: 345a4117-ef52-473b-9af4-75347d28ea67
+        context:
+          - handler_action_type: TransitionStatusAction
+            context:
+              - key: object_type
+                type: string
+              - key: object_id
+                type: string
+              - key: object_container_type
+                type: string
+              - key: object_container_id
+                type: string
+      - handler_id: 568ee1e2-d7cc-4cb3-a1f9-95e085771121
+        context:
+          - handler_action_type: NotifyAction
+            context:
+              - key: object_type
+                type: string
+              - key: object_id
+                type: string
+              - key: object_container_type
+                type: string
+              - key: object_container_id
+                type: string
+
+EventMetadataAttributes: &EventMetadataAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties: &metadataAttributes
+    <<: *EventBaseAttributes
+    created_at:
+      type: string
+      description: The date the event was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the event was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+
+EventFullAttributes: &EventFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *EventUpdateAttributes
+    <<: *metadataAttributes
+    <<: *EventInvocationContext
+
+Event: &Event
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the event.
+      example: 415dc769-3e49-4501-a2fd-80908bea7a32
+    type:
+      type: string
+      description: The classification of the object (`"events"`).
+      example: events
+    attributes: *EventFullAttributes
+    relationships: *EventRelationshipsResponse
+
+EventIncluded: &EventIncluded
+  type: array
+  description: The related entities included with the resource.
+  items:
+    type: object
+    description: The data associated with the resource.
+    properties:
+      id:
+        type: string
+        description: The ID of the included entity.
+        example: e5079e91-3aed-40f0-b3d1-96b83a0bc159
+      type:
+        type: string
+        description: The classification of the object (`"handlers"`).
+        example: handlers
+      attributes:
+        $ref: '../../components/schemas.yml#/HandlerPlainJson'
+
+# This captures the ID as well as all attributes in a same JSON blob,
+# hence the name "plain json".
+EventPlainJson:
+  type: object
+  description: The plain JSON representation of an Event.
+  properties:
+    id:
+      type: string
+      description: The ID of the event.
+      example: 415dc769-3e49-4501-a2fd-80908bea7a32
+    <<: *EventBaseAttributes
+    <<: *metadataAttributes
+    <<: *EventInvocationContext
+
+EventPlainJsonWithoutId:
+  type: object
+  description: The plain JSON representation of an Event.
+  properties:
+    <<: *EventBaseAttributes
+    <<: *metadataAttributes
+
+EventMetadata: &EventMetadata
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the event.
+      example: 415dc769-3e49-4501-a2fd-80908bea7a32
+    type:
+      type: string
+      description: The classification of the object (`"events"`).
+      example: events
+    attributes: *EventMetadataAttributes
+
+CreateEventPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"events"`).
+          example: events
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - admin_name
+            - type
+            - position
+          properties:
+            <<: *EventUpdateAttributes
+        relationships:
+          <<: *EventRelationshipPayload
+
+UpdateEventPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the requested resource.
+          example: 415dc769-3e49-4501-a2fd-80908bea7a32
+        type:
+          type: string
+          description: The classification of the object (`"events"`).
+          example: events
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *EventUpdateAttributes
+        relationships:
+          <<: *EventRelationshipPayload
+
+SingleEventResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Event
+    included: *EventIncluded
+
+SingleEventCreateUpdateResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Event
+
+MultipleEventsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *EventMetadata

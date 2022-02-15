@@ -1,0 +1,115 @@
+get:
+  tags:
+    - Attribute types
+  operationId: getAttributeType
+  summary: Get an attribute type
+  description: Get information about an attribute type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAttributeTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Attribute types
+  operationId: updateAttributeType
+  summary: Update an attribute type
+  description: Make changes to an attribute type, such as changing the name or displayName.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to update an attribute type.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateAttributeTypePayload'
+        examples:
+          adHocRelationshipAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/UpdateAttributeTypePayloadExamples/AdHocRelationshipAttributeType'
+          selectAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/UpdateAttributeTypePayloadExamples/SelectAttributeType'
+          dateTimeAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/UpdateAttributeTypePayloadExamples/DateTimeAttributeType'
+          userLookupAttributeType:
+            $ref: '../../schemas/asset_types/attribute_type.yml#/UpdateAttributeTypePayloadExamples/UserLookupAttributeType'
+  responses:
+    200:
+      description: Updated.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAttributeTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: UnprocessableEntityError
+                detail: 'Type options has an invalid option for this dataType'
+delete:
+  tags:
+    - Attribute types
+  operationId: deleteAttributeType
+  summary: Delete an attribute type
+  description: |
+    Permanently delete an attribute type.
+
+    > **Note -**
+    Attribute types linked to existing asset types or record types cannot be deleted.
+    Attribute types with the is_metadata property set to true cannot be deleted.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                title: UnprocessableEntityError
+                detail: Attribute Type is linked to Asset Type or Record Type
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

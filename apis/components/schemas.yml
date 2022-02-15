@@ -1,0 +1,845 @@
+#
+# This file must capture all schemas used by the various paths, requests, and responses.
+# Any schema that is defined inline will lead to poorly generated SDK code.
+#
+# During the `swagger-cli bundle` stage, references ($ref) to schemas are kept in tact, while other
+# YAML references are resolved. It's important for all paths to reference schemas directly captured
+# in this file, otherwise it'll cause "inline models" to be generated for the SDKs.
+#
+
+##################################
+# Results
+##################################
+CreateStoryboardPayload:
+  $ref: '../schemas/results/storyboard.yml#/CreateStoryboardPayload'
+UpdateStoryboardPayload:
+  $ref: '../schemas/results/storyboard.yml#/UpdateStoryboardPayload'
+SingleStoryboardResponse:
+  $ref: '../schemas/results/storyboard.yml#/SingleStoryboardResponse'
+
+MultiWorkflowGroupsResponse:
+  $ref: '../schemas/results/workflow_group.yml#/MultiWorkflowGroupsResponse'
+
+CreateCollectionPayload:
+  $ref: '../schemas/results/collection.yml#/CreateCollectionPayload'
+UpdateCollectionPayload:
+  $ref: '../schemas/results/collection.yml#/UpdateCollectionPayload'
+SingleCollectionResponse:
+  $ref: '../schemas/results/collection.yml#/SingleCollectionResponse'
+CreateCollectionResponse:
+  $ref: '../schemas/results/collection.yml#/CreateCollectionResponse'
+MultiCollectionsResponse:
+  $ref: '../schemas/results/collection.yml#/MultiCollectionsResponse'
+
+MultiCollectionMembersResponse:
+  $ref: '../schemas/results/collection_member.yml#/MultiCollectionMembersResponse'
+
+CreateQuestionnairePayload:
+  $ref: '../schemas/results/questionnaire.yml#/CreateQuestionnairePayload'
+UpdateQuestionnairePayload:
+  $ref: '../schemas/results/questionnaire.yml#/UpdateQuestionnairePayload'
+SingleQuestionnaireResponse:
+  $ref: '../schemas/results/questionnaire.yml#/SingleQuestionnaireResponse'
+MultiQuestionnairesResponse:
+  $ref: '../schemas/results/questionnaire.yml#/MultiQuestionnairesResponse'
+
+CreateChoiceQuestionPayload:
+  $ref: '../schemas/results/choice_question.yml#/CreateChoiceQuestionPayload'
+UpdateChoiceQuestionPayload:
+  $ref: '../schemas/results/choice_question.yml#/UpdateChoiceQuestionPayload'
+SingleChoiceQuestionResponse:
+  $ref: '../schemas/results/choice_question.yml#/SingleChoiceQuestionResponse'
+
+CreateNumericScaleQuestionPayload:
+  $ref: '../schemas/results/numeric_scale_question.yml#/CreateNumericScaleQuestionPayload'
+UpdateNumericScaleQuestionPayload:
+  $ref: '../schemas/results/numeric_scale_question.yml#/UpdateNumericScaleQuestionPayload'
+SingleNumericScaleQuestionResponse:
+  $ref: '../schemas/results/numeric_scale_question.yml#/SingleNumericScaleQuestionResponse'
+
+CreateSimpleQuestionPayload:
+  $ref: '../schemas/results/simple_question.yml#/CreateSimpleQuestionPayload'
+UpdateSimpleQuestionPayload:
+  $ref: '../schemas/results/simple_question.yml#/UpdateSimpleQuestionPayload'
+SingleSimpleQuestionResponse:
+  $ref: '../schemas/results/simple_question.yml#/SingleSimpleQuestionResponse'
+
+CreatePageBreakPayload:
+  $ref: '../schemas/results/page_break.yml#/CreatePageBreakPayload'
+UpdatePageBreakPayload:
+  $ref: '../schemas/results/page_break.yml#/UpdatePageBreakPayload'
+SinglePageBreakResponse:
+  $ref: '../schemas/results/page_break.yml#/SinglePageBreakResponse'
+
+CreateSectionPayload:
+  $ref: '../schemas/results/section.yml#/CreateSectionPayload'
+UpdateSectionPayload:
+  $ref: '../schemas/results/section.yml#/UpdateSectionPayload'
+SingleSectionResponse:
+  $ref: '../schemas/results/section.yml#/SingleSectionResponse'
+
+MultiQuestionnaireItemsResponse:
+  $ref: '../schemas/results/questionnaire_item.yml#/MultiQuestionnaireItemsResponse'
+
+CreateAnalysisPayload:
+  $ref: '../schemas/results/analysis.yml#/CreateAnalysisPayload'
+UpdateAnalysisPayload:
+  $ref: '../schemas/results/analysis.yml#/UpdateAnalysisPayload'
+SingleAnalysisResponse:
+  $ref: '../schemas/results/analysis.yml#/SingleAnalysisResponse'
+MultiAnalysesResponse:
+  $ref: '../schemas/results/analysis.yml#/MultiAnalysesResponse'
+
+CreateSurveyPayload:
+  $ref: '../schemas/results/survey.yml#/CreateSurveyPayload'
+UpdateSurveyPayload:
+  $ref: '../schemas/results/survey.yml#/UpdateSurveyPayload'
+SingleSurveyResponse:
+  $ref: '../schemas/results/survey.yml#/SingleSurveyResponse'
+
+CreateTablePayload:
+  $ref: '../schemas/results/table.yml#/CreateTablePayload'
+UpdateTablePayload:
+  $ref: '../schemas/results/table.yml#/UpdateTablePayload'
+SingleTableResponse:
+  $ref: '../schemas/results/table.yml#/SingleTableResponse'
+GetTablesResponse:
+  $ref: '../schemas/results/table.yml#/GetTablesResponse'
+
+CreateColumnPayload:
+  $ref: '../schemas/results/column.yml#/CreateColumnPayload'
+DeleteColumnPayload:
+  $ref: '../schemas/results/column.yml#/DeleteColumnPayload'
+MultiColumnsResponse:
+  $ref: '../schemas/results/column.yml#/MultiColumnsResponse'
+
+CreateInterpretationPayload:
+  $ref: '../schemas/results/interpretation.yml#/CreateInterpretationPayload'
+UpdateInterpretationPayload:
+  $ref: '../schemas/results/interpretation.yml#/UpdateInterpretationPayload'
+SingleInterpretationResponse:
+  $ref: '../schemas/results/interpretation.yml#/SingleInterpretationResponse'
+MultiInterpretationsResponse:
+  $ref: '../schemas/results/interpretation.yml#/MultiInterpretationsResponse'
+
+CreateMetricPayload:
+  $ref: '../schemas/results/metric.yml#/CreateMetricPayload'
+UpdateMetricPayload:
+  $ref: '../schemas/results/metric.yml#/UpdateMetricPayload'
+SingleMetricResponse:
+  $ref: '../schemas/results/metric.yml#/SingleMetricResponse'
+
+CreateRecordsPayload:
+  $ref: '../schemas/results/record.yml#/CreateRecordsPayload'
+MultiRecordsResponse:
+  $ref: '../schemas/results/record.yml#/MultiRecordsResponse'
+SingleRecordResponse:
+  $ref: '../schemas/results/record.yml#/SignleRecordResponse'
+
+##################################
+# Robots
+##################################
+GetAgentsResponse:
+  $ref: '../schemas/robot/agent.yml#/Agent'
+
+GetFlowKeyResponse:
+  $ref: '../schemas/robot/agent.yml#/Agent'
+
+Robot:
+  $ref: '../schemas/robot/robot.yml#/Robot'
+CreateRobotRequest:
+  $ref: '../schemas/robot/robot.yml#/CreateRobotRequest'
+GetRobotResponse:
+  $ref: '../schemas/robot/robot.yml#/GetRobotResponse'
+GetRobotsResponse:
+  $ref: '../schemas/robot/robot.yml#/GetRobotsResponse'
+
+RobotsError:
+  $ref: '../schemas/robot/robot.yml#/RobotsError'
+
+RobotTask:
+  $ref: '../schemas/robot/robot_task.yml#/RobotTask'
+CreateRobotTaskRequest:
+  $ref: '../schemas/robot/robot_task.yml#/CreateRobotTaskRequest'
+GetRobotTaskResponse:
+  $ref: '../schemas/robot/robot_task.yml#/GetRobotTaskResponse'
+GetRobotTasksResponse:
+  $ref: '../schemas/robot/robot_task.yml#/GetRobotTasksResponse'
+
+RobotJob:
+  $ref: '../schemas/robot/robot_job.yml#/RobotJob'
+GetRobotJobsResponse:
+  $ref: '../schemas/robot/robot_job.yml#/GetRobotJobsResponse'
+
+RobotApp:
+  $ref: '../schemas/robot/robot_app.yml#/RobotApp'
+CreateRobotAppRequest:
+  $ref: '../schemas/robot/robot_app.yml#/CreateRobotAppRequest'
+GetRobotAppsResponse:
+  $ref: '../schemas/robot/robot_app.yml#/GetRobotAppsResponse'
+GetRobotAppResponse:
+  $ref: '../schemas/robot/robot_app.yml#/GetRobotAppResponse'
+
+RobotScriptVersion:
+  $ref: '../schemas/robot/robot_script_version.yml#/RobotScriptVersion'
+CreateRobotScriptVersionRequest:
+  $ref: '../schemas/robot/robot_script_version.yml#/CreateRobotScriptVersionRequest'
+GetRobotScriptVersionResponse:
+  $ref: '../schemas/robot/robot_script_version.yml#/GetRobotScriptVersionResponse'
+
+RobotActivation:
+  $ref: '../schemas/robot/robot_activation.yml#/RobotActivation'
+CreateRobotActivationRequest:
+  $ref: '../schemas/robot/robot_activation.yml#/CreateRobotActivationRequest'
+CreateRobotActivationResponse:
+  $ref: '../schemas/robot/robot_activation.yml#/CreateRobotActivationResponse'
+GetRobotActivationsResponse:
+  $ref: '../schemas/robot/robot_activation.yml#/GetRobotActivationsResponse'
+
+RobotActivationError:
+  $ref: '../schemas/robot/robot_activation.yml#/RobotActivationError'
+
+RobotFile:
+  $ref: '../schemas/robot/robot_file.yml#/RobotFile'
+CreateRobotFileRequest:
+  $ref: '../schemas/robot/robot_file.yml#/CreateRobotFileRequest'
+GetRobotFilesResponse:
+  $ref: '../schemas/robot/robot_file.yml#/GetRobotFilesResponse'
+GetRobotFileResponse:
+  $ref: '../schemas/robot/robot_file.yml#/GetRobotFileResponse'
+
+RobotTaskValue:
+  $ref: '../schemas/robot/values.yml#/RobotTaskValue'
+UpdateRobotTaskValuesRequest:
+  $ref: '../schemas/robot/values.yml#/UpdateRobotTaskValuesRequest'
+GetRobotTaskValuesResponse:
+  $ref: '../schemas/robot/values.yml#/GetRobotTaskValuesResponse'
+
+RobotTaskSchedule:
+  $ref: '../schemas/robot/schedule.yml#/RobotTaskSchedule'
+CreateRobotTaskScheduleRequest:
+  $ref: '../schemas/robot/schedule.yml#/CreateRobotTaskScheduleRequest'
+GetRobotTaskScheduleResponse:
+  $ref: '../schemas/robot/schedule.yml#/GetRobotTaskScheduleResponse'
+
+##################################
+# Projects
+##################################
+GetProjectResponse:
+  $ref: '../schemas/projects/project.yml#/GetProjectResponse'
+GetProjectResponseWithIncludes:
+  $ref: '../schemas/projects/project.yml#/GetProjectResponseWithIncludes'
+GetProjectsResponse:
+  $ref: '../schemas/projects/project.yml#/GetProjectsResponse'
+CreateProjectRequest:
+  $ref: '../schemas/projects/project.yml#/CreateProjectRequest'
+UpdateProjectRequest:
+  $ref: '../schemas/projects/project.yml#/UpdateProjectRequest'
+CreateProjectEntityRequest:
+  $ref: '../schemas/projects/project.yml#/CreateProjectEntityRequest'
+CreateProjectEntityResponse:
+  $ref: '../schemas/projects/project.yml#/CreateProjectEntityResponse'
+
+GetProjectTypeResponse:
+  $ref: '../schemas/projects/project_type.yml#/GetProjectTypeResponse'
+CreateProjectTypeRequest:
+  $ref: '../schemas/projects/project_type.yml#/CreateProjectTypeRequest'
+UpdateProjectTypeRequest:
+  $ref: '../schemas/projects/project_type.yml#/UpdateProjectTypeRequest'
+
+GetCustomAttributeResponse:
+  $ref: '../schemas/projects/custom_attribute.yml#/GetCustomAttributeResponse'
+GetCustomAttributesResponse:
+  $ref: '../schemas/projects/custom_attribute.yml#/GetCustomAttributesResponse'
+CreateCustomAttributeRequest:
+  $ref: '../schemas/projects/custom_attribute.yml#/CreateCustomAttributeRequest'
+UpdateCustomAttributeRequest:
+  $ref: '../schemas/projects/custom_attribute.yml#/UpdateCustomAttributeRequest'
+
+GetObjectiveResponse:
+  $ref: '../schemas/projects/objective.yml#/GetObjectiveResponse'
+GetObjectiveResponseWithIncludes:
+  $ref: '../schemas/projects/objective.yml#/GetObjectiveResponseWithIncludes'
+GetObjectivesResponse:
+  $ref: '../schemas/projects/objective.yml#/GetObjectivesResponse'
+CreateObjectiveRequest:
+  $ref: '../schemas/projects/objective.yml#/CreateObjectiveRequest'
+UpdateObjectiveRequest:
+  $ref: '../schemas/projects/objective.yml#/UpdateObjectiveRequest'
+CreateObjectiveEntityRequest:
+  $ref: '../schemas/projects/objective.yml#/CreateObjectiveEntityRequest'
+CreateObjectiveEntityResponse:
+  $ref: '../schemas/projects/objective.yml#/CreateObjectiveEntityResponse'
+GetObjectiveAssetsResponse:
+  $ref: '../schemas/projects/objective.yml#/GetObjectiveAssetsResponse'
+
+GetRiskResponse:
+  $ref: '../schemas/projects/risk.yml#/GetRiskResponse'
+GetRiskResponseWithIncludes:
+  $ref: '../schemas/projects/risk.yml#/GetRiskResponseWithIncludes'
+GetRisksResponse:
+  $ref: '../schemas/projects/risk.yml#/GetRisksResponse'
+CreateRiskRequest:
+  $ref: '../schemas/projects/risk.yml#/CreateRiskRequest'
+UpdateRiskRequest:
+  $ref: '../schemas/projects/risk.yml#/UpdateRiskRequest'
+CreateRiskEntityRequest:
+  $ref: '../schemas/projects/risk.yml#/CreateRiskEntityRequest'
+CreateRiskEntityResponse:
+  $ref: '../schemas/projects/risk.yml#/CreateRiskEntityResponse'
+
+GetControlResponse:
+  $ref: '../schemas/projects/control.yml#/GetControlResponse'
+GetControlResponseWithIncludes:
+  $ref: '../schemas/projects/control.yml#/GetControlResponseWithIncludes'
+BulkGetControlsResponseWithIncludes:
+  $ref: '../schemas/projects/control.yml#/BulkGetControlsResponseWithIncludes'
+GetControlsResponse:
+  $ref: '../schemas/projects/control.yml#/GetControlsResponse'
+GetOrganizationControlsResponse:
+  $ref: '../schemas/projects/control.yml#/GetOrganizationControlsResponse'
+CreateControlRequest:
+  $ref: '../schemas/projects/control.yml#/CreateControlRequest'
+UpdateControlRequest:
+  $ref: '../schemas/projects/control.yml#/UpdateControlRequest'
+BulkUpdateControlsRequest:
+  $ref: '../schemas/projects/control.yml#/BulkUpdateControlsRequest'
+CreateControlEntityRequest:
+  $ref: '../schemas/projects/control.yml#/CreateControlEntityRequest'
+CreateControlEntityResponse:
+  $ref: '../schemas/projects/control.yml#/CreateControlEntityResponse'
+
+GetControlTestPlansResponse:
+  $ref: '../schemas/projects/control_test_plan.yml#/GetControlTestPlansResponse'
+GetControlTestPlanResponse:
+  $ref: '../schemas/projects/control_test_plan.yml#/GetControlTestPlanResponse'
+UpdateControlTestPlanRequest:
+  $ref: '../schemas/projects/control_test_plan.yml#/UpdateControlTestPlanRequest'
+
+GetIssueResponse:
+  $ref: '../schemas/projects/issue.yml#/GetIssueResponse'
+GetIssueResponseWithIncludes:
+  $ref: '../schemas/projects/issue.yml#/GetIssueResponseWithIncludes'
+GetIssuesResponse:
+  $ref: '../schemas/projects/issue.yml#/GetIssuesResponse'
+CreateIssueRequest:
+  $ref: '../schemas/projects/issue.yml#/CreateIssueRequest'
+UpdateIssueRequest:
+  $ref: '../schemas/projects/issue.yml#/UpdateIssueRequest'
+CreateIssueEntityRequest:
+  $ref: '../schemas/projects/issue.yml#/CreateIssueEntityRequest'
+CreateIssueEntityResponse:
+  $ref: '../schemas/projects/issue.yml#/CreateIssueEntityResponse'
+
+GetActionResponse:
+  $ref: '../schemas/projects/action.yml#/GetActionResponse'
+GetActionResponseWithIncluded:
+  $ref: '../schemas/projects/action.yml#/GetActionResponseWithIncluded'
+GetActionsResponse:
+  $ref: '../schemas/projects/action.yml#/GetActionsResponse'
+CreateActionRequest:
+  $ref: '../schemas/projects/action.yml#/CreateActionRequest'
+UpdateActionRequest:
+  $ref: '../schemas/projects/action.yml#/UpdateActionRequest'
+GetActionCommentsResponse:
+  $ref: '../schemas/projects/action.yml#/GetActionCommentsResponse'
+
+GetCollaboratorsResponse:
+  $ref: '../schemas/projects/collaborator.yml#/GetCollaboratorsResponse'
+GetCollaboratorResponse:
+  $ref: '../schemas/projects/collaborator.yml#/GetCollaboratorResponse'
+CreateCollaboratorRequest:
+  $ref: '../schemas/projects/collaborator.yml#/CreateCollaboratorRequest'
+UpdateCollaboratorRequest:
+  $ref: '../schemas/projects/collaborator.yml#/UpdateCollaboratorRequest'
+
+GetCollaboratorGroupsResponse:
+  $ref: '../schemas/projects/collaborator_group.yml#/GetCollaboratorGroupsResponse'
+GetCollaboratorGroupResponse:
+  $ref: '../schemas/projects/collaborator_group.yml#/GetCollaboratorGroupResponse'
+CreateCollaboratorGroupRequest:
+  $ref: '../schemas/projects/collaborator_group.yml#/CreateCollaboratorGroupRequest'
+UpdateCollaboratorGroupRequest:
+  $ref: '../schemas/projects/collaborator_group.yml#/UpdateCollaboratorGroupRequest'
+
+GetControlTestResponse:
+  $ref: '../schemas/projects/control_test.yml#/GetControlTestResponse'
+GetControlTestsResponse:
+  $ref: '../schemas/projects/control_test.yml#/GetControlTestsResponse'
+BulkGetControlTestsResponse:
+  $ref: '../schemas/projects/control_test.yml#/BulkGetControlTestsResponse'
+UpdateControlTestRequest:
+  $ref: '../schemas/projects/control_test.yml#/UpdateControlTestRequest'
+BulkUpdateControlTestsRequest:
+  $ref: '../schemas/projects/control_test.yml#/BulkUpdateControlTestsRequest'
+
+GetWalkthroughResponse:
+  $ref: '../schemas/projects/walkthrough.yml#/GetWalkthroughResponse'
+GetWalkthroughsResponse:
+  $ref: '../schemas/projects/walkthrough.yml#/GetWalkthroughsResponse'
+UpdateWalkthroughRequest:
+  $ref: '../schemas/projects/walkthrough.yml#/UpdateWalkthroughRequest'
+
+GetPlanningFilesResponse:
+  $ref: '../schemas/projects/planning_file.yml#/GetPlanningFilesResponse'
+GetPlanningFileResponse:
+  $ref: '../schemas/projects/planning_file.yml#/GetPlanningFileResponse'
+CreatePlanningFileRequest:
+  $ref: '../schemas/projects/planning_file.yml#/CreatePlanningFileRequest'
+UpdatePlanningFileRequest:
+  $ref: '../schemas/projects/planning_file.yml#/UpdatePlanningFileRequest'
+
+GetResultsFilesResponse:
+  $ref: '../schemas/projects/results_file.yml#/GetResultsFilesResponse'
+GetResultsFileResponse:
+  $ref: '../schemas/projects/results_file.yml#/GetResultsFileResponse'
+CreateResultsFileRequest:
+  $ref: '../schemas/projects/results_file.yml#/CreateResultsFileRequest'
+UpdateResultsFileRequest:
+  $ref: '../schemas/projects/results_file.yml#/UpdateResultsFileRequest'
+
+GetNarrativeResponse:
+  $ref: '../schemas/projects/narrative.yml#/GetNarrativeResponse'
+GetNarrativesResponse:
+  $ref: '../schemas/projects/narrative.yml#/GetNarrativesResponse'
+CreateNarrativeRequest:
+  $ref: '../schemas/projects/narrative.yml#/CreateNarrativeRequest'
+UpdateNarrativeRequest:
+  $ref: '../schemas/projects/narrative.yml#/UpdateNarrativeRequest'
+
+GetMitigationResponse:
+  $ref: '../schemas/projects/mitigation.yml#/GetMitigationResponse'
+CreateMitigationRequest:
+  $ref: '../schemas/projects/mitigation.yml#/CreateMitigationRequest'
+UpdateMitigationRequest:
+  $ref: '../schemas/projects/mitigation.yml#/UpdateMitigationRequest'
+
+GetRequestItemResponse:
+  $ref: '../schemas/projects/request_item.yml#/GetRequestItemResponse'
+CreateRequestItemRequest:
+  $ref: '../schemas/projects/request_item.yml#/CreateRequestItemRequest'
+UpdateRequestItemRequest:
+  $ref: '../schemas/projects/request_item.yml#/UpdateRequestItemRequest'
+GetOrgRequestItemsResponse:
+  $ref: '../schemas/projects/request_item.yml#/GetOrgRequestItemsResponse'
+
+GetOrgProjectsTodosResponse:
+  $ref: '../schemas/projects/todo.yml#/GetOrgProjectsTodosResponse'
+
+GetEntityResponse:
+  $ref: '../schemas/projects/entity.yml#/GetEntityResponse'
+GetEntitiesResponse:
+  $ref: '../schemas/projects/entity.yml#/GetEntitiesResponse'
+CreateEntityRequest:
+  $ref: '../schemas/projects/entity.yml#/CreateEntityRequest'
+UpdateEntityRequest:
+  $ref: '../schemas/projects/entity.yml#/UpdateEntityRequest'
+
+GetEntityCategoryResponse:
+  $ref: '../schemas/projects/entity_category.yml#/GetEntityCategoryResponse'
+GetEntityCategoriesResponse:
+  $ref: '../schemas/projects/entity_category.yml#/GetEntityCategoriesResponse'
+CreateEntityCategoryRequest:
+  $ref: '../schemas/projects/entity_category.yml#/CreateEntityCategoryRequest'
+CreateEntityCategoryResponse:
+  $ref: '../schemas/projects/entity_category.yml#/CreateEntityCategoryResponse'
+UpdateEntityCategoryRequest:
+  $ref: '../schemas/projects/entity_category.yml#/UpdateEntityCategoryRequest'
+
+GetSchedulerFiltersResponse:
+  $ref: '../schemas/projects/scheduler_filter.yml#/GetSchedulerFiltersResponse'
+GetSchedulerFilterResponse:
+  $ref: '../schemas/projects/scheduler_filter.yml#/GetSchedulerFilterResponse'
+CreateSchedulerFilterRequest:
+  $ref: '../schemas/projects/scheduler_filter.yml#/CreateSchedulerFilterRequest'
+UpdateSchedulerFilterRequest:
+  $ref: '../schemas/projects/scheduler_filter.yml#/UpdateSchedulerFilterRequest'
+
+##################################
+# TransactionalWorkflows
+##################################
+CreateHandlerPayload:
+  $ref: '../schemas/transactional_workflows/handler.yml#/CreateHandlerPayload'
+UpdateHandlerPayload:
+  $ref: '../schemas/transactional_workflows/handler.yml#/UpdateHandlerPayload'
+SingleHandlerResponse:
+  $ref: '../schemas/transactional_workflows/handler.yml#/SingleHandlerResponse'
+SingleHandlerWithEventsResponse:
+  $ref: '../schemas/transactional_workflows/handler.yml#/SingleHandlerWithEventsResponse'
+MultipleHandlersResponse:
+  $ref: '../schemas/transactional_workflows/handler.yml#/MultipleHandlersResponse'
+HandlerPlainJson:
+  $ref: '../schemas/transactional_workflows/handler.yml#/HandlerPlainJson'
+
+CreateWorkflowPayload:
+  $ref: '../schemas/transactional_workflows/workflow.yml#/CreateWorkflowPayload'
+UpdateWorkflowPayload:
+  $ref: '../schemas/transactional_workflows/workflow.yml#/UpdateWorkflowPayload'
+SingleWorkflowResponse:
+  $ref: '../schemas/transactional_workflows/workflow.yml#/SingleWorkflowResponse'
+SingleWorkflowResponseWithIncludes:
+  $ref: '../schemas/transactional_workflows/workflow.yml#/SingleWorkflowResponseWithIncludes'
+MultipleWorkflowsResponse:
+  $ref: '../schemas/transactional_workflows/workflow.yml#/MultipleWorkflowsResponse'
+
+CreateWorkflowStatusPayload:
+  $ref: '../schemas/transactional_workflows/workflow_status.yml#/CreateWorkflowStatusPayload'
+UpdateWorkflowStatusPayload:
+  $ref: '../schemas/transactional_workflows/workflow_status.yml#/UpdateWorkflowStatusPayload'
+SingleWorkflowStatusResponse:
+  $ref: '../schemas/transactional_workflows/workflow_status.yml#/SingleWorkflowStatusResponse'
+SingleWorkflowStatusResponseWithIncluded:
+  $ref: '../schemas/transactional_workflows/workflow_status.yml#/SingleWorkflowStatusResponseWithIncluded'
+
+CreateStatusEventMappingPayload:
+  $ref: '../schemas/transactional_workflows/status_event_mapping.yml#/CreateStatusEventMappingPayload'
+UpdateStatusEventMappingPayload:
+  $ref: '../schemas/transactional_workflows/status_event_mapping.yml#/UpdateStatusEventMappingPayload'
+SingleStatusEventMappingResponse:
+  $ref: '../schemas/transactional_workflows/status_event_mapping.yml#/StatusEventMappingResponse'
+
+CreateEventPayload:
+  $ref: '../schemas/transactional_workflows/event.yml#/CreateEventPayload'
+UpdateEventPayload:
+  $ref: '../schemas/transactional_workflows/event.yml#/UpdateEventPayload'
+EventPlainJson:
+  $ref: '../schemas/transactional_workflows/event.yml#/EventPlainJson'
+EventPlainJsonWithoutId:
+  $ref: '../schemas/transactional_workflows/event.yml#/EventPlainJsonWithoutId'
+SingleEventResponse:
+  $ref: '../schemas/transactional_workflows/event.yml#/SingleEventResponse'
+SingleEventCreateUpdateResponse:
+  $ref: '../schemas/transactional_workflows/event.yml#/SingleEventCreateUpdateResponse'
+MultipleEventsResponse:
+  $ref: '../schemas/transactional_workflows/event.yml#/MultipleEventsResponse'
+
+##################################
+# Asset Types &  Attribute Types
+##################################
+
+CreateAssetTypePayload:
+  $ref: '../schemas/asset_types/asset_type.yml#/CreateAssetTypePayload'
+UpdateAssetTypePayload:
+  $ref: '../schemas/asset_types/asset_type.yml#/UpdateAssetTypePayload'
+ListAssetTypesResponse:
+  $ref: '../schemas/asset_types/asset_type.yml#/ListAssetTypesResponse'
+CreateAssetTypeResponse:
+  $ref: '../schemas/asset_types/asset_type.yml#/CreateAssetTypeResponse'
+GetOneAssetTypeResponse:
+  $ref: '../schemas/asset_types/asset_type.yml#/GetOneAssetTypeResponse'
+UpdateAssetTypeResponse:
+  $ref: '../schemas/asset_types/asset_type.yml#/UpdateAssetTypeResponse'
+SingleAssetTypeResponseWithAttributeTypes:
+  $ref: '../schemas/asset_types/asset_type.yml#/SingleAssetTypeResponseWithAttributeTypes'
+SingleAssetTypeResponseWithRootRelationship:
+  $ref: '../schemas/asset_types/asset_type.yml#/SingleAssetTypeResponseWithRootRelationship'
+
+CreateRecordTypePayload:
+  $ref: '../schemas/asset_types/record_type.yml#/CreateRecordTypePayload'
+UpdateRecordTypePayload:
+  $ref: '../schemas/asset_types/record_type.yml#/UpdateRecordTypePayload'
+ListRecordTypesResponse:
+  $ref: '../schemas/asset_types/record_type.yml#/ListRecordTypesResponse'
+SingleRecordTypeResponseWithAttributeTypes:
+  $ref: '../schemas/asset_types/record_type.yml#/SingleRecordTypeResponseWithAttributeTypes'
+SingleRecordTypeResponseWithChildRelationship:
+  $ref: '../schemas/asset_types/record_type.yml#/SingleRecordTypeResponseWithChildRelationship'
+CreateRecordTypeResponse:
+  $ref: '../schemas/asset_types/record_type.yml#/CreateRecordTypeResponse'
+GetOneRecordTypeResponse:
+  $ref: '../schemas/asset_types/record_type.yml#/GetOneRecordTypeResponse'
+UpdateRecordTypeResponse:
+  $ref: '../schemas/asset_types/record_type.yml#/UpdateRecordTypeResponse'
+
+CreateAttributeTypePayload:
+  $ref: '../schemas/asset_types/attribute_type.yml#/CreateAttributeTypePayload'
+UpdateAttributeTypePayload:
+  $ref: '../schemas/asset_types/attribute_type.yml#/UpdateAttributeTypePayload'
+ListAttributeTypesResponse:
+  $ref: '../schemas/asset_types/attribute_type.yml#/ListAttributeTypesResponse'
+ListAttributeTypesResponsePaginated:
+  $ref: '../schemas/asset_types/attribute_type.yml#/ListAttributeTypesResponsePaginated'
+SingleAttributeTypeResponse:
+  $ref: '../schemas/asset_types/attribute_type.yml#/SingleAttributeTypeResponse'
+AttributeTypeOptions:
+  $ref: '../schemas/asset_types/attribute_type.yml#/AttributeTypeOptions'
+CreateAttributeTypeOptions:
+  $ref: '../schemas/asset_types/attribute_type.yml#/CreateAttributeTypeOptions'
+
+##################################
+# Assets
+##################################
+GetAssetResponse:
+  $ref: '../schemas/assets/assets.yml#/GetAssetResponse'
+CreateAssetsRequest:
+  $ref: '../schemas/assets/assets.yml#/CreateAssetsRequest'
+UpdateAssetsRequest:
+  $ref: '../schemas/assets/assets.yml#/UpdateAssetsRequest'
+GetAssetsResponse:
+  $ref: '../schemas/assets/assets.yml#/GetAssetsResponse'
+
+# Asset Ad Hoc Relationships
+GetAssetRelationshipsResponse:
+  $ref: '../schemas/assets/relationships.yml#/GetAssetRelationshipsResponse'
+CreateAssetRelationshipRequest:
+  $ref: '../schemas/assets/relationships.yml#/CreateAssetRelationshipRequest'
+
+##################################
+# Asset Records
+##################################
+GetRecordResponse:
+  $ref: '../schemas/assets/records.yml#/GetRecordResponse'
+CreateRecordRequest:
+  $ref: '../schemas/assets/records.yml#/CreateRecordRequest'
+UpdateRecordRequest:
+  $ref: '../schemas/assets/records.yml#/UpdateRecordRequest'
+GetRecordsResponse:
+  $ref: '../schemas/assets/records.yml#/GetRecordsResponse'
+
+# Asset Ad Hoc Relationships
+GetRecordRelationshipsResponse:
+  $ref: '../schemas/assets/relationships.yml#/GetRecordRelationshipsResponse'
+CreateRecordRelationshipRequest:
+  $ref: '../schemas/assets/relationships.yml#/CreateRecordRelationshipRequest'
+
+# Adding top-level schemas to make generated Go SDK easier to read
+# as well as generate clean HTML documentation.
+UserLookupValue:
+  $ref: '../schemas/assets/assets.yml#/UserLookupValue'
+WorkflowStatusValue:
+  $ref: '../schemas/assets/assets.yml#/WorkflowStatusValue'
+AssetAttributeRequestValue:
+  $ref: '../schemas/assets/assets.yml#/AssetAttributeRequestValue'
+AssetAttributeResponseValue:
+  $ref: '../schemas/assets/assets.yml#/AssetAttributeResponseValue'
+RelationshipValue:
+  $ref: '../schemas/assets/records.yml#/RelationshipValue'
+RecordAttributeRequestValue:
+  $ref: '../schemas/assets/records.yml#/RecordAttributeRequestValue'
+RecordAttributeResponseValue:
+  $ref: '../schemas/assets/records.yml#/RecordAttributeResponseValue'
+
+# Necessary to allow Go SDK to support []string as a anyOf option
+StringValues:
+  $ref: '../schemas/assets/assets.yml#/StringValues'
+
+##################################
+# Frameworks
+##################################
+GetFrameworkResponse:
+  $ref: '../schemas/frameworks/framework.yml#/GetFrameworkResponse'
+GetFrameworkResponseWithIncludes:
+  $ref: '../schemas/frameworks/framework.yml#/GetFrameworkResponseWithIncludes'
+GetFrameworksResponse:
+  $ref: '../schemas/frameworks/framework.yml#/GetFrameworksResponse'
+CreateFrameworkRequest:
+  $ref: '../schemas/frameworks/framework.yml#/CreateFrameworkRequest'
+UpdateFrameworkRequest:
+  $ref: '../schemas/frameworks/framework.yml#/UpdateFrameworkRequest'
+
+CreateFrameworkEntityRequest:
+  $ref: '../schemas/frameworks/framework.yml#/CreateFrameworkEntityRequest'
+CreateFrameworkEntityResponse:
+  $ref: '../schemas/frameworks/framework.yml#/CreateFrameworkEntityResponse'
+
+##################################
+# Roles
+##################################
+CreateRoleRequest:
+  $ref: '../schemas/roles/role.yml#/CreateRoleRequest'
+UpdateRoleRequest:
+  $ref: '../schemas/roles/role.yml#/UpdateRoleRequest'
+AddRoleAssigneesRequest:
+  $ref: '../schemas/roles/assignees.yml#/AddRoleAssigneesRequest'
+RemoveRoleAssigneesRequest:
+  $ref: '../schemas/roles/assignees.yml#/RemoveRoleAssigneesRequest'
+GetRoleResponse:
+  $ref: '../schemas/roles/role.yml#/GetRoleResponse'
+MultipleRolesResponse:
+  $ref: '../schemas/roles/role.yml#/MultipleRolesResponse'
+UpdateRoleResponse:
+  $ref: '../schemas/roles/role.yml#/UpdateRoleResponse'
+DeleteRoleResponse:
+  $ref: '../schemas/roles/role.yml#/DeleteRoleResponse'
+GetRoleAssigneesResponse:
+  $ref: '../schemas/roles/assignees.yml#/GetRoleAssigneesResponse'
+
+##################################
+# Timesheets
+##################################
+GetTimeEntryResponse:
+  $ref: '../schemas/timesheets/time_entry.yml#/GetTimeEntryResponse'
+GetTimeEntriesResponse:
+  $ref: '../schemas/timesheets/time_entry.yml#/GetTimeEntriesResponse'
+CreateTimeEntryRequest:
+  $ref: '../schemas/timesheets/time_entry.yml#/CreateTimeEntryRequest'
+UpdateTimeEntryRequest:
+  $ref: '../schemas/timesheets/time_entry.yml#/UpdateTimeEntryRequest'
+
+GetTimeEntryCategoryResponse:
+  $ref: '../schemas/timesheets/time_entry_category.yml#/GetTimeEntryCategoryResponse'
+GetTimeEntryCategoriesResponse:
+  $ref: '../schemas/timesheets/time_entry_category.yml#/GetTimeEntryCategoriesResponse'
+CreateTimeEntryCategoryRequest:
+  $ref: '../schemas/timesheets/time_entry_category.yml#/CreateTimeEntryCategoryRequest'
+UpdateTimeEntryCategoryRequest:
+  $ref: '../schemas/timesheets/time_entry_category.yml#/UpdateTimeEntryCategoryRequest'
+
+BulkUpdateTimeEntryCategoriesRequest:
+  $ref: '../schemas/timesheets/time_entry_categories_bulk_update.yml#/BulkUpdateTimeEntryCategoriesRequest'
+BulkUpdateTimeEntryCategoriesResponse:
+  $ref: '../schemas/timesheets/time_entry_categories_bulk_update.yml#/BulkUpdateTimeEntryCategoriesResponse'
+GetTimesheetsPermissionsResponse:
+  $ref: '../schemas/timesheets/permissions.yml#/GetTimesheetsPermissionsResponse'
+GetTimesheetsActivitiesResponse:
+  $ref: '../schemas/timesheets/activities.yml#/GetTimesheetsActivitiesResponse'
+GetTimesheetsProjectsResponse:
+  $ref: '../schemas/timesheets/projects.yml#/GetTimesheetsProjectsResponse'
+
+##################################
+# Toolkits
+##################################
+MultipleToolkitsResponse:
+  $ref: '../schemas/toolkits/toolkit.yml#/MultipleToolkitsResponse'
+MultipleTemplateToolkitsResponse:
+  $ref: '../schemas/toolkits/toolkit.yml#/MultipleTemplateToolkitsResponse'
+MultipleToolkitResourcesResponse:
+  $ref: '../schemas/toolkits/toolkit.yml#/MultipleToolkitResourcesResponse'
+GetToolkitOutputResponse:
+  $ref: '../schemas/toolkits/toolkit.yml#/GetToolkitOutputResponse'
+
+##################################
+# Compliance Maps
+##################################
+GetComplianceRegulationResponse:
+  $ref: '../schemas/compliance_maps/compliance_regulation.yml#/GetComplianceRegulationResponse'
+GetComplianceRegulationsResponse:
+  $ref: '../schemas/compliance_maps/compliance_regulation.yml#/GetComplianceRegulationsResponse'
+UpdateComplianceRegulationRequest:
+  $ref: '../schemas/compliance_maps/compliance_regulation.yml#/UpdateComplianceRegulationRequest'
+CreateComplianceRegulationRequest:
+  $ref: '../schemas/compliance_maps/compliance_regulation.yml#/CreateComplianceRegulationRequest'
+
+GetComplianceRequirementResponseWithIncludes:
+  $ref: '../schemas/compliance_maps/compliance_requirement.yml#/GetComplianceRequirementResponseWithIncludes'
+GetComplianceRequirementsResponseWithIncludes:
+  $ref: '../schemas/compliance_maps/compliance_requirement.yml#/GetComplianceRequirementsResponseWithIncludes'
+UpdateComplianceRequirementRequest:
+  $ref: '../schemas/compliance_maps/compliance_requirement.yml#/UpdateComplianceRequirementRequest'
+CreateComplianceRequirementRequest:
+  $ref: '../schemas/compliance_maps/compliance_requirement.yml#/CreateComplianceRequirementRequest'
+
+GetComplianceMappingResponseWithIncludes:
+  $ref: '../schemas/compliance_maps/compliance_mapping.yml#/GetComplianceMappingResponseWithIncludes'
+UpdateComplianceMappingRequest:
+  $ref: '../schemas/compliance_maps/compliance_mapping.yml#/UpdateComplianceMappingRequest'
+CreateComplianceMappingRequest:
+  $ref: '../schemas/compliance_maps/compliance_mapping.yml#/CreateComplianceMappingRequest'
+
+GetComplianceMapsSuggestedControlsResponse:
+  $ref: '../schemas/compliance_maps/suggested_control.yml#/GetComplianceMapsSuggestedControlsResponse'
+
+##################################
+# Errors
+##################################
+Errors:
+  $ref: '../schemas/errors.yml#/Errors'
+Error:
+  $ref: '../schemas/errors.yml#/Error'
+
+##################################
+# JsonApi Objects
+##################################
+RelationshipObject:
+  $ref: '../schemas/jsonapiObject.yml#/RelationshipObject'
+EmptyRequest:
+  $ref: '../schemas/jsonapiObject.yml#/EmptyRequest'
+
+##################################
+# Importer
+##################################
+ImporterResponse:
+  $ref: '../schemas/importer/importer.yml#/ImporterResponse'
+CreateImporterPayload:
+  $ref: '../schemas/importer/importer.yml#/CreateImporterPayload'
+UpdateImporterPayload:
+  $ref: '../schemas/importer/importer.yml#/UpdateImporterPayload'
+
+##################################
+# Organizations
+##################################
+GetOrganizationResponse:
+  $ref: '../schemas/organizations/organization.yml#/GetOrganizationResponse'
+
+##################################
+# Users
+##################################
+GetUserResponse:
+  $ref: '../schemas/users/user.yml#/GetUserResponse'
+MultipleUsersResponse:
+  $ref: '../schemas/users/user.yml#/MultipleUsersResponse'
+CreateUserRequest:
+  $ref: '../schemas/users/user.yml#/CreateUserRequest'
+UpdateUserRequest:
+  $ref: '../schemas/users/user.yml#/UpdateUserRequest'
+
+##################################
+# SystemUsers
+##################################
+GetSystemUserResponse:
+  $ref: '../schemas/system_users/system_user.yml#/GetSystemUserResponse'
+MultipleSystemUsersResponse:
+  $ref: '../schemas/system_users/system_user.yml#/MultipleSystemUsersResponse'
+CreateSystemUserRequest:
+  $ref: '../schemas/system_users/system_user.yml#/CreateSystemUserRequest'
+UpdateSystemUserRequest:
+  $ref: '../schemas/system_users/system_user.yml#/UpdateSystemUserRequest'
+
+##################################
+# Groups
+##################################
+GroupUserLookupValue:
+  $ref: '../schemas/groups/group.yml#/GroupUserLookupValue'
+GetGroupResponse:
+  $ref: '../schemas/groups/group.yml#/GetGroupResponse'
+MultipleGroupsResponse:
+  $ref: '../schemas/groups/group.yml#/MultipleGroupsResponse'
+CreateGroupRequest:
+  $ref: '../schemas/groups/group.yml#/CreateGroupRequest'
+UpdateGroupRequest:
+  $ref: '../schemas/groups/group.yml#/UpdateGroupRequest'
+
+##################################
+# Impact Reports
+##################################
+CreateReportRequest:
+  $ref: '../schemas/impact_reports/reports.yml#/CreateReportRequest'
+CreateReportResponse:
+  $ref: '../schemas/impact_reports/reports.yml#/CreateReportResponse'
+UpdateReportRequest:
+  $ref: '../schemas/impact_reports/reports.yml#/UpdateReportRequest'
+GenerateReportRequest:
+  $ref: '../schemas/impact_reports/reports.yml#/GenerateReportRequest'
+GetAllReportsResponse:
+  $ref: '../schemas/impact_reports/reports.yml#/GetAllReportsResponse'
+GetReportResponse:
+  $ref: '../schemas/impact_reports/reports.yml#/GetReportResponse'
+GenerateReportResponse:
+  $ref: '../schemas/impact_reports/reports.yml#/GenerateReportResponse'
+
+CreateReportTargetRequest:
+  $ref: '../schemas/impact_reports/report_targets.yml#/CreateReportTargetRequest'
+GetAllReportTargetsResponse:
+  $ref: '../schemas/impact_reports/report_targets.yml#/GetAllReportTargetsResponse'
+GetReportTargetResponse:
+  $ref: '../schemas/impact_reports/report_targets.yml#/GetReportTargetResponse'
+
+##################################
+# Scheduler
+##################################
+GetScheduledUsersResponse:
+  $ref: '../schemas/scheduler/scheduled_users.yml#/GetScheduledUsersResponse'
+GetScheduledProjectsResponse:
+  $ref: '../schemas/scheduler/scheduled_projects.yml#/GetScheduledProjectsResponse'
+GetScheduledHoursResponse:
+  $ref: '../schemas/scheduler/scheduled_hours.yml#/GetScheduledHoursResponse'

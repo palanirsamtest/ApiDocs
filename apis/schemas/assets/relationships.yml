@@ -1,0 +1,135 @@
+AdHocRelationship: &AdHocRelationship
+  type: object
+  description: Defines an ad hoc link between two objects.
+  required:
+    - type
+    - attributes
+  properties:
+    type: &type
+      type: string
+      description: The classification of the object relationship.
+      enum:
+        - asset_relationships
+        - record_relationships
+    attributes: &attributes
+      type: object
+      description: The attributes that define an ad hoc relationship between two objects.
+      properties:
+        field_name:
+          type: string
+          description: The field name of the ad hoc attribute type defining this relationship.
+        target:
+          type: object
+          description: The target asset or asset record you want to link this object to.
+          properties:
+            object_id:
+              type: string
+              description: The ID of the target asset or asset record.
+            object_type:
+              type: string
+              description: The type of the target object; either "assets" or "records".
+              enum:
+                - assets
+                - records
+            object_container_id:
+              type: string
+              description: The ID of either the asset type of the target asset, or the record type of the target asset record.
+            object_container_type:
+              type: string
+              description: The type of the target object's container; either "asset_types" or "record_types".
+              enum:
+                - asset_types
+                - record_types
+            object_name:
+              type: string
+              description: The name of the target asset or asset record.
+          required:
+            - object_id
+            - object_type
+            - object_container_id
+            - object_container_type
+        label:
+          type: object
+          properties:
+            field_name:
+              type: string
+              description: The field name of the label used in this relationship, as defined in the ad hoc attribute type.
+            name:
+              type: string
+              description: The display name of the label used in this relationship.
+          required:
+            - field_name
+      required:
+        - field_name
+        - target
+        - target_object
+        - target_object_type
+        - label
+      example:
+        field_name: my_ad_hoc_relationship
+        target:
+          object_id: '1569286277732072'
+          object_type: assets
+          object_container_id: '2423727'
+          object_container_type: asset_types
+        label:
+          field_name: my_ad_hoc_relationship::causes
+          name: Causes
+
+AssetAdHocRelationship: &AssetAdHocRelationship
+  <<: *AdHocRelationship
+  description: Defines an ad hoc link between an asset and either another asset or an asset record.
+  properties:
+    type:
+      <<: *type
+      enum:
+        - asset_relationships
+    attributes:
+      <<: *attributes
+
+RecordAdHocRelationship: &RecordAdHocRelationship
+  <<: *AdHocRelationship
+  description: Defines an ad hoc link between an asset record and either another asset record or an asset.
+  properties:
+    type:
+      <<: *type
+      enum:
+        - record_relationships
+    attributes:
+      <<: *attributes
+
+GetAssetRelationshipsResponse:
+  type: object
+  description: All relationships between this asset and another asset or asset record on the ad hoc attribute with the given field name.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *AssetAdHocRelationship
+
+CreateAssetRelationshipRequest:
+  type: object
+  description: The relationship to create between this aseet and another asset or asset record on the ad hoc attribute with the given field name.
+  required:
+    - data
+  properties:
+    data: *AssetAdHocRelationship
+
+GetRecordRelationshipsResponse:
+  type: object
+  description: All relationships between this asset record and another asset record or asset on the ad hoc attribute with the given field name.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *RecordAdHocRelationship
+
+CreateRecordRelationshipRequest:
+  type: object
+  description: The relationship to create between this record and another asset record or asset on the ad hoc attribute with the given field name.
+  required:
+    - data
+  properties:
+    data: *RecordAdHocRelationship

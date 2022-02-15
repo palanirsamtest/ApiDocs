@@ -1,0 +1,85 @@
+get:
+  tags:
+    - Collaborators
+  operationId: getCollaborators
+  summary: Get collaborators
+  description: |
+    Get all collaborators in a project or framework.
+
+    <strong>Note</strong>:
+    * Only users that have an assigned `project_role` are returned in the response.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentResourceTypeParam'
+    - $ref: '../../components/parameters.yml#/parentResourceIdParam'
+    - $ref: '../../components/parameters.yml#/collaboratorSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCollaboratorsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Collaborators
+  operationId: createCollaborator
+  summary: Create a collaborator
+  description: |
+    Add a user with a specific project role to an existing project or framework.
+
+    <strong>Limitations</strong>:
+    * You cannot add a user as a collaborator if they already have an assigned `project_role`.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentResourceTypeParam'
+    - $ref: '../../components/parameters.yml#/parentResourceIdParam'
+    - $ref: '../../components/parameters.yml#/collaboratorSparseFieldsetParams'
+  requestBody:
+    description: The data required to create a collaborator.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateCollaboratorRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetCollaboratorResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/title'
+                code: invalid_resource
+                detail: can't be blank

@@ -1,0 +1,50 @@
+post:
+  tags:
+    - Questionnaires
+  operationId: createNumericScaleQuestion
+  summary: Create a numeric scale question
+  description: Create a Numeric Scale question in a questionnaire.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/questionnaireIdParam'
+  requestBody:
+    description: The data required to create a numeric scale question.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateNumericScaleQuestionPayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleNumericScaleQuestionResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/scale_start'
+                code: invalid_resource
+                detail: can't be blank
+              - status: 422
+                code: unprocessable_entity
+                detail: Maximum number of 900 Questionnaire Questions reached.

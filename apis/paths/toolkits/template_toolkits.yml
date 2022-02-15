@@ -1,0 +1,44 @@
+get:
+  tags:
+    - Template Toolkits
+  operationId: getTemplateToolkits
+  summary: >
+    List template toolkits
+  description: Get a list of all template toolkits available for your organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleTemplateToolkitsResponse'
+          example:
+            data:
+              - id: 'toolkit-1'
+                type: template_toolkits
+                attributes:
+                  name: toolkit 1
+                  description: toolkit 1 description
+                  version: '1.0.0'
+                  deprecated: 'false'
+                  is_displayed: 'true'
+                  is_localized: 'false'
+              - id: 'toolkit-2'
+                type: template_toolkits
+                attributes:
+                  name: toolkit 2
+                  description: toolkit 2 description
+                  version: '1.0.0'
+                  deprecated: 'false'
+                  is_displayed: 'true'
+                  is_localized: 'false'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

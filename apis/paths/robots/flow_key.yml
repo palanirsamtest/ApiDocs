@@ -1,0 +1,27 @@
+get:
+  tags:
+    - Flow Key
+  operationId: getFlowKey
+  summary: Get the Flow Key for an organization
+  description: Get the Flow Key for an organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetFlowKeyResponse'
+          example:
+            $ref: '../../schemas/robot/flow_key.yml#/examples/FlowKey'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

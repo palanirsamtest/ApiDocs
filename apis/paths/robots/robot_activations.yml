@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Robot Activations
+  operationId: getRobotActivations
+  summary: Get a robot's script activation history
+  description: Get information about a robot's script activation history.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotActivationsResponse'
+          example:
+            $ref: '../../schemas/robot/robot_activation.yml#/examples/RobotActivations'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

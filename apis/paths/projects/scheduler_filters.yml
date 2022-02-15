@@ -1,0 +1,83 @@
+get:
+  tags:
+    - Scheduler Filters
+  operationId: getSchedulerFilters
+  summary: Get scheduler filters
+  description: Get all scheduler filters in an organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/schedulerFilterSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSchedulerFiltersResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+
+post:
+  tags:
+    - Scheduler Filters
+  operationId: createSchedulerFilter
+  summary: Create a Scheduler Filter
+  description: |
+    Create a new scheduler filter in an existing organization.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 100 scheduler filters per HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/schedulerFilterSparseFieldsetParams'
+  requestBody:
+    description: The data required to create a filter.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateSchedulerFilterRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSchedulerFilterResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank
+              - status: 422
+                source:
+                  pointer: '/data/attributes/user_ids'
+                code: invalid_resource
+                detail: references an invalid ID

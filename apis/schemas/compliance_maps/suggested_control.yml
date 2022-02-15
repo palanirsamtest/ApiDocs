@@ -1,0 +1,79 @@
+id: &id
+  type: string
+  description: The ID of the requested resource.
+  example: '1'
+
+ComplianceRequirementsRelationships: &ComplianceRequirementsRelationships
+  type: object
+  description: Requirements already linked to a control.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id: *id
+          type:
+            type: string
+            description: The classification of the object (`"compliance_requirements"`).
+            example: compliance_requirements
+
+SuggestedControl: &SuggestedControl
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+  properties:
+    id: *id
+    type: &type
+      type: string
+      description: The classification of the object (`"suggested_controls"`).
+      example: suggested_controls
+    attributes:
+      type: object
+      description: Resource attributes
+      properties:
+        source:
+          type: string
+          description: Source of suggested control. Can be either `maestra` or `human`.
+          example: maestra
+        is_dismissed:
+          type: boolean
+          description: Flag indicating whether suggestion was dismissed by user.
+          example: false
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      properties:
+        mapped_compliance_requirements: *ComplianceRequirementsRelationships
+
+SuggestedControlIncludes: &SuggestedControlIncludes
+  type: array
+  description: Included resources.
+  items:
+    type: object
+  example:
+    - id: 2
+      type: compliance_requirements
+      attributes:
+        name: Parent requirement
+
+GetComplianceMapsSuggestedControlsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - included
+  properties:
+    data:
+      type: array
+      description: Array of Maestra suggested controls.
+      items: *SuggestedControl
+    included: *SuggestedControlIncludes

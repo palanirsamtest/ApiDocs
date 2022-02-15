@@ -1,0 +1,92 @@
+CreateStatusEventMappingPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource
+      required:
+        - type
+        - attribute
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"status_event_mappings"`).
+          example: status_event_mappings
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - status_id
+            - event_id
+          properties: &baseAttributes
+            status_id:
+              type: string
+              description: The ID of the status.
+              example: 48943a00-43ae-4ea3-9824-09fbfb0574f3
+            event_id:
+              type: string
+              description: The ID of the event.
+              example: d728af99-e55f-47fa-a47d-cc8dc2f74f46
+
+StatusEventMappingResponse:
+  type: object
+  description: The data associated with the resource.
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource
+      properties:
+        id:
+          type: string
+          description: The ID of the status event mapping.
+          example: '317dc769-3e09-4501-a2fd-80908bea7a66'
+        type:
+          type: string
+          description: The classification of the object (`"status_event_mappings"`).
+          example: status_event_mappings
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *baseAttributes
+            created_at:
+              type: string
+              description: The date the status was created.
+              example: '2020-08-11T07:42:42Z'
+              format: date-time
+            updated_at:
+              type: string
+              description: The date the status was updated.
+              example: '2020-08-11T07:42:42Z'
+              format: date-time
+
+UpdateStatusEventMappingPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the status event mapping.
+          example: '317dc769-3e09-4501-a2fd-80908bea7a66'
+        type:
+          type: string
+          description: The classification of the object (`"status_event_mappings"`).
+          example: status_event_mappings
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *baseAttributes

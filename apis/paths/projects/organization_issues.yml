@@ -1,0 +1,39 @@
+get:
+  tags:
+    - Issues
+  operationId: getOrgIssues
+  summary: Get organization's issues
+  description: |
+    Get a list of all issues in an organization.
+
+    > **Note:**
+    By default, this endpoint only returns issues from active projects. To fetch objects from archived projects, do one of the following:
+    > * Specify the active or archived project ID using `filter[project.id]`
+    > * Specify that you want results from archived projects using `filter[project.state]=archive`
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/issueProjectIdFilterParams'
+    - $ref: '../../components/parameters.yml#/issueProjectStateFilterParams'
+    - $ref: '../../components/parameters.yml#/issueTargetTypeFilterParams'
+    - $ref: '../../components/parameters.yml#/issueTargetIdFilterParams'
+    - $ref: '../../components/parameters.yml#/issueClosedFilterParams'
+    - $ref: '../../components/parameters.yml#/issueSortParams'
+    - $ref: '../../components/parameters.yml#/issueSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetIssuesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingProjectId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

@@ -1,0 +1,126 @@
+get:
+  tags:
+    - Controls
+  operationId: getOrganizationControls
+  summary: Get all controls in an organization
+  description: |
+    Get a list of all of the controls in an organization.
+
+    > **Note:**
+    By default, this endpoint only returns controls from active projects. To fetch objects from archived projects or frameworks, do one of the following:
+    > * Specify the project or framework ID using `filter[project.id]`
+    > * Specify that you want results from archived projects using `filter[project.state]=archive`
+    > * Specify that you want results from frameworks using `filter[project.state]=framework`
+  parameters:
+    - $ref: '../../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../../components/parameters.yml#/controlSparseFieldsetParams'
+    - $ref: '../../../components/parameters.yml#/objectiveSparseFieldsetParams'
+    - $ref: '../../../components/parameters.yml#/walkthroughFieldsetParams'
+    - $ref: '../../../components/parameters.yml#/controlTestSparseFieldsetParams'
+    - $ref: '../../../components/parameters.yml#/controlSortParam'
+    - $ref: '../../../components/parameters.yml#/controlFrequencyFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlOwnerFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestFirstAssigneeFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestSecondAssigneeFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestThirdAssigneeFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestFourthAssigneeFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestsNotApplicableFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTestsTestingConclusionFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlWalkthroughControlDesignFilterParams'
+    - $ref: '../../../components/parameters.yml#/ControlTypeFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlStatusFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlObjectiveTitleFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlObjectiveNameFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlObjectiveReferenceFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlProjectIdFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlProjectNameFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlProjectStateFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlProjectStatusFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlDescriptionFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlTitleFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlQueryFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlNumberFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlIDFilterParams'
+    - $ref: '../../../components/parameters.yml#/controlIncludeParam'
+    - $ref: '../../../components/parameters.yml#/pageSizeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../../components/schemas.yml#/GetOrganizationControlsResponse'
+    400:
+      $ref: '../../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../../components/responses.yml#/NotJsonapiMediaType'
+
+patch:
+  tags:
+    - Controls
+  operationId: updateControlsBulk
+  summary: Bulk update controls
+  description: |
+    Make changes to multiple controls in a project or framework, like renaming the control, updating the control description, or assigning the owner.
+
+    For more information, see <a href="#operation/updateControl">updating a control</a>.
+
+    <strong>Making a bulk request</strong>:
+
+    To make a bulk request, the request header needs to have the following Content-Type.
+
+    <pre><code>Content-Type: application/vnd.api+json;ext=bulk</code></pre>
+
+    <strong>Limitations</strong>:
+
+    - The API safeguards against bursts of usage to help maximize its stability. For bulk operations, you cannot make more than 1 request per second. Treat this limit as a maximum and avoid making unnecessary requests to the API.
+    - The maximum number of resources in a single bulk request is 50.
+
+  parameters:
+    - $ref: '../../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../../components/parameters.yml#/controlSparseFieldsetParams'
+    - $ref: '../../../components/parameters.yml#/controlIncludeParams'
+  requestBody:
+    description: The data required to update the controls.
+    required: true
+    content:
+      application/vnd.api+json;ext=bulk:
+        schema:
+          $ref: '../../../components/schemas.yml#/BulkUpdateControlsRequest'
+
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../../components/schemas.yml#/BulkGetControlsResponseWithIncludes'
+    207:
+      description: Multi-status in the response body.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../../components/schemas.yml#/BulkGetControlsResponseWithIncludes'
+    400:
+      $ref: '../../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../../components/schemas.yml#/Errors'

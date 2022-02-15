@@ -1,0 +1,99 @@
+get:
+  tags:
+    - Assets
+  operationId: getAsset
+  summary: Get an asset
+  description: Get information about an asset.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAssetResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+patch:
+  tags:
+    - Assets
+  operationId: updateAsset
+  summary: Update an asset
+  description: |
+    Update an existing asset.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+  requestBody:
+    description: The data required to update an asset.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateAssetsRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAssetResponse'
+    204:
+      description: No content. Returned when user was able to update the asset but does not have read permission to it.
+    400:
+      $ref: '../../components/responses.yml#/MissingAssetTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/description'
+                code: invalid_resource
+                detail: can't be blank
+delete:
+  tags:
+    - Assets
+  operationId: deleteAsset
+  summary: Delete an asset
+  description: |
+    Delete an asset that you no longer require. Generally, unless an asset was created in error, it's better to transition it through its normal life-cycle.
+
+    > **Caution —**
+    Once an asset is permanently deleted, you cannot access or restore the asset.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

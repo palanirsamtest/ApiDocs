@@ -1,0 +1,80 @@
+get:
+  tags:
+    - Results files
+  operationId: getResultsFiles
+  summary: Get results files
+  description: Get results files that belong to a project.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/projectIdParam'
+    - $ref: '../../components/parameters.yml#/resultsFileSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetResultsFilesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Results files
+  operationId: createResultsFile
+  summary: Create a results file
+  description: |
+    Create a new results file in an existing project.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 1000 results files per project.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/projectIdParam'
+    - $ref: '../../components/parameters.yml#/resultsFileSparseFieldsetParams'
+  requestBody:
+    description: The data required to create a results file.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateResultsFileRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetResultsFileResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingProjectId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/name'
+                code: invalid_resource
+                detail: can't be blank

@@ -1,0 +1,48 @@
+delete:
+  tags:
+    - Issues
+  operationId: deleteIssueEntityLink
+  summary: Delete issue entity link
+  description: |
+    Permanently delete issue entity link.
+
+    > **Note -**
+    Untagging an issue from an entity automatically untags an issue from all descendant entities.
+
+    <strong>Limitations</strong>:
+      * You cannot untag an issue from an entity if the objective it belongs to has been checked out using
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>.
+      * <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/admin/config/Setting_up_entity_tagging.html?Highlight=Inherited">Inherited entity tags</a> cannot be removed.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/issueIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/base'
+                code: invalid_resource
+                title: Invalid resource
+                detail: Cannot delete an inherited Entity.

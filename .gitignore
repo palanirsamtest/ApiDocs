@@ -1,0 +1,13 @@
+dist/
+
+node_modules/
+
+# Development
+.vscode
+.DS_Store
+
+# Ignore generated OpenAPI specs
+apis_private/generated/*
+!apis_private/generated/.gitkeep
+apis/schemas/roles/generated/*
+!apis/schemas/roles/generated/.gitkeep

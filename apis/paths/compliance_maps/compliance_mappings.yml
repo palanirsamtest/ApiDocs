@@ -1,0 +1,52 @@
+post:
+  tags:
+    - Compliance Maps
+  operationId: createComplianceMapping
+  summary: Create a compliance mapping
+  description: |
+    Create a new compliance mapping in an existing organization.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/complianceMappingSparseFieldsetParams'
+  requestBody:
+    description: |
+      The data required to create a mapping.
+
+      <strong>Limitations</strong>:
+      * There can be a maximum of 500 compliance mappings per compliance requirement.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateComplianceMappingRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetComplianceMappingResponseWithIncludes'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/coverage'
+                code: invalid_resource
+                detail: coverage value exceeds 100%

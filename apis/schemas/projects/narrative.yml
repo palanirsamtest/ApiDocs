@@ -1,0 +1,190 @@
+NarrativeRelationships: &NarrativeRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - objective
+  properties:
+    objective:
+      type: object
+      description: |
+        Each narrative has an associated objective. Objectives are the basis of a project or framework.
+        They are also the organizing containers for the work done in a project or framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the objective.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"objectives"`).
+              example: objectives
+    framework_origin: &FrameworkOriginRelationship
+      type: object
+      description: |
+        In the Projects app, a project `narrative` can have a related counterpart in an associated framework. The `framework_origin` attribute allows you to associate an `narrative` in a project with its related counterpart in a framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the parent control.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"narratives"`).
+              example: narratives
+
+Narrative: &Narrative
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The type of narrative (`"narratives"`).
+      example: narratives
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - title
+      properties:
+        title: &title
+          type: string
+          description: The title of the narrative.
+          maxLength: 60
+          example: Narrative title
+        description: &description
+          type: string
+          description: A detailed description of the narrative.
+          maxLength: 524288
+          example: Narrative description
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the narrative was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the narrative was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+    relationships: *NarrativeRelationships
+
+NarrativeUpdateAttribute: &NarrativeUpdateAttribute
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - title
+  properties:
+    title: *title
+    description: *description
+    position: *position
+
+NarrativeUpdateRelationship: &NarrativeUpdateRelationship
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    framework_origin: *FrameworkOriginRelationship
+
+GetNarrativeResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data: *Narrative
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetNarrativesResponse:
+  type: object
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      description: Array of narratives
+      items: *Narrative
+    links: *Links
+
+CreateNarrativeRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes: *NarrativeUpdateAttribute
+        relationships: *NarrativeUpdateRelationship
+
+UpdateNarrativeRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *NarrativeUpdateAttribute
+        relationships: *NarrativeUpdateRelationship

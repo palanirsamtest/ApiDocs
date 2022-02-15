@@ -1,0 +1,209 @@
+RobotScriptVersion:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the script version.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot_apps"`).
+      example: analytics
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        comment:
+          type: string
+          description: An informative statement in the version history.
+          example: Example commit comment
+        version:
+          type: integer
+          format: int64
+          description: The version of the analytic
+          example: 10
+    relationships:
+      type: object
+      description: The resouces associated with this script version.
+      properties:
+        analytics:
+          $ref: '#/RobotScriptVersionRelationship'
+
+RobotScriptVersionRelationship:
+  type: object
+  description: List of flows associated with the script version.
+  properties:
+    data:
+      type: array
+      description: An array of analytic IDs associated with the script version.
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the analytic.
+          type:
+            type: string
+            description: The classification of the object (`"analytic"`).
+
+RobotScriptVersionIncludedFlows:
+  type: object
+  properties:
+    id:
+      type: string
+      description: The ID of the flow.
+    type:
+      type: string
+      description: The classification of the object (`"analytics"`).
+    attributes:
+      type: object
+      description: The attributes associated with the flow.
+      properties:
+        name:
+          type: string
+          description: The name of the flow
+          example: Example Flow
+        raw:
+          type: object
+          description: Configuration object of the flow of a highbond robots or workflow robots.
+
+CreateRobotScriptVersionRequest:
+  type: object
+  description: The data associated with the resource.
+  properties:
+    comment:
+      type: string
+      description: An informative statement in the version history.
+      example: Example commit comment
+    name:
+      type: string
+      description: Name of the flow
+    raw:
+      type: object
+      description: |
+        Configuration object of the flow of a highbond robots or workflow robots.  It contains user python scripts and variables set up in flow builder.  See example of the flow structure in the sample response.
+
+        Version in json is required.  Initial version of flow json is `version: '2021-02-05'`.
+
+        `id` in flow json needs to be unique.  Example shown are using uuidv4.
+
+        ```
+        {
+          version: '2021-02-05'
+          edges: []
+          nodes: [{
+            id: '7759ae53-a921-46b1-bc2f-49ac799e4882'
+            kind: 'script',
+            libraryNodeId: 'script-id',
+            name: 'Script',
+            config: {
+              cells: [
+                {
+                  id: '41e1aa1b-ab74-43bc-8d07-8f5f76590ab1',
+                  input: "print('demo')↵↵print('second line of demo')"
+                },
+                {
+                  id: 'f3d4eaae-45e4-499e-833e-fb0ae77abf59',
+                  input: "print('cell #2')↵↵print('another new line')"
+                }
+              ]
+            }
+          }]
+          variables: [
+            {
+              id: 'a9e0bc9d-6dcc-4d2d-943c-fd1c795667c5',
+              name: 'v_hb_token',
+              type: 'system_user_id',
+              value: '{the system user UID}'
+            },
+            {
+              id: 'c41c0c69-bec7-464e-a7c9-effd0a321706',
+              isTaskInput: false,
+              name: 'v_character',
+              type: 'character',
+              value: My variable value
+            },
+            {
+              id: '93674454-6a16-41a2-9e05-6f1f962d9a10',
+              isTaskInput: true,
+              name: 'v_password',
+              taskInputLabel: 'My Password Task Param Label',
+              type: 'password',
+              value: ''
+            }
+          ]
+        }
+        ```
+
+GetRobotScriptVersionResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      $ref: '#/RobotScriptVersion'
+    included:
+      type: array
+      description: All analytics related to the resource
+      items:
+        $ref: '#/RobotScriptVersionIncludedFlows'
+
+examples:
+  RobotScriptVersion:
+    data:
+      id: 1
+      type: robot_apps
+      attributes:
+        comment: Sample commit comment
+        version: 1
+      relationship:
+        analytics:
+          data:
+            - id: 2
+              type: analytic
+    included:
+      $ref: '#/examples/RobotScriptVersionFlows'
+  RobotScriptVersionFlows:
+    - id: 2
+      type: analytics
+      attributes:
+        name: Example Flow
+        raw:
+          $ref: '#/examples/flow'
+
+  flow:
+    edges: []
+    nodes:
+      - id: '7759ae53-a921-46b1-bc2f-49ac799e4882'
+        kind: 'script'
+        libraryNodeId: 'script-id'
+        name: 'Script'
+        config:
+          cells:
+            - id: '41e1aa1b-ab74-43bc-8d07-8f5f76590ab1'
+              input: "print('demo')↵↵print('second line of demo')"
+            - id: 'f3d4eaae-45e4-499e-833e-fb0ae77abf59'
+              input: "print('cell #2')↵↵print('another new line')"
+    variables:
+      - id: 'a9e0bc9d-6dcc-4d2d-943c-fd1c795667c5'
+        name: 'v_hb_token'
+        type: 'system_user_id'
+        value: '{the system user UID}'
+      - id: 'c41c0c69-bec7-464e-a7c9-effd0a321706'
+        isTaskInput: false
+        name: 'v_character'
+        type: 'character'
+        value: My variable value
+      - id: '93674454-6a16-41a2-9e05-6f1f962d9a10'
+        isTaskInput: true
+        name: 'v_password'
+        taskInputLabel: 'My Password Task Param Label'
+        type: 'password'
+        value: ''
+    version: '2021-02-05'

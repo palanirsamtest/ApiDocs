@@ -1,0 +1,58 @@
+post:
+  tags:
+    - Asset types
+  operationId: createRecordTypeRootRelationship
+  summary: Relate an asset type and a root asset record type
+  description: Configure a parent-child relationship between an asset type and an asset record type. The asset type must be the parent, and the asset record type must be the child.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentIdParam'
+    - $ref: '../../components/parameters.yml#/childIdParam'
+  requestBody:
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/EmptyRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAssetTypeResponseWithRootRelationship'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+delete:
+  tags:
+    - Asset types
+  operationId: deleteRecordTypeRootRelationship
+  summary: Disconnect an asset type and a root asset record type
+  description: Remove the parent-child relationship between a parent asset type and a child root record type. The relationship can't be removed if it is in use.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/parentIdParam'
+    - $ref: '../../components/parameters.yml#/childIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleAssetTypeResponseWithAttributeTypes'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

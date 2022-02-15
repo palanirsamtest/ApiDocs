@@ -1,0 +1,161 @@
+StoryboardUpdatableAttributes: &StoryboardUpdatableAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - name
+  properties: &baseAttribute
+    name:
+      type: string
+      description: The name of the storyboard.
+      maxLength: 255
+      example: My first storyboard
+    config:
+      type: string
+      description: |
+        A JSON string storing the configurations of a storyboard.
+
+        See the request sample for details.
+      example: |
+        {
+            "globalFilters": [
+                {
+                    "display_name": "City",
+                    "field_format": {},
+                    "field_type": "character",
+                    "fields": [
+                        {
+                            "name": "City",
+                            "table_id": 300
+                        }
+                    ],
+                    "id": "cd80",
+                    "is_active": true,
+                    "type": "multiSelect",
+                    "values": [
+                        "ALHAMBRA",
+                        "APPLE VALLEY"
+                    ]
+                }
+            ],
+            "panels": [
+                {
+                    "id": "dbbe",
+                    "text": "first story description",
+                    "title": "first story title",
+                    "type": "text"
+                },
+                {
+                    "controlTestId": 300,
+                    "id": "cf63",
+                    "interpretation_id": 4001,
+                    "type": "visualization",
+                    "visualization_id": "453d"
+                },
+                {
+                    "controlId": 20,
+                    "controlTestId": 300,
+                    "id": "bdb5",
+                    "metricId": 5001,
+                    "projectid": 1,
+                    "type": "metric"
+                }
+            ],
+            "positions": [
+                {
+                    "col": 0,
+                    "id": "ddbe",
+                    "row": 0
+                },
+                {
+                    "col": 0,
+                    "id": "cf63",
+                    "row": 1
+                },
+                {
+                    "col": 1,
+                    "id": "bdb5",
+                    "row": 1
+                }
+            ],
+            "rowConfigs": {
+                "1": {
+                    "height": 535
+                }
+            }
+        }
+StoryboardFullAttributes: &StoryboardFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *baseAttribute
+    created_at:
+      type: string
+      description: The date when the storyboard was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date when the storyboard was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+Storyboard: &Storyboard
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the storyboard.
+      example: '5'
+    type:
+      type: string
+      description: The classification of the object (`"storyboards"`).
+      example: storyboards
+    attributes: *StoryboardFullAttributes
+CreateStoryboardPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties: &basePayload
+        type:
+          type: string
+          description: The classification of the object (`"storyboards"`).
+          example: storyboards
+        attributes: *StoryboardUpdatableAttributes
+UpdateStoryboardPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the storyboard.
+          example: '1'
+        <<: *basePayload
+SingleStoryboardResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Storyboard

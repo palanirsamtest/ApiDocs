@@ -1,0 +1,703 @@
+ControlEntitiesRelationship: &ControlEntitiesRelationship
+  type: object
+  description: Each control has an associated control entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+ControlEmptyEntitiesRelationship: &ControlEmptyEntitiesRelationship
+  type: object
+  description: Each control has an associated control entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      example: []
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+ControlTestRelationship: &ControlTestRelationship
+  type: object
+  description: Control Tests associated with a control
+  required:
+    - id
+    - type
+  properties:
+    id:
+      type: string
+      description: The ID of the control test.
+      example: '1'
+    type:
+      type: string
+      description: The classification of the object (`"control_tests"`).
+      example: control_tests
+
+ControlRelationships: &ControlRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - objective
+  properties:
+    objective: &ObjectiveRelationship
+      type: object
+      description: |
+        Each control has an associated objective. Objectives are the organizing containers for the work done in a project or framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the objective.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"objectives"`).
+              example: objectives
+    walkthrough: &WalkthroughRelationship
+      type: object
+      description: |
+        Each control has an associated walkthrough. A walkthrough is a series of steps you perform to establish the reliability
+        of controls and test the design of controls.
+
+        To return this field, you must specify the `fields[controls]=walkthrough` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the walkthrough.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"walkthroughs"`).
+              example: walkthroughs
+    control_test_plan: &ControlTestPlanRelationship
+      type: object
+      description: |
+        Each control has an associated control test plan. A test plan is a document that details how controls are assessed.
+
+        To return this field, you must specify the `fields[controls]=control_test_plans` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the test plan.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"control_test_plans"`).
+              example: control_test_plans
+    control_tests: &ControlTestsRelationship
+      type: object
+      description: |
+        Control tests evaluate the operating effectiveness of a control.
+
+        If your project includes one testing round, each control you create has one corresponding control test.
+        If your project includes multiple testing rounds, each control you create has a corresponding series of control tests.
+
+        To return this field, you must specify the `fields[controls]=control_tests` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items: *ControlTestRelationship
+    mitigations: &MitigationsRelationship
+      type: object
+      description: |
+        To return this field, you must specify the `fields[controls]=mitigations` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            description: Mitigations associated with a control
+            required:
+              - id
+              - type
+            properties:
+              id:
+                type: string
+                description: The ID of the mitigation.
+                example: '1'
+              type:
+                type: string
+                description: The classification of the object (`"mitigations"`).
+                example: mitigations
+    framework_origin: &FrameworkOriginRelationship
+      type: object
+      description: |
+        In the Projects app, a project `control` can have a related counterpart in an associated framework. The `framework_origin` attribute allows you to associate an `control` and related `control_test_plan` in a project with its related counterpart in a framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the parent control.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"controls"`).
+              example: controls
+    owner_user: &owner_user
+      type: object
+      nullable: true
+      description: |
+        Specifies the user responsible for the control.
+        A value in this field will override any value provided in the `owner` attribute.
+        Specifiying a user will automatically send them an email notification about the control.
+
+        To return this field, you must specify the `fields[controls]=owner_user` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: |
+                The unique identifier (UID) of the user. For more information on obtaining this value, see
+                <a href="#section/Making-requests">Making requests</a>.
+              example: '3NQ6XzAUxqJMnAQ7n4KF'
+            type:
+              type: string
+              description: The classification of the object (`"users"`).
+              example: users
+
+ControlSparseRelationships: &ControlSparseRelationships
+  <<: *ControlRelationships
+  properties:
+    objective: *ObjectiveRelationship
+    walkthrough: *WalkthroughRelationship
+    control_test_plan: *ControlTestPlanRelationship
+    control_tests: *ControlTestsRelationship
+    mitigations: *MitigationsRelationship
+    framework_origin: *FrameworkOriginRelationship
+    owner_user: *owner_user
+    entities: *ControlEntitiesRelationship
+
+ControlEmptySparseRelationships: &ControlEmptySparseRelationships
+  <<: *ControlRelationships
+  properties:
+    objective: *ObjectiveRelationship
+    walkthrough: *WalkthroughRelationship
+    control_test_plan: *ControlTestPlanRelationship
+    control_tests: *ControlTestsRelationship
+    mitigations: *MitigationsRelationship
+    framework_origin: *FrameworkOriginRelationship
+    owner_user: *owner_user
+    entities: *ControlEmptyEntitiesRelationship
+
+Control: &Control
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"controls"`).
+      example: controls
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        title: &title
+          type: string
+          description: The title of the control.
+          maxLength: 255
+          example: Control Title
+        description: &description
+          type: string
+          description: A detailed description of the control.
+          maxLength: 524288
+          example: Control description
+        control_id: &control_id
+          type: string
+          description: |
+            The reference number or code of the control.
+            This field is known as the procedure reference number in <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_
+            blank">Workplan workflow projects</a>.
+          maxLength: 255
+          example: '001'
+        owner: &owner
+          type: string
+          description: |
+            The person responsible for the control. Specifying a person's name or email does not automatically send them
+            an email notification about the control.
+          example: thomas@sodor.ca
+        frequency: &frequency
+          type: string
+          description: |
+            A user configurable field that determines the default testing method and sample size in the test plan. The options available depends on the
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+
+            >**Note**: This is a **required field** if the control belongs to an <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types"
+            target="_blank"> Internal Control workflow project</a>. If the control (procedure) belongs to a <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">
+            Workplan workflow project</a>, or if the `frequency` field has been disabled in the project type, the field is hidden from the API response.
+
+            For more information about the `frequency` field, see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_
+            blank">Executing procedures and testing controls</a>.
+          example: Daily
+        control_type: &control_type
+          type: string
+          description: |
+            A user configurable field that determines the default testing method and sample size in the test plan. The options available depends on the
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+
+            >**Note**: This is a **required field** if the control belongs to an <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types"
+            target="_blank"> Internal Control workflow project</a>. If the control (procedure) belongs to a <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">
+            Workplan workflow project</a>, or if the `control_type` field has been disabled in the project type, the field is hidden from the API response.
+
+            For more information about the `control_type` field, see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_
+            blank">Executing procedures and testing controls</a>.
+          example: Application/System Control
+        prevent_detect: &prevent_detect
+          type: string
+          description: |
+            A user configurable field that specifies whether the control is intended to prevent or detect risk, or if it is not applicable. The options available
+            depends on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+
+            >**Note**: This is a **required field** if the control belongs to an <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types"
+            target="_blank"> Internal Control workflow project</a>. If the control (procedure) belongs to a <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">
+            Workplan workflow project</a>, or if the `prevent_detect` field has been disabled in the project type, the field is hidden from the API response.
+          example: Prevent
+        method: &method
+          type: string
+          description: |
+            A user configurable field that specifies how the control will be tested or implemented. The options available depends on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms"
+            target="_blank">configuration of the project type</a>.
+
+            >**Note**: If the control (procedure) belongs to a <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">
+            Workplan workflow project</a>, or if the `method` field has been disabled in the project type, the field is hidden from the API response.
+          example: Management Review
+        status: &status
+          type: string
+          description: |
+            A user configurable field that specifies the current state of the control. The options available depends on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms"
+            target="_blank">configuration of the project type</a>.
+
+            >**Note**: If the control (procedure) belongs to a <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">
+            Workplan workflow project</a>, or if the `status` field has been disabled in the project type, the field is hidden from the API response.
+          example: Key Control
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the control was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the control was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        custom_attributes: &custom_attributes
+          type: array
+          description: An array of custom attributes defined by the user that are available on this object.
+          items:
+            type: object
+            description: A user defined custom attribute value.
+            properties:
+              id:
+                type: string
+                description: The ID of the custom attribute that this custom attribute value is for. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify the custom attribute. Optional if id is included.
+                example: 'Custom Control Attribute'
+              value:
+                type: array
+                description: The value or values (for multiselect) to set this custom attribute to.
+                example: ['Custom Select Option Text']
+                items:
+                  type: string
+    relationships: *ControlRelationships
+
+ControlWithSparseFieldset: &ControlWithSparseFieldset
+  <<: *Control
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *ControlSparseRelationships
+
+ControlWithEmptySparseFieldset: &ControlWithEmptySparseFieldset
+  <<: *Control
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *ControlEmptySparseRelationships
+
+ControlIncluded: &ControlIncluded
+  type: array
+  description: The data included in the response.
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the included resource.
+        example: '1'
+      type:
+        type: string
+        description: The classification of the object (`"objective, walkthrough, control_test_plan, control_tests, mitigations"`).
+        example: objective
+      attributes:
+        type: object
+        description: The attributes associated with the resource.
+
+OrganizationControlsIncluded: &OrganizationControlsIncluded
+  type: array
+  description: Included resources.
+  items:
+    type: object
+  example:
+    - id: 1
+      type: objectives
+      attributes:
+        title: 'The title of the objective'
+    - id: 2
+      type: walkthoughs
+      attributes:
+        walkthrough_results: '<h1>Heading</h1><p>Walkthrough results description.</p>'
+    - id: 3
+      type: control_tests
+      attributes:
+        testing_round_number: 1
+        not_applicable: false
+        testing_conclusion: true
+      relationships:
+        data:
+          assigned_user:
+            id: '3NQ6XzAUxqJMnAQ7n4KF'
+            type: users
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetControlsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      items: *ControlWithSparseFieldset
+      description: Array of controls
+    links: *Links
+
+GetOrganizationControlsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      items: *ControlWithSparseFieldset
+      description: Array of controls
+    included: *OrganizationControlsIncluded
+    links: *Links
+
+GetControlResponseWithIncludes:
+  type: object
+  description: The data included in the response.
+  required:
+    - data
+  properties:
+    data: *ControlWithSparseFieldset
+
+BulkGetControlsResponseWithIncludes:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data included in the response.
+      items:
+        type: object
+        required:
+          - status
+          - response
+        properties:
+          status:
+            type: integer
+            example: 200
+          response:
+            type: object
+            required:
+              - data
+            properties:
+              data: *ControlWithSparseFieldset
+
+GetControlResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *ControlWithEmptySparseFieldset
+
+CreateControlRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - description
+            - control_id
+          properties:
+            title: *title
+            description: *description
+            control_id: *control_id
+            owner: *owner
+            frequency: *frequency
+            method: *method
+            control_type: *control_type
+            prevent_detect: *prevent_detect
+            status: *status
+            position: *position
+            custom_attributes: *custom_attributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            owner_user: *owner_user
+            framework_origin: *FrameworkOriginRelationship
+
+EntitiesRelationship: &EntitiesRelationship
+  type: object
+  description: |
+    The passed entities list should match the following conditions:
+    1. It should be the full exact list of entities you would like to be linked to the resource.
+
+    2. The passed entities should consist of valid sub-trees with all ancestor entities as well as descendent entities.
+
+    3. Inherited entities should be included too.
+
+    Otherwise, the whole request will be rejected with the corresponding error.
+  properties:
+    data:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+UpdateControlRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: &update_control_properties
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - description
+            - control_id
+          properties:
+            title: *title
+            description: *description
+            control_id: *control_id
+            owner: *owner
+            frequency: *frequency
+            method: *method
+            control_type: *control_type
+            prevent_detect: *prevent_detect
+            status: *status
+            position: *position
+            custom_attributes: *custom_attributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            owner_user: *owner_user
+            entities: *EntitiesRelationship
+            framework_origin: *FrameworkOriginRelationship
+
+BulkUpdateControlsRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The resource objects to update.
+      items: *update_control_properties
+
+CreateControlEntityRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the control.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities
+
+CreateControlEntityResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the control.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities

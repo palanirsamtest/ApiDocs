@@ -1,0 +1,69 @@
+get:
+  tags:
+    - Robot Tasks
+  operationId: getRobotTasks
+  summary: List tasks in a robot
+  description: Get a list of tasks for a robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+    - $ref: '../../components/parameters.yml#/robotEnvParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTasksResponse'
+          example:
+            $ref: '../../schemas/robot/robot_task.yml#/examples/RobotTasks'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+
+post:
+  tags:
+    - Robot Tasks
+  operationId: createRobotTask
+  summary: Create a robot task
+  description: Create a new task for a specified robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+  requestBody:
+    description: The data required to create a robot task.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRobotTaskRequest'
+  responses:
+    200:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotTaskResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/RobotsError'

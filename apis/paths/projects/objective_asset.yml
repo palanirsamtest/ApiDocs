@@ -1,0 +1,28 @@
+delete:
+  tags:
+    - Objectives
+  operationId: deleteObjectiveAsset
+  summary: Remove the association between an asset and an objective
+  description: |
+    You can remove the association between an asset and an objective if an asset is no longer needed, or if it was associated to an objective accidentally. By unlinking the asset from the objective, you remove the asset from the scope of the project.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/objectiveIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+    - $ref: '../../components/parameters.yml#/assetIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

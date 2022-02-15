@@ -1,0 +1,233 @@
+CollaboratorRelationships: &CollaboratorRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - project or framework
+  properties:
+    project: &ProjectRelationship
+      type: object
+      description: |
+        Each collaborator has an associated project or framework. Project/framework is a management system that allows you to define and compile information
+        for reporting purposes.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the project.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"projects"`).
+              example: projects
+    framework: &FrameworkRelationship
+      type: object
+      description: |
+        Each collaborator has an associated project or framework. Project/framework is a management system that allows you to define and compile information
+        for reporting purposes.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the framework.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"frameworks"`).
+              example: frameworks
+    user: &UserRelationship
+      type: object
+      description: |
+        Details of the user nested in that endpoint.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The unique identifier (UID) of the assigned user.
+                For more information on obtaining this value, see <a href="#section/Making-requests">Making requests</a>.
+              example: yvqdNCtv8TeM47WQtzau
+            type:
+              type: string
+              description: The classification of the object (`"users"`).
+              example: users
+
+CollaboratorSparseRelationships: &CollaboratorSparseRelationships
+  <<: *CollaboratorRelationships
+  properties:
+    project: *ProjectRelationship
+    framework: *FrameworkRelationship
+    user: *UserRelationship
+
+Collaborator: &Collaborator
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: |
+        The IDs of the parent resource (project or framework) and user, in the `parent_resource_id:user_uid` format, which then must be encoded into Base64.
+
+        For example, if the `parent_resource_id` is `11955` and the `user_uid` is `yvqdNCtv8TeM47WQtzau`, you would encode `11955:yvqdNCtv8TeM47WQtzau` into Base64. The result is `MTE5NTU6eXZxZE5DdHY4VGVNNDdXUXR6YXU=`, which is the `id`.
+      example: MTE5NTU6eXZxZE5DdHY4VGVNNDdXUXR6YXU=
+    type: &type
+      type: string
+      description: The classification of the object (`"collaborators"`).
+      example: collaborators
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - title
+        - reference
+      properties:
+        project_role: &project_role
+          type: string
+          description: |
+            Roles apply within an individual project or framework. A single user may have a different role for each project or framework.
+
+            Available project roles are:
+              `"professional_manager"`, `"professional_user"`, `"oversight_executive"`, `"oversight_reviewer"`,
+              `"contributor_user"`, `"contributor_manager"`, `"contributor_tester"`
+          example: professional_manager
+        effective_role: &effective_role
+          type: string
+          description: |
+            A user may be assigned to a project as an individual with a specific role, and also as a member of a group with a different role.
+            If those roles conflict with each other, HighBond uses the effective_role.
+          example: client_manager
+        organization_role: &organization_role
+          type: string
+          description: |
+            Organization roles are user privileges that allow users to perform actions in projects and frameworks. <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-roles-privilege-types" target="_blank">Learn more about privileges in projects and frameworks</a>.
+
+            Available account roles are:
+              `"sys_admin"`, `"project_creator"`, `"admin"`, `"archivist"`, `"timesheets_admin"`, `"compliance_maps_read"`, `"compliance_maps_write"`,
+              `"compliance_maps_no_access"`, `"assurance_plan_admin"`
+          example: project_creator
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the collaborator was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the collaborator was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+    relationships: *CollaboratorRelationships
+
+CollaboratorItems: &CollaboratorItems
+  <<: *Collaborator
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *CollaboratorSparseRelationships
+
+GetCollaboratorsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - included
+  properties:
+    data:
+      type: array
+      items: *CollaboratorItems
+
+GetCollaboratorResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+        - relationships
+      properties:
+        id: *id
+        type: *type
+        attributes: *attributes
+        relationships: *CollaboratorRelationships
+
+CreateCollaboratorRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+        - relationships
+      properties:
+        type: *type
+        attributes: &updatableAttributes
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - project_role
+          properties:
+            project_role: *project_role
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          required:
+            - user
+            - data
+          properties:
+            user: *UserRelationship
+
+UpdateCollaboratorRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *updatableAttributes

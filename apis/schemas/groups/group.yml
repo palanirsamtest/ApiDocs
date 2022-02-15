@@ -1,0 +1,202 @@
+GroupUserLookupValue:
+  type: object
+  required:
+    - user_ids
+  properties:
+    user_ids:
+      type: array
+      items:
+        type: string
+
+GroupUID: &GroupUID
+  type: string
+  description: The group ID for the group.
+  example: '10'
+
+GroupType: &GroupType
+  type: string
+  description: The classification of the object (`"groups"`) for API schema serialization purposes.
+  example: groups
+
+CreateGroupAttributes: &CreateGroupAttributes
+  name:
+    type: string
+    description: The name of the group. The character limit is 255.
+    example: 'My Group'
+  purpose:
+    type: string
+    description: The purpose of the group. The character limit is 500.
+    example: 'To group users with the same access level together'
+  owners:
+    type: array
+    description: The users that are to be assigned as owners of the group. If omitted, defaults to the user who initiates the request.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'P2tuGWyTWxCAQgTd1XKx'
+  members:
+    type: array
+    description: The users that are to be assigned as members of the group. If a member is contained in the owners list, it will be ignored.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'YhxzalsjfhauYna'
+
+UpdateGroupAttributes: &UpdateGroupAttributes
+  name:
+    type: string
+    description: The name of the group. The character limit is 255.
+    example: 'My Group'
+  purpose:
+    type: string
+    description: The purpose of the group. The character limit is 500.
+    example: 'To group users with the same access level together'
+  enabled:
+    type: boolean
+    description: This identifies whether the group is enabled for use.
+    example: true
+  owners:
+    type: array
+    description: The users that are to be assigned as owners of the group. If omitted, defaults to the user who initiates the request.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'P2tuGWyTWxCAQgTd1XKx'
+  members:
+    type: array
+    description: The users that are to be assigned as members of the group. If a member is contained in the owners list, it will be ignored.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'YhxzalsjfhauYna'
+
+GroupInformation: &GroupInformation
+  name:
+    type: string
+    description: The name of the group. The character limit is 255.
+    example: 'My Group'
+  purpose:
+    type: string
+    description: The purpose of the group. The character limit is 500.
+    example: 'To group users with the same access level together'
+  enabled:
+    type: boolean
+    description: This identifies whether the group is enabled for use.
+    example: true
+  owners:
+    type: array
+    description: The users that are to be assigned as owners of the group.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'P2tuGWyTWxCAQgTd1XKx'
+  members:
+    type: array
+    description: The users that are to be assigned as members of the group.
+    items:
+      type: object
+      properties:
+        user_uid:
+          type: string
+          description: The user_uid
+    example:
+      - user_uid: 'YhxzalsjfhauYna'
+  member_count:
+    type: number
+    description: The number of owners and members that the group has.
+    example: 2
+
+Group: &Group
+  type: object
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id: *GroupUID
+    type: *GroupType
+    attributes:
+      type: object
+      properties:
+        <<: *GroupInformation
+
+UpdateGroupRequest:
+  type: object
+  description: The data required to update a group.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data to update.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *GroupType
+        attributes:
+          type: object
+          description: The attributes associated with the group.
+          properties:
+            <<: *UpdateGroupAttributes
+
+CreateGroupRequest:
+  type: object
+  description: The data required to create a new group.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the new group.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *GroupType
+        attributes:
+          type: object
+          description: The attributes associated with the new group.
+          required:
+            - name
+          properties:
+            <<: *CreateGroupAttributes
+
+GetGroupResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Group
+
+MultipleGroupsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: An array of the groups within this HighBond instance.
+      items: *Group

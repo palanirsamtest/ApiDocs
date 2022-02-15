@@ -1,0 +1,98 @@
+get:
+  tags:
+    - Asset Records
+  operationId: getAssetRecords
+  summary: Get asset records
+  description: Get a list of all asset records in an account for an asset record type
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributesParam'
+    - $ref: '../../components/parameters.yml#/pageNumberParam'
+    - $ref: '../../components/parameters.yml#/resourceSortParam'
+    - $ref: '../../components/parameters.yml#/resourceSearchParam'
+    - $ref: '../../components/parameters.yml#/recordSparseFieldsetParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRecordsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingRecordTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                title: UnprocessableEntityError
+                detail: 'Too many fields to sort: sorting is limited to a maximum of 2 fields (given 3)'
+
+post:
+  tags:
+    - Asset Records
+  operationId: createAssetRecord
+  summary: Create an asset record
+  description: |
+    Create a new asset record. Before you create an asset record, ensure there is an <a href="#tag/Asset-record-types">asset record type</a> for it.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 200000 asset records per asset record type.
+    * There can be a maximum of 100000 asset records per asset.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+  requestBody:
+    description: The data required to create an asset record.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateRecordRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRecordResponse'
+    204:
+      description: No content. Returned when user was able to create the asset record but does not have read permission.
+    400:
+      $ref: '../../components/responses.yml#/MissingRecordTypeId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/description'
+                code: invalid_resource
+                detail: can't be blank

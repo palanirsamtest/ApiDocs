@@ -1,0 +1,60 @@
+get:
+  tags:
+    - Users
+  operationId: getUsers
+  summary: >
+    List users in an instance
+  description: |
+    Get a list of users, excluding system and root users, who are part of a particular HighBond instance.
+
+    Note: System and root users are special types of users that act on behalf of the HighBond platform, like in automation tasks performed in the Robots app. Filters can be applied to query for them if needed.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/listUsersTypeFilterParam'
+    - $ref: '../../components/parameters.yml#/listUsersSearchParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleUsersResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+post:
+  tags:
+    - Users
+  operationId: createUser
+  summary: Create a new user
+  description: Add a user to a HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a user.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateUserRequest'
+  responses:
+    201:
+      description: User created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetUserResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'
+    429:
+      $ref: '../../components/responses.yml#/TooManyRequests'

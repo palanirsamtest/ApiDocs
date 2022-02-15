@@ -1,0 +1,103 @@
+get:
+  tags:
+    - Metrics
+  operationId: getMetric
+  summary: Get a metric
+  description: Get information about a metric.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleMetricResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+put:
+  tags:
+    - Metrics
+  operationId: updateMetric
+  summary: Update a metric
+  description: |
+    Update a metric to make changes, like renaming it or changing its frequency.
+
+    > **Note —**
+    If the metric is associated with an assessment driver in the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-automate-assessments" target="_blank">Projects</a> or <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rim-automate-assessments" target="_blank">Strategy</a> app, updating the metric disables the assessment automation in the relevant app.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to update a metric.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/UpdateMetricPayload'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleMetricResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceIdConflict'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/func'
+                code: invalid_resource
+                detail: is not included in the list.
+delete:
+  tags:
+    - Metrics
+  operationId: deleteMetric
+  summary: Delete a metric
+  description: |
+    If you no longer need a metric, you can delete it. Deleting a metric also removes it from any associated triggers and storyboards. It does not delete the table this metric exists in.
+
+    > **Note —**
+    If the metric is associated with an assessment driver in the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-automate-assessments" target="_blank">Projects</a> or <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rim-automate-assessments" target="_blank">Strategy</a> app, deleting the metric disables the assessment automation in the relevant app.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

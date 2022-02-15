@@ -1,0 +1,28 @@
+get:
+  tags:
+    - Robot Apps
+  operationId: getRobotApp
+  summary: Get one analytic script from a robot
+  description: Get one analytic script from a robot.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/robotIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRobotAppResponse'
+          example:
+            $ref: '../../schemas/robot/robot_app.yml#/examples/RobotApp'
+    400:
+      $ref: '../../components/responses.yml#/MissingRobotId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

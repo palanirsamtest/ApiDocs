@@ -1,0 +1,189 @@
+RobotJob:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the job.
+      example: 1
+    type:
+      type: string
+      description: The classification of the object (`"robot_jobs"`).
+      example: robot_jobs
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        app_version:
+          type: integer
+          description: The version of the script.
+          example: 1
+        completed_at:
+          type: string
+          description: The date the job was completed.
+          example: '2019-03-21T20:22:48.282Z'
+        count:
+          type: integer
+          description: The folder name that is automatically created in the Robots Agent. The folder corresponds to an individual job.
+          example: 1
+        delete_failed:
+          type: boolean
+          description: Indicate if the job failed to be deleted.
+          example: '2019-03-21T20:22:48.282Z'
+        environment:
+          type: string
+          description: The environment of the script.
+          enum: ['production', 'development']
+        queued_at:
+          type: string
+          description: The date the job was queued to execute.
+          example: '2019-03-21T20:22:48.282Z'
+        result_analytics:
+          type: object
+          description: Includes information of the analytic results.
+        status:
+          type: string
+          description: The status of the job.
+          enum: ['success', 'failed', 'cancelled', 'queued', 'running', 'skipped']
+        trigger_type:
+          type: string
+          description: The trigger type of the job.
+          enum: ['schedule', 'manual', 'event']
+    relationships:
+      $ref: '#/RobotJobRelationship'
+
+RobotJobRelationship:
+  type: object
+  description: List of associated objects with the robot job.
+  properties:
+    robot:
+      type: object
+      description: Associated robot with the job.
+      properties:
+        id:
+          type: string
+          description: The ID of the robot.
+        type:
+          type: string
+          description: The classification of the object (`"robot"`).
+    task:
+      type: object
+      description: Associated task with the job.
+      properties:
+        id:
+          type: string
+          description: The ID of the task.
+        type:
+          type: string
+          description: The classification of the object (`"task"`).
+    triggered_by:
+      type: object
+      description: User who triggered the job.
+      properties:
+        id:
+          type: string
+          description: The ID of the user.
+        type:
+          type: string
+          description: The classification of the object (`"user"`).
+
+GetRobotJobsResponse:
+  type: object
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        $ref: '#/RobotJob'
+    links:
+      $ref: '#/RobotJobLinks'
+
+RobotJobLinks:
+  type: object
+  properties:
+    prev:
+      type: string
+      description: Previous page url
+    next:
+      type: string
+      description: Next page url
+
+examples:
+  RobotJob:
+    data:
+      id: 1
+      type: robot_jobs
+      attributes:
+        app_version: 1
+        completed_at: '2019-03-21T20:32:48.282Z'
+        count: 1
+        delete_failed: false
+        environment: 'production'
+        queued_at: '2019-03-21T20:22:48.282Z'
+        result_analytics: []
+        status: 'success'
+        trigger_type: 'schedule'
+      relationships:
+        robot:
+          id: 1
+          type: 'robot'
+        task:
+          id: 1
+          type: 'task'
+        triggered_by:
+          id: 1
+          type: 'user'
+
+  RobotJobs:
+    data:
+      - id: 1
+        type: robot_jobs
+        attributes:
+          app_version: 1
+          completed_at: '2019-03-21T20:32:48.282Z'
+          count: 1
+          delete_failed: false
+          environment: 'production'
+          queued_at: '2019-03-21T20:22:48.282Z'
+          result_analytics: []
+          status: 'success'
+          trigger_type: 'schedule'
+        relationships:
+          robot:
+            id: 1
+            type: 'robot'
+          task:
+            id: 1
+            type: 'task'
+          triggered_by:
+            id: 1
+            type: 'user'
+      - id: 2
+        type: robot_jobs
+        attributes:
+          app_version: 1
+          completed_at: '2019-03-21T20:52:48.282Z'
+          count: 2
+          delete_failed: false
+          environment: 'production'
+          queued_at: '2019-03-21T20:42:48.282Z'
+          result_analytics: []
+          status: 'success'
+          trigger_type: 'schedule'
+        relationships:
+          robot:
+            id: 1
+            type: 'robot'
+          task:
+            id: 1
+            type: 'task'
+          triggered_by:
+            id: 1
+            type: 'user'
+    links:
+      prev: '/v1/orgs/{org_id}/robots/{robot_id}/jobs?env={env}&page[size]=2&page[number]=1'
+      next: '/v1/orgs/{org_id}/robots/{robot_id}/jobs?env={env}&page[size]=2&page[number]=3'

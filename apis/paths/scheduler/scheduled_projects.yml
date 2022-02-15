@@ -1,0 +1,31 @@
+get:
+  tags:
+    - Scheduled Projects
+  operationId: getScheduledProjects
+  summary: Get scheduled projects
+  description: Get a list of scheduled projects for the user
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+    - $ref: '../../components/parameters.yml#/schedulerStartDateFilterParams'
+    - $ref: '../../components/parameters.yml#/schedulerEndDateFilterParams'
+    - $ref: '../../components/parameters.yml#/schedulerProjectStateFilterParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+    - $ref: '../../components/parameters.yml#/pageNumberEncodedParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetScheduledProjectsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

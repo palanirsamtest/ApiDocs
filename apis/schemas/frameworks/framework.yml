@@ -1,0 +1,430 @@
+FrameworkEntitiesRelationship: &FrameworkEntityRelationship
+  type: object
+  description: Each framework has an associated framework entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+EntitiesRelationship: &EntitiesRelationship
+  type: object
+  description: |
+    The passed entities list should match the following conditions:
+    1. It should be the full exact list of entities you would like to be linked to the resource.
+
+    2. The passed entities should consist of valid sub-trees with all ancestor entities as well as descendent entities.
+
+    3. Inherited entities should be included too.
+
+    Otherwise, the whole request will be rejected with the corresponding error.
+  properties:
+    data:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+FrameworkEmptyEntitiesRelationship: &FrameworkEmptyEntitiesRelationship
+  type: object
+  description: Each framework has an associated framework entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      example: []
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+FrameworkRelationships: &FrameworkRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - project_type
+  properties:
+    project_type: &ProjectTypeRelationship
+      type: object
+      nullable: true
+      description: |
+        Each framework has an associated project type. Project types define the structure of a framework, including the terminology used in the framework.
+        The project type defines which workflow the framework uses and which custom attributes are available on the framework. Because of this dependency
+        the project type can't be updated at the same time as the custom attributes.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the project type.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"project_types"`).
+              example: project_types
+
+FrameworkSparseRelationships: &FrameworkSparseRelationships
+  <<: *FrameworkRelationships
+  properties:
+    project_type: *ProjectTypeRelationship
+    entities: *FrameworkEntityRelationship
+
+FrameworkEmptySparseRelationships: &FrameworkEmptySparseRelationships
+  <<: *FrameworkRelationships
+  properties:
+    project_type: *ProjectTypeRelationship
+    entities: *FrameworkEntityRelationship
+
+Framework: &Framework
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"frameworks"`).
+      example: frameworks
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        name: &name
+          type: string
+          description: The name of the framework.
+          maxLength: 120
+          example: 'Example Application'
+        created_at: &created_at
+          type: string
+          description: The timestamp specifying when the framework was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp specifying when the framework's settings were updated.
+          example: '2019-03-18T22:02:05Z'
+          format: date-time
+        folder_name: &folder_name
+          type: string
+        description: &description
+          type: string
+          description: A detailed description of the framework.
+          maxLength: 524288
+          example: 'Framework description.'
+        background: &background
+          type: string
+          description: The contextual circumstances of the framework.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Framework background description.</p>'
+        purpose: &purpose
+          type: string
+          description: The intended results, aims, or goals of the framework.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Framework purpose description.</p>'
+        scope: &scope
+          type: string
+          description: What is, and is not, covered by this framework.
+          maxLength: 524288
+          example: '<h1>Heading</h1><p>Framework scope description.</p>'
+        position:
+          type: integer
+          format: int64
+          description: |
+            Legacy field that was used to determine the order in which it is displayed in the index action. This field is no longer supported and will always return 0.
+          example: 0
+        risk_assurance: &risk_assurance
+          type: boolean
+          description: |
+            Specifies if the Risk Assurance feature has been enabled (`true`) or disabled (`false`) for the project. The default is `false`.
+            You must be a System Admin with a Professional subscription to configure this field. For more information, see
+            <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/risk_assurance/getting_started_with_assurance_for_risk.html"
+            target="_blank">Getting started with assurance for risk</a>.
+          example: false
+        custom_attributes: &custom_attributes
+          type: array
+          description: An array of custom attributes defined on the project type used by this framework. <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-project-types" target="_blank">Learn more about project types</a>. Make a PATCH request to modify the value of a custom attribute.
+          items:
+            type: object
+            description: A user defined custom attribute value.
+            properties:
+              id:
+                type: string
+                description: The ID of this custom attribute. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify this custom attribute. Optional if id is included.
+                example: 'Custom Framework Planning Attribute'
+              value:
+                type: array
+                description: The value or values (for multiselect) for this custom attribute.
+                example: ['Custom Select Option Text']
+                items:
+                  type: string
+        risk_assurance_data:
+          type: object
+          description: |
+            Fields that determines assurance values. Assurance is an expression of confidence that risk is effectively mitigated. Returns `null` if Risk Assurance feature is disabled.
+          properties:
+            inherent_risk:
+              type: number
+              format: float
+              description: |
+                The risk that an activity would pose if no controls or other mitigating factors were in place. Can also be referred to as the gross risk, or risks before controls, and can act as the baseline for your organization's risk tolerance or appetite.
+              example: 1.1
+            residual_risk:
+              type: number
+              format: float
+              description: |
+                The risk that remains after controls are taken into account. Can also be referred to as the net risk or risk after controls.
+              example: 1.1
+            assurance:
+              type: number
+              description: |
+                The level of assurance that the controls in place effectively mitigate risk to the business.
+              example: 0
+    relationships: *FrameworkRelationships
+
+FrameworkWithSparseFieldset: &FrameworkWithSparseFieldset
+  <<: *Framework
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *FrameworkSparseRelationships
+
+FrameworkWithEmptySparseFieldset: &FrameworkWithEmptySparseFieldset
+  <<: *Framework
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *FrameworkEmptySparseRelationships
+
+FrameworkIncluded: &FrameworkIncluded
+  type: array
+  description: The data included in the response.
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the included resource.
+        example: '1'
+      type:
+        type: string
+        description: The classification of the object (`"project_types"`).
+        example: project_types
+      attributes:
+        type: object
+        description: The attributes associated with the resource.
+
+CreateFrameworkRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+        - relationships
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - start_date
+            - target_date
+          properties:
+            name: *name
+            description: *description
+            background: *background
+            purpose: *purpose
+            scope: *scope
+            folder_name: *folder_name
+
+        relationships: *FrameworkRelationships
+
+UpdateFrameworkRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+            - start_date
+            - target_date
+          properties:
+            name: *name
+            description: *description
+            background: *background
+            purpose: *purpose
+            scope: *scope
+            folder_name: *folder_name
+            risk_assurance: *risk_assurance
+            custom_attributes: *custom_attributes
+        relationships:
+          type: object
+          nullable: true
+          description: The relationships associated with the resource.
+          properties:
+            project_type: *ProjectTypeRelationship
+            entities: *EntitiesRelationship
+
+GetFrameworkResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *FrameworkWithEmptySparseFieldset
+
+GetFrameworkResponseWithIncludes:
+  type: object
+  description: The data included in the response.
+  required:
+    - data
+  properties:
+    data: *FrameworkWithSparseFieldset
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetFrameworksResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      description: Array of frameworks
+      items: *FrameworkWithSparseFieldset
+    links: *Links
+
+CreateFrameworkEntityRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the framework.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities
+
+CreateFrameworkEntityResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the framework.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities

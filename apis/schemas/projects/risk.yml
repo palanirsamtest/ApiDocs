@@ -1,0 +1,464 @@
+RiskEntitiesRelationship: &RiskEntitiesRelationship
+  type: object
+  description: Each risk has an associated risk entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+RiskEmptyEntitiesRelationship: &RiskEmptyEntitiesRelationship
+  type: object
+  description: Each risk has an associated risk entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      example: []
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+RiskRelationships: &RiskRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - objective
+  properties:
+    objective: &ObjectiveRelationship
+      type: object
+      description: |
+        Each risk has an associated objective. Objectives are the organizing containers for the work done in a project or framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the objective.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"objectives"`).
+              example: objectives
+    mitigations: &MitigationsRelationship
+      type: object
+      description: |
+        To return this field, you must specify the `fields[risks]=mitigations` parameter in your request. For more information, see
+        <a href="#section/Making-requests">Making requests</a>.
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            description: Mitigations associated with a risk
+            required:
+              - id
+              - type
+            properties:
+              id:
+                type: string
+                description: The ID of the mitigation.
+                example: '1'
+              type:
+                type: string
+                description: The classification of the object (`"mitigations"`).
+                example: mitigations
+    framework_origin: &FrameworkOriginRelationship
+      type: object
+      description: |
+        In the Projects app, a project `risk` can have a related counterpart in an associated framework. The `framework_origin` attribute allows you to associate an `risk` in a project with its related counterpart in a framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the parent control.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"risks"`).
+              example: risks
+
+RiskSparseRelationships: &RiskSparseRelationships
+  <<: *RiskRelationships
+  properties:
+    objective: *ObjectiveRelationship
+    mitigations: *MitigationsRelationship
+    entities: *RiskEntitiesRelationship
+    framework_origin: *FrameworkOriginRelationship
+
+RiskEmptySparseRelationships: &RiskEmptySparseRelationships
+  <<: *RiskRelationships
+  properties:
+    objective: *ObjectiveRelationship
+    mitigations: *MitigationsRelationship
+    entities: *RiskEmptyEntitiesRelationship
+    framework_origin: *FrameworkOriginRelationship
+
+Risk: &Risk
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"risks"`).
+      example: risks
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - description
+      properties:
+        title: &title
+          type: string
+          description: The title of the risk.
+          maxLength: 255
+          example: Risk Title
+        description: &description
+          type: string
+          description: A detailed description of the risk.
+          maxLength: 524288
+          example: Risk Description
+        risk_id: &risk_id
+          type: string
+          description: The reference number or code for the risk.
+          maxLength: 255
+          example: '1'
+        impact: &impact
+          type: string
+          description: |
+            A user configurable rating of the consequences of the risk occurring. The options available depend
+            on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the
+            project type</a>.
+          example: High
+        likelihood: &likelihood
+          type: string
+          description: |
+            A user configurable rating of the probability of the risk occurring. The options available depend
+            on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the
+            project type</a>.
+          example: High
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the risk was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the risk was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        custom_attributes: &custom_attributes
+          type: array
+          description: An array of custom attributes defined by the user that are available on this object.
+          items:
+            type: object
+            description: A user defined custom attribute value.
+            properties:
+              id:
+                type: string
+                description: The ID of the custom attribute that this custom attribute value is for. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify the custom attribute. Optional if id is included.
+                example: 'Custom Risk Attribute'
+              value:
+                type: array
+                description: The value or values (for multiselect) to set this custom attribute to.
+                example: ['Custom Select Option Text']
+                items:
+                  type: string
+        custom_factors: &custom_factors
+          type: array
+          description: An array of custom risk factors defined by the user that are available on this object.
+          items:
+            type: object
+            description: A user defined custom risk factor value.
+            properties:
+              id:
+                type: string
+                description: The ID of the custom risk factor that this custom risk factor value is for. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify the custom risk factor. Optional if id is included.
+                example: 'Custom Risk Factor'
+              value:
+                type: array
+                description: The value to set this custom risk factor to.
+                example: ['Custom Risk Factor Option Text']
+                items:
+                  type: string
+        risk_assurance_data:
+          type: object
+          description: |
+            Fields that determines assurance values. Assurance is an expression of confidence that risk is effectively mitigated. Returns `null` if Risk Assurance feature is disabled.
+          properties:
+            inherent_risk:
+              type: number
+              format: float
+              description: |
+                The risk that an activity would pose if no controls or other mitigating factors were in place. Can also be referred to as the gross risk, or risks before controls, and can act as the baseline for your organization's risk tolerance or appetite.
+              example: 1.1
+            residual_risk:
+              type: number
+              format: float
+              description: |
+                The risk that remains after controls are taken into account. Can also be referred to as the net risk or risk after controls.
+              example: 1.1
+            assurance:
+              type: number
+              description: |
+                The level of assurance that the controls in place effectively mitigate risk to the business.
+              example: 0
+    relationships: *RiskRelationships
+
+RiskWithSparseFieldset: &RiskWithSparseFieldset
+  <<: *Risk
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *RiskSparseRelationships
+
+RiskWithEmptySparseFieldset: &RiskWithEmptySparseFieldset
+  <<: *Risk
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *RiskEmptySparseRelationships
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetRisksResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      items: *RiskWithSparseFieldset
+      description: Array of risks
+    links: *Links
+
+GetRiskResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *RiskWithEmptySparseFieldset
+
+GetRiskResponseWithIncludes:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *RiskWithSparseFieldset
+
+CreateRiskRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes: &updatableAttributes
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - description
+          properties:
+            title: *title
+            description: *description
+            risk_id: *risk_id
+            impact: *impact
+            likelihood: *likelihood
+            position: *position
+            custom_attributes: *custom_attributes
+            custom_factors: *custom_factors
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            framework_origin: *FrameworkOriginRelationship
+
+EntitiesRelationship: &EntitiesRelationship
+  type: object
+  description: |
+    The passed entities list should match the following conditions:
+    1. It should be the full exact list of entities you would like to be linked to the resource.
+
+    2. The passed entities should consist of valid sub-trees with all ancestor entities as well as descendent entities.
+
+    3. Inherited entities should be included too.
+
+    Otherwise, the whole request will be rejected with the corresponding error.
+  properties:
+    data:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+UpdateRiskRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *updatableAttributes
+        relationships:
+          type: object
+          nullable: true
+          description: The relationships associated with the resource.
+          properties:
+            entities: *EntitiesRelationship
+            framework_origin: *FrameworkOriginRelationship
+
+CreateRiskEntityRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the risk.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities
+
+CreateRiskEntityResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the risk.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities

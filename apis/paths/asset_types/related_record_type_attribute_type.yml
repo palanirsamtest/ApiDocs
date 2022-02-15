@@ -1,0 +1,74 @@
+post:
+  tags:
+    - Asset record types
+  operationId: createRecordTypeAttributeType
+  summary: Add an attribute type to an asset record type
+  description: |
+    Relates an attribute type to an existing asset record type. Returns the asset record type with all its related attribute types.
+
+    <strong>Limitations</strong>:
+    * An asset record type can be linked to a maximum of 100 attribute types. Attribute types with `data_type` set to `relationship` do not count towards the limit.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/EmptyRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleRecordTypeResponseWithAttributeTypes'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: UnprocessibleEntity
+                detail: 'Maximum number of 100 linked attribute types reached.'
+delete:
+  tags:
+    - Asset record types
+  operationId: deleteRecordTypeAttributeType
+  summary: Remove an attribute type from an asset record type
+  description: Remove a related attribute type from an existing asset record type. Returns the asset record type with all its related attribute types.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/recordTypeIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleRecordTypeResponseWithAttributeTypes'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

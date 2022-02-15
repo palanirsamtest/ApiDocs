@@ -1,0 +1,56 @@
+get:
+  tags:
+    - Groups
+  operationId: getGroups
+  summary: >
+    List groups in an instance
+  description: |
+    Get a list of groups for a particular HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultipleGroupsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+
+post:
+  tags:
+    - Groups
+  operationId: createGroup
+  summary: Create a new group
+  description: Add a group to a HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create a group.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateGroupRequest'
+  responses:
+    201:
+      description: Group created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetGroupResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      $ref: '../../components/responses.yml#/UnprocessableEntity'
+    429:
+      $ref: '../../components/responses.yml#/TooManyRequests'

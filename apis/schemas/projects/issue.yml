@@ -1,0 +1,590 @@
+IssueEntitiesRelationship: &IssueEntitiesRelationship
+  type: object
+  description: Each issue has an associated issue entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+IssueEmptyEntitiesRelationship: &IssueEmptyEntitiesRelationship
+  type: object
+  description: Each issue has an associated issue entities.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      example: []
+      items:
+        type: object
+        required:
+          - id
+          - type
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+IssueRelationships: &IssueRelationships
+  type: object
+  description: The relationships associated with the resource.
+  properties:
+    project: &ProjectRelationship
+      type: object
+      description: Specifies the project that the issue is associated with.
+      properties:
+        data:
+          type: object
+          description: The data associated with a project.
+          properties:
+            id:
+              type: string
+              description: The ID of the project.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"projects"`).
+              example: projects
+    target: &TargetRelationship
+      type: object
+      description: Specifies the resource that the issue is associated with. If a target field wasn't passed, then an Issue will be linked to a Project by default.
+      properties:
+        data:
+          type: object
+          description: The data associated with an issue.
+          properties:
+            id:
+              type: string
+              description: The ID of the resource.
+              example: '1'
+            type:
+              type: string
+              description: |
+                The classification of the object.
+
+                A target can have one of the following types: `"projects`", `"narratives`", `"objectives`", `"walkthrough_summaries`",
+                `"project_plannings`", `"walkthroughs`", `"control_tests`", `"control_test_plans`", `"project_results`", `"project_files`",
+                `"risk_control_matrices`", `"testing_rounds`", `"risks`", `"controls`"
+              example: objectives
+    owner_user: &OwnerUserRelationship
+      type: object
+      nullable: true
+      description: |
+        Specifies the user responsible for the issue.
+        A value in this field will override any values provided in the `owner` attribute.
+        This field becomes required if the `owner` attribute is not provided.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: |
+                The unique identifier (UID) of the user. For more information on obtaining this value, see
+                <a href="#section/Making-requests">Making requests</a>.
+              example: '3NQ6XzAUxqJMnAQ7n4KF'
+            type:
+              type: string
+              description: The classification of the object (`"users"`).
+              example: users
+
+IssueSparseRelationships: &IssueSparseRelationships
+  <<: *IssueRelationships
+  properties:
+    project: *ProjectRelationship
+    entities: *IssueEntitiesRelationship
+    target: *TargetRelationship
+    owner_user: *OwnerUserRelationship
+
+IssueEmptySparseRelationships: &IssueEmptySparseRelationships
+  <<: *IssueRelationships
+  properties:
+    project: *ProjectRelationship
+    entities: *IssueEmptyEntitiesRelationship
+    target: *TargetRelationship
+    owner_user: *OwnerUserRelationship
+
+Issue: &Issue
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The classification of the object (`"issues"`).
+      example: issues
+    attributes: &attributes
+      type: object
+      description: The attributes associated with the resource.
+      properties:
+        title: &title
+          type: string
+          description: The title of the issue.
+          maxLength: 255
+          example: Title of issue
+        description: &description
+          type: string
+          description: A detailed description of the issue.
+          maxLength: 524288
+          example: <h1>Description heading</h1><p>Issue description.</p>
+        creator_name: &creator_name
+          type: string
+          description: The name of the person that created the issue. The default is the name of the current user.
+          example: Payam Moghaddam
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the issue was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the issue was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        owner: &owner
+          type: string
+          description: |
+            The person responsible for the issue. Specifying a person's name or email does not automatically send them
+            an email notification about the issue.
+            This field becomes required if the `owner_user` relationship is not provided.
+          example: Payam Moghaddam
+        recommendation: &recommendation
+          type: string
+          description: A detailed description of the recommended actions to be taken based on the issue.
+          maxLength: 524288
+          example: <h1>Issue recommendation heading</h1><p>Recommendation description.</p>
+        deficiency_type: &deficiency_type
+          type: string
+          description: |
+            A user configurable classification of the issue.
+            The options available depend on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+          example: Deficiency
+        severity: &severity
+          type: string
+          description: |
+            A user configurable label that specifies the intensity of the issue.
+            The options available depend on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+          example: High
+        published: &published
+          type: boolean
+          description: |
+            Specifies whether the issue is visible to all users (`true`), or hidden from users assigned the Contributor Tester, Contributor User, Oversight Executive, and Oversight Reviewer roles (`false`).
+            An issue must be published to display in other related HighBond apps, such as Strategy. The default is `false`.
+          example: true
+        identified_at: &identified_at
+          type: string
+          description: The timestamp specifying when the issue was identified. The default is the current date and time.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        reference: &reference
+          type: string
+          description: The ID of the issue.
+          maxLength: 255
+          example: ISS-01
+        reference_prefix: &reference_prefix
+          type: string
+          description: Specifies the ID if the issue is associated with an objective.
+          example: '3'
+        risk: &risk
+          type: string
+          description: A detailed description of the risk or the impact the issue will have.
+          maxLength: 524288
+          example: <h1>Risk heading</h1><p>Risk or impact description.</p>
+        scope: &scope
+          type: string
+          description: |
+            A user configurable label that specifies the extent to which the issue affects the organization.
+            The options available depend on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+          maxLength: 524288
+          example: Local
+        escalation: &escalation
+          type: string
+          description: |
+            A user configurable label that specifies the person, department, or organizational body that the issue should be brought to.
+            The options available depend on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+          example: Owner
+        cause: &cause
+          type: string
+          description: A detailed description of what caused the issue to occur.
+          maxLength: 524288
+          example: <h1>Issue cause heading</h1><p>Issue cause description.</p>
+        effect: &effect
+          type: string
+          description: A detailed description of the effect the issue will have on the organization.
+          maxLength: 524288
+          example: <h1>Issue effect heading</h1><p>Issue effect description.</p>
+        cost_impact: &cost_impact
+          type: number
+          nullable: true
+          description: The estimated, or actual, monetary cost associated with the issue.
+          example: 4.2
+          format: double
+        executive_summary: &executive_summary
+          type: string
+          description: A high level overview of the issue that typically summarizes information from other related fields, such as risk/impact, cause, and effect.
+          maxLength: 524288
+          example: <h1>Executive summary heading</h1><p>Executive summary description.</p>
+        executive_owner: &executive_owner
+          type: string
+          description: |
+            The executive owner of the issue. Specifying a person's name or email does not automatically send them
+            an email notification about the issue.
+          example: Max Powell
+        project_owner: &project_owner
+          type: string
+          description: |
+            The project owner of the issue. Specifying a person's name or email does not automatically send them
+            an email notification about the issue.
+          example: Chris Rockwell
+        closed: &closed
+          type: boolean
+          description: |
+            Specifies whether the overall status of the issue is in an open (`false`) or closed state (`true`). The default is `false`.
+          example: false
+        remediation_status: &remediation_status
+          type: string
+          description: |
+            A user configurable issue remediation status.
+            The options available depend on the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">configuration of the project type</a>.
+          example: Opened
+        remediation_plan: &remediation_plan
+          type: string
+          description: A detailed description of the remediation plan.
+          maxLength: 524288
+          example: <h1>Remediation plan heading</h1><p>Remediation plan description.</p>
+        remediation_date: &remediation_date
+          type: string
+          description: Specifies a deadline for the issue to be remediated by.
+          example: '2019-02-09'
+          format: date
+        actual_remediation_date: &actual_remediation_date
+          type: string
+          description: Specifies the date the issue was actually remediated.
+          example: '2019-02-09'
+          format: date
+        retest_deadline_date: &retest_deadline_date
+          type: string
+          description: Specifies a deadline for the issue to be retested by.
+          example: '2019-02-09'
+          format: date
+        actual_retest_date: &actual_retest_date
+          type: string
+          description: Specifies the actual date when the issue was retested.
+          example: '2019-02-09'
+          format: date
+        retesting_results_overview: &retesting_results_overview
+          type: string
+          description: A detailed description that specifies whether or not the issue has truly been remediated.
+          maxLength: 524288
+          example: <h1>Retesting results overview heading</h1><p>Retesting results overview description.</p>
+        position: &position
+          type: integer
+          format: int64
+          description: |
+            The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+          example: 1
+        custom_attributes: &custom_attributes
+          type: array
+          description: An array of custom attributes defined by the user that are available on this object.
+          items:
+            type: object
+            description: A user defined custom attribute value.
+            properties:
+              id:
+                type: string
+                description: The ID of the custom attribute that this custom attribute value is for. Optional if term is included.
+                example: '42'
+              term:
+                type: string
+                description: The user defined term used to identify the custom attribute. Optional if id is included.
+                example: 'Custom Issue Attribute'
+              value:
+                type: array
+                description: The value or values (for multiselect) to set this custom attribute to.
+                example: ['Custom Select Option Text']
+                items:
+                  type: string
+    relationships: *IssueRelationships
+
+IssueWithSparseFieldset: &IssueWithSparseFieldset
+  <<: *Issue
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *IssueSparseRelationships
+
+IssueWithEmptySparseFieldset: &IssueWithEmptySparseFieldset
+  <<: *Issue
+  properties:
+    id: *id
+    type: *type
+    attributes: *attributes
+    relationships: *IssueEmptySparseRelationships
+
+SignoffUserProperties: &SignoffUserProperties
+  data:
+    type: object
+    description: The data associated with the field.
+    properties:
+      id:
+        type: string
+        description: The unique identifer (UID) of the user.
+        example: gBa4fJENNLyzgpZexZsz
+      type:
+        type: string
+        description: The classification of the object (`"users"`).
+        example: users
+
+IssueIncluded: &IssueIncluded
+  type: array
+  description: The data included in the response.
+  items:
+    type: object
+    required:
+      - id
+      - type
+      - attributes
+    properties:
+      id:
+        type: string
+        description: The ID of the included resource.
+      type:
+        type: string
+        description: The classification of the object (`"projects"`, `"users"`)
+      attributes:
+        type: object
+        description: The attributes associated with the resource.
+
+CreateIssueRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes: &updatableAttributes
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - description
+            - deficiency_type
+            - owner
+          properties:
+            description: *description
+            owner: *owner
+            deficiency_type: *deficiency_type
+            recommendation: *recommendation
+            title: *title
+            severity: *severity
+            published: *published
+            identified_at: *identified_at
+            reference: *reference
+            risk: *risk
+            scope: *scope
+            escalation: *escalation
+            cause: *cause
+            effect: *effect
+            cost_impact: *cost_impact
+            executive_summary: *executive_summary
+            executive_owner: *executive_owner
+            project_owner: *project_owner
+            closed: *closed
+            remediation_status: *remediation_status
+            remediation_plan: *remediation_plan
+            remediation_date: *remediation_date
+            actual_remediation_date: *actual_remediation_date
+            retest_deadline_date: *retest_deadline_date
+            actual_retest_date: *actual_retest_date
+            retesting_results_overview: *retesting_results_overview
+            position: *position
+            custom_attributes: *custom_attributes
+        relationships:
+          type: object
+          description: The relationships associated with the resource.
+          properties:
+            target: *TargetRelationship
+            owner_user: *OwnerUserRelationship
+
+EntitiesRelationship: &EntitiesRelationship
+  type: object
+  description: |
+    The passed entities list should match the following conditions:
+    1. It should be the full exact list of entities you would like to be linked to the resource.
+
+    2. The passed entities should consist of valid sub-trees with all ancestor entities as well as descendent entities.
+
+    3. Inherited entities should be included too.
+
+    Otherwise, the whole request will be rejected with the corresponding error.
+  properties:
+    data:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The ID of the entity.
+            example: '1'
+          type:
+            type: string
+            description: The classification of the object (`"entities"`).
+            example: entities
+
+UpdateIssueRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *updatableAttributes
+        relationships:
+          type: object
+          nullable: true
+          description: The relationships associated with the resource.
+          properties:
+            entities: *EntitiesRelationship
+            target: *TargetRelationship
+            owner_user: *OwnerUserRelationship
+
+GetIssueResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *IssueWithEmptySparseFieldset
+
+GetIssueResponseWithIncludes:
+  type: object
+  description: The data included in the response.
+  required:
+    - data
+    - included
+  properties:
+    data: *IssueWithSparseFieldset
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mw=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetIssuesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      items: *IssueWithSparseFieldset
+    links: *Links
+
+CreateIssueEntityRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the issue.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities
+
+CreateIssueEntityResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+          description: The ID of the issue.
+          example: '1'
+        type:
+          type: string
+          description: The classification of the object (`"entities"`).
+          example: entities

@@ -1,0 +1,23 @@
+get:
+  tags:
+    - Workflows
+  operationId: getWorkflowByApiName
+  summary: Get a workflow by api name
+  description: Get information about a workflow, using api_name, including all of its statuses, events and handlers if requested.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/apiNameParam'
+    - $ref: '../../components/parameters.yml#/includeWithWorkflowParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/SingleWorkflowResponseWithIncludes'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

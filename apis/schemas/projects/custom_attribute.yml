@@ -1,0 +1,208 @@
+CustomAttributeRelationships: &CustomAttributeRelationships
+  type: object
+  description: The relationships associated with the resource.
+  required:
+    - project_type
+  properties:
+    project_type:
+      type: object
+      description: |
+        Each custom attribute has an associated project type. Project types define the structure of a project or framework,
+        including the terminology used in the project or framework.
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          description: The data associated with the resource.
+          required:
+            - id
+            - type
+          properties:
+            id:
+              type: string
+              description: The ID of the project type that this custom attribute belongs to.
+              example: '1'
+            type:
+              type: string
+              description: The classification of the object (`"project_types"`).
+              example: 'project_types'
+
+CustomAttribute: &CustomAttribute
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id: &id
+      type: string
+      description: The ID of the requested resource.
+      example: '1'
+    type: &type
+      type: string
+      description: The type of the custom attribute (`"custom_attributes"`).
+      example: custom_attributes
+    attributes:
+      type: object
+      description: The attributes associated with the resource.
+      required:
+        - customizable_type
+        - term
+        - field_type
+      properties:
+        customizable_type: &customizable_type
+          type: string
+          description: |
+            The type of the custom attribute. Valid types are:
+            - CustomControlAttribute
+            - CustomControlTestAttribute
+            - CustomControlTestPlanAttribute
+            - CustomFindingActionAttribute
+            - CustomFindingAttribute
+            - CustomObjectiveAttribute
+            - CustomPlanningAttribute
+            - CustomProjectPlanningAttribute
+            - CustomResultsAttribute
+            - CustomRiskAttribute
+            - CustomRiskFactor
+            - CustomWalkthroughAttribute
+
+            >**Note**: There can be up to 5 of each custom attribute per project type, except for CustomRiskFactor, which can have up to 8 per project type. If the customizable_type is CustomRiskFactor, the weight field becomes a required field, and the field type can only be `select`.
+          example: CustomRiskFactor
+        term: &term
+          type: string
+          description: The displayed name of the custom attribute.
+          example: Custom Risk Factor Attribute
+        field_type: &field_type
+          type: string
+          description: |
+            The field type of the custom attribute. Valid field types are:
+            - select
+            - multiselect
+            - date
+            - text
+            - paragraph
+
+            >**Note**: If field_type is select or multiselect, the options field becomes a required field.
+          example: select
+        options: &options
+          type: array
+          nullable: true
+          description: |
+            The value or values (for multiselect) for this custom attribute.
+
+            >**Note**: This is a required field if the custom attribute is of field_type select or multiselect.
+          example: ['Option1', 'Option2', 'Option3']
+          items:
+            type: string
+        weight: &weight
+          type: integer
+          description: |
+            The weight value, only for custom attributes of type CustomRiskFactor. The weight value must be an integer between 1 and 1000.
+
+            >**Note**: This is a required field if the custom attribute is of type CustomRiskFactor.
+          format: int64
+          example: 100
+        created_at: &created_at
+          type: string
+          description: The timestamp identifying when the narrative was created.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+        updated_at: &updated_at
+          type: string
+          description: The timestamp identifying when the narrative was last updated.
+          example: '2019-02-09T13:17:26Z'
+          format: date-time
+    relationships: *CustomAttributeRelationships
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetCustomAttributeResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data: *CustomAttribute
+
+GetCustomAttributesResponse:
+  type: object
+  required:
+    - data
+    - links
+  properties:
+    data:
+      type: array
+      items: *CustomAttribute
+    links: *Links
+
+CreateCustomAttributeRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - customizable_type
+            - term
+            - field_type
+          properties:
+            customizable_type: *customizable_type
+            term: *term
+            field_type: *field_type
+            options: *options
+            weight: *weight
+
+UpdateCustomAttributeRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - term
+          properties:
+            term: *term
+            options: *options
+            weight: *weight

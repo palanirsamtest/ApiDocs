@@ -1,0 +1,80 @@
+get:
+  tags:
+    - Asset types
+  operationId: getAssetTypes
+  summary: Get asset types
+  description: Get a list of all asset types in a HighBond instance.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypesIncludeParam'
+    - $ref: '../../components/parameters.yml#/filterByCategories'
+    - $ref: '../../components/parameters.yml#/filterByWorkflowIds'
+    - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributesParam'
+    - $ref: '../../components/parameters.yml#/pageNumberParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ListAssetTypesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+post:
+  tags:
+    - Asset types
+  operationId: createAssetType
+  summary: Create an asset type
+  description: |
+    Create a new, empty asset type. Before you create an asset type, ensure there is a <a href="#tag/Workflows">workflow</a> to govern the life-cycle of assets with this type.
+
+    <strong>Limitations</strong>:
+    * Your organization can have a maximum of 1000 asset types.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+  requestBody:
+    description: The data required to create an asset type.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateAssetTypePayload'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/CreateAssetTypeResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                code: ValidationError
+                detail: body.data.attributes should have required property 'name'
+              - status: 422
+                code: UnprocessibleEntity
+                detail: Maximum number of 1000 asset types reached.

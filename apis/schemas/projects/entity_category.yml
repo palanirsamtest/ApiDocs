@@ -1,0 +1,191 @@
+EntityCategoryEntityRelationship: &EntityCategoryEntityRelationship
+  type: object
+  description: Entities associated with a category
+  required:
+    - id
+    - type
+  properties:
+    id:
+      type: string
+      description: The ID of the entity.
+      example: '1'
+    type:
+      type: string
+      description: The classification of the object (`"entities"`).
+      example: entities
+
+EntityCategoryRelationships: &EntityCategoryRelationships
+  type: object
+  description: The relationships associated with the resource.
+  properties:
+    entities:
+      type: object
+      description: |
+        Each entity category may have associated entities.
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items: *EntityCategoryEntityRelationship
+
+EntityCategoryRequired: &EntityCategoryRequired
+  - id
+  - type
+  - attributes
+  - relationships
+
+EntityCategoryProperties: &EntityCategoryProperties
+  id: &id
+    type: string
+    description: The ID of the requested resource.
+    example: '1'
+  type: &type
+    type: string
+    description: The type of entity category (`"entity_categories"`).
+    example: entity_categories
+  attributes: &EntityCategoryAttributes
+    type: object
+    description: The attributes associated with the resource.
+    required:
+      - title
+    properties:
+      title: &title
+        type: string
+        description: the name of entity category
+        maxLength: 60
+        example: 'My new entity category'
+      description: &description
+        type: string
+        description: the description of entity category
+        example: 'My new description'
+      position: &position
+        type: integer
+        description: |
+          The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+        example: 1
+      entities_count: &entities_count
+        type: integer
+        description: |
+          Related entities count, is a value between `1` and `2147483647`.
+        example: 1
+      created_at: &created_at
+        type: string
+        description: The timestamp identifying when the entity category was created.
+        example: '2019-02-09T13:17:26Z'
+        format: date-time
+      updated_at: &updated_at
+        type: string
+        description: The timestamp identifying when the entity category was last updated.
+        example: '2019-02-09T13:17:26Z'
+        format: date-time
+
+EntityCategory: &EntityCategory
+  type: object
+  description: The data associated with the resource.
+  required: *EntityCategoryRequired
+  properties: *EntityCategoryProperties
+
+EntityCategoryWithRelationships: &EntityCategoryWithRelationships
+  type: object
+  description: The data associated with the resource.
+  required: *EntityCategoryRequired
+  properties:
+    id: *id
+    type: *type
+    attributes: *EntityCategoryAttributes
+    relationships: *EntityCategoryRelationships
+
+EntityCategoryCreateAttribute: &EntityCategoryCreateAttribute
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - title
+  properties:
+    title: *title
+    description: *description
+
+EntityCategoryUpdateAttribute: &EntityCategoryUpdateAttribute
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    title: *title
+    description: *description
+    position: *position
+
+Links: &Links
+  type: object
+  required:
+    - next
+    - prev
+  properties:
+    next:
+      type: string
+      description: Next page url
+      nullable: true
+      example: '/api/resource?page[number]=Mg=='
+    prev:
+      type: string
+      description: Previous page url
+      nullable: true
+      example: null
+
+GetEntityCategoryResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data: *EntityCategoryWithRelationships
+
+GetEntityCategoriesResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *EntityCategoryWithRelationships
+    links: *Links
+
+CreateEntityCategoryResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data: *EntityCategory
+
+CreateEntityCategoryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+        - relationships
+      properties:
+        type: *type
+        attributes: *EntityCategoryCreateAttribute
+
+UpdateEntityCategoryRequest:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id: *id
+        type: *type
+        attributes: *EntityCategoryUpdateAttribute

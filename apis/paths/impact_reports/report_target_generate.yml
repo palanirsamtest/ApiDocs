@@ -1,0 +1,32 @@
+get:
+  tags:
+    - Impact Reports
+  operationId: GenerateReportFromReportTarget
+  summary: >
+    Generate a report from report target.
+  description: Generate a report by org ID and report target ID.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/reportTargetIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GenerateReportResponse'
+          example:
+            data:
+              - id: '5c8b9492ca52480d62d33e5e0d75f02b'
+                type: generated_reports
+                attributes:
+                  key: 'generated/1000822/1620975291426-8b107c3f-f1fe-4616-aa74-a911c2deaf93.docx'
+                  signed_url: 'https://acl-impact-reports-api-us2-main-s1.s3.us-west-2.amazonaws.com/generated/1000822/1620975291426-8b107c3f-f1fe-4616-aa74-a911c2deaf93.docx?AWSAccessKeyId=ASIAZOVLMCMNAYSSDM7G&Expires=1620975594&Signature=Cqgno7IVYD%2FGwAdGVeGiLrZ68As%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEF8aCXVzLXdlc3QtMiJHMEUCIQCNHbMmrd9ylitlTAvre%2BHgWvKhj6lsslP%2FIwsMlFZVrAIgPQ5W6THfJPSrmTIZd5oL837n%2FKyyKmkh1thELD8IW44qpQII6P%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NDk5NzMyMDc4MzQiDHy19f8M6Y8XWkmTZyr5AVDFXFzu1IAkQBcCvjpHZQnhwsKKY69QcHsOIJkIUjvrXjXWgGe19CXsohPtArH7cABhuJmQOl4cyZxBorK7zumdn77yq20lW5ANYM0ErR3HjjS0k1VmDSCMddcNxvMcFrNrHK6L8xCtS6KpGo4bA8JktRtKPBDbKzGeV6hJafSnDRIDY38f5b4V9bpSu%2B9Mh8f2LxcrKiIknoN6GJZFOnMcV79qhRhRCNn9ggWBSGF%2FLdGoctU48aA9lOoWbs5M2s70S1GkPSvR8pXPyWp1M2%2FYNpHiqEi6OZMbC93Z8d3A%2FsEHTQncnLtf4K1jOgI9lUmBep7J2L31KjCgufiEBjqaAdVw9IzP8g%2B3PjaYOZqDq6tXjky2wy1JRNush78nxWGt3WpGGQTxDHOD1oA4uRAFlFjPcWhZ1b4supzBvo88%2FWmrvZXFC5RNr4GrAw3BtH24k0moJx2oVrphcofePkjMBIYp6COX3oHL4d60wjYY%2FocZhE%2FN7zgxSTM5WFQLJLkhKH3sCPwe3uN%2BEHOz9lKNtF%2FvmwvynocKpzA%3D'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/ReportNotFound'

@@ -1,0 +1,24 @@
+get:
+  tags:
+    - Asset types
+  operationId: getAssetTypeAttributeTypes
+  summary: Get attribute types related to a specific asset type
+  description: Get a list of all attribute types related to a specific asset type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/assetTypeIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ListAttributeTypesResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

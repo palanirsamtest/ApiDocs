@@ -1,0 +1,163 @@
+TableCreateUpdateCommonAttributes: &TableCreateUpdateCommonAttributes
+  name:
+    type: string
+    description: The name of the table.
+    maxLength: 255
+    example: My first Table
+  description:
+    type: string
+    description: The description of the table.
+    example: Description of My first Table
+  script_name:
+    type: string
+    description: The name of the script, or process, used to generate the result set.
+    maxLength: 255
+    example: Sec01_Wknd_Unauth_Access_Point
+TableUpdatableAttributes: &TableUpdatableAttributes
+  <<: *TableCreateUpdateCommonAttributes
+  primary_key: &primaryKeyAttribute
+    type: string
+    description: Field that uniquely identifies a record. Specifying a primary key field allows uploads of records sharing the same primary key to be merged rather than duplicated.
+    maxLength: 255
+    default: null
+    example: 'primary_key'
+  record_identifiers: &recordIdentifiersAttribute
+    type: array
+    items:
+      type: string
+    description: |
+      Select a few non-sensitive fields that identify a record. You can select any imported data, Results metadata fields, and questionnaire fields. These fields will be displayed in emails sent to recipients and when they fill out questionnaires. In sequential certifications, recipients always see previous answers.
+      * You can select values from `user_fields` (user-created columns in the table)
+      * You can select values from `metadata_fields`, which can be one or more of the following: `record_id`, `position`, `priority`, `status`, `publish_date`, `publisher`, `assignee`, `group`, `updated_at`, `closed_at`
+    default: [':record_id']
+    example: [':record_id']
+TableCreatableAttributes: &TableCreatableAttributes
+  <<: *TableCreateUpdateCommonAttributes
+  table_type:
+    type: string
+    description: Table type; this cannot be updated once table is created.
+    enum: ['data_analytic', 'assessment_table']
+    default: 'data_analytic'
+    example: 'data_analytic'
+  questionnaire_id:
+    type: string
+    description: The id of the single questionnaire associated with this table (assessment tables only).
+    example: '1'
+TableFullAttributes: &TableFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *TableCreatableAttributes
+    <<: *TableUpdatableAttributes
+    data_table_id:
+      type: integer
+      description: The data table ID of the table.
+      example: 123
+      format: int64
+    created_at:
+      type: string
+      description: The date the table was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the table was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+Table: &Table
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the table.
+      example: '300'
+    type:
+      type: string
+      description: The classification of the object (`"tables"`).
+      example: tables
+    attributes: *TableFullAttributes
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      properties:
+        analysis:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        analysis:
+          data:
+            id: '20'
+            type: analyses
+CreateTablePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"tables"`).
+          example: tables
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties: *TableCreatableAttributes
+UpdateTablePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the table.
+          example: '300'
+        type:
+          type: string
+          description: The classification of the object (`"tables"`).
+          example: tables
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties: *TableUpdatableAttributes
+SingleTableResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Table
+GetTablesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: Tables data.
+      items: *Table

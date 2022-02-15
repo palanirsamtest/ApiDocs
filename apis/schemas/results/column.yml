@@ -1,0 +1,100 @@
+ColumnUpdatableAttributes: &ColumnUpdatableAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - data_type
+  properties: &baseAttribute
+    display_name:
+      type: string
+      description: The name of the column that is displayed in the table.
+      maxLength: 256
+      example: 'Account number'
+    data_type:
+      type: string
+      description: The data type of the column. Supported data types include `character`, `numeric`, `logical`, `date`, `time`, `datetime`, `file`, or `digital_signature`.
+      example: character
+ColumnFullAttributes: &ColumnFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *baseAttribute
+    is_primary_key:
+      type: boolean
+      description: Specifies if the column is a primary key field. For more information, see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-primary-key" target="_blank">Specifying a primary key</a>.
+Column: &Column
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The `field_name` of a column.
+      example: account_number
+    type:
+      type: string
+      description: The classification of the object (`"columns"`).
+      example: columns
+    attributes: *ColumnFullAttributes
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      properties:
+        table:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        table:
+          data:
+            id: '300'
+            type: tables
+CreateColumnPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - field_name
+          - data_type
+        properties:
+          field_name:
+            type: string
+            description: The underlying name of a column in a table. `field_name` must be unique within a table and follow the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-import-export-results" target="_blank">column naming requirements</a>.
+            example: account_number
+          <<: *baseAttribute
+DeleteColumnPayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items:
+        type: object
+        required:
+          - field_name
+        properties:
+          field_name:
+            type: string
+            description: The underlying name of a column in a table. `field_name` must be unique within a table and follow the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-import-export-results" target="_blank">column naming requirements</a>.
+            example: account_number
+MultiColumnsResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *Column

@@ -1,0 +1,184 @@
+#
+# Error schemas
+#
+Errors:
+  type: object
+  properties:
+    errors:
+      type: array
+      items:
+        $ref: '#/Error'
+Error:
+  type: object
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      description: The HTTP status code.
+    source:
+      type: object
+      description: Indicates which part of the request document caused the error.
+      required:
+        - pointer
+      properties:
+        pointer:
+          type: string
+          description: |
+            A JSON Pointer <a href="https://tools.ietf.org/html/rfc6901" target="_blank">(RFC6901)</a> to the associated entity
+            in the request document.
+    code:
+      type: string
+      description: Application-specific error code, expressed as a string value.
+    title:
+      type: string
+      description: A short, human-readable summary of the problem.
+    detail:
+      type: string
+      description: A human-readable explanation specific to this occurrence of the problem.
+
+Examples:
+  BadFastifyRequest:
+    errors:
+      - status: 400
+        title: Bad Request
+        code: bad_request
+        detail: params.org_id should NOT be shorter than 1 characters
+  ResourceTypeMismatch:
+    errors:
+      - status: 400
+        code: resource_type_mismatch
+        title: Resource type mismatch
+        detail: |
+          The requested data type, a-bad-type, is incompatible with the endpoint.
+  ResourceIdConflict:
+    errors:
+      - status: 400
+        code: resource_id_conflict
+        title: Resource ID conflict
+        detail: |
+          The id specified in the request body, 1, conflicts with
+          the id specified in the path, 101.
+  MissingOrgId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, org_id, is missing.
+  MissingResourceId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, id, is missing.
+  MissingIssueId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, issue_id, is missing.
+  MissingProjectId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, project_id, is missing.
+  MissingCollectionId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, collection_id, is missing.
+  MissingTableId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, table_id, is missing.
+  MissingRobotId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, robot_id, is missing.
+  MissingRobotTaskId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, robot_task_id, is missing.
+  MissingActivityEventOrigin:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, event_origin, is missing.
+  NameNotUnique:
+    errors:
+      - status: 422
+        title: UnprocessableEntityError
+        detail: Invalid name
+  NotJsonapiMediaType:
+    errors:
+      - status: 415
+        code: unsupported_media_type
+        title: Unsupported media type
+        detail: >
+          The endpoint supports only the application/vnd.api+json Content-Type.
+          This request specified application/json.
+  ToolkitIdNotFound:
+    errors:
+      - status: 404
+        title: Toolkit not found
+        detail: >
+          Unknown toolkit requested: {id}.
+  InvalidToolkitId:
+    errors:
+      - status: 422
+        source:
+          pointer: '/data/id'
+        title: Invalid toolkit ID
+        detail: >
+          Invalid toolkit ID requested: {id}.
+  MissingAssetTypeId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, asset_type_id, is missing.
+  MissingRecordTypeId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, record_type_id, is missing.
+  InvalidImportData:
+    errors:
+      - status: 422
+        tittle: Invalid resource request
+        detail: >
+          Resource name request is invalid for SessionId: 58e559b1-31bf-4341-b761-c30364376adf
+  InvalidReportData:
+    errors:
+      - status: 422
+        tittle: Unprocessable Entity Error
+        detail: >
+          The required parameter, name, query, engine, format, generate, template is missing.
+  InvalidReportTargetData:
+    errors:
+      - status: 422
+        tittle: Unprocessable Entity Error
+        detail: >
+          The required parameter, name, report_id, target_type, target_type_id is missing.
+  ReportNotFound:
+    errors:
+      - status: 404
+        title: Report not found
+        detail: >
+          Unknown report requested: {id}.
+  ReportTargetNotFound:
+    errors:
+      - status: 404
+        title: Report Target not found
+        detail: >
+          Unknown report target requested: {id}.

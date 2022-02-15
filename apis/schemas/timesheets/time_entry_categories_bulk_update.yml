@@ -1,0 +1,164 @@
+TimeEntryCategories: &TimeEntryCategories
+  type: array
+  description: List of categories to bulk update or create.
+  items:
+    type: object
+    required:
+      - method
+      - data
+    properties:
+      method:
+        type: string
+        description: Update or create time entry category
+      data:
+        type: object
+        required:
+          - type
+          - attributes
+        description: Array of non-project time categories for update or create
+        properties:
+          id:
+            type: string
+            description: The ID of the requested resource (should be provided for update action only).
+          type:
+            type: string
+            description: The classification of the object (`"time_entry_categories"`).
+          attributes:
+            type: object
+            description: The attributes associated with the resource.
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                description: The name of the time entry category.
+                maxLength: 255
+              position:
+                type: integer
+                format: int64
+                description: |
+                  The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+                example: 1
+              active:
+                type: boolean
+                description: The value that determines if the time entry category is active.
+  example:
+    - method: update
+      data:
+        id: 1
+        type: time_entry_categories
+        attributes:
+          name: Administration
+          active: true
+          positon: 1
+    - method: create
+      data:
+        type: time_entry_categories
+        attributes:
+          name: Leave/Vacation
+          active: true
+          position: 5
+    - method: create
+      data:
+        type: time_entry_categories
+        attributes:
+          name: ''
+
+BulkUpdateTimeEntryCategoriesRequest:
+  type: object
+  required:
+    - data
+  properties:
+    data: *TimeEntryCategories
+
+BulkUpdateTimeEntryCategoriesResponse:
+  type: array
+  description: List of categories to bulk update or create.
+  items:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        type: object
+        required:
+          - status
+          - response
+        description: Array of non-project time categories with respond statuses.
+        properties:
+          status:
+            type: string
+            description: Respond status
+          response:
+            type: object
+            required:
+              - id
+              - type
+              - attributes
+            description: Reponse details
+            properties:
+              id:
+                type: string
+                description: The ID of the requested resource (should be provided for update action only).
+              type:
+                type: string
+                description: The classification of the object (`"time_entry_categories"`).
+              attributes:
+                type: object
+                description: The attributes associated with the resource.
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    description: The name of the time entry category.
+                    maxLength: 255
+                  position:
+                    type: integer
+                    format: int64
+                    description: |
+                      The value that determines the order in which it is displayed in the index action. `position` must be a value between `1` and `2147483647`.
+                    example: 1
+                  active:
+                    type: boolean
+                    description: The value that determines if the time entry category is active.
+                  created_at:
+                    type: string
+                    description: The timestamp identifying when the time entry category was created.
+                    format: date-time
+                  updated_at:
+                    type: string
+                    description: The timestamp identifying when the time entry category was last updated.
+                    format: date-time
+  example:
+    data:
+      - status: 200
+        response:
+          data:
+            id: 1
+            type: time_entry_categories
+            attributes:
+              name: Administration
+              active: true
+              positon: 1
+              created_at: 2019-01-09T13:17:26Z
+              updated_at: 2019-02-09T13:17:26Z
+      - status: 201
+        response:
+          data:
+            id: 3
+            type: time_entry_categories
+            attributes:
+              name: Leave/Vacation
+              active: true
+              positon: 5
+              created_at: 2019-02-08T13:17:26Z
+              updated_at: 2019-02-09T13:17:26Z
+      - status: 422
+        response:
+          errors:
+            status: 422
+            source:
+              pointer: /data/attributes/name
+            code: invalid_resource
+            detail: can't be blank

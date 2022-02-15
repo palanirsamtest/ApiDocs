@@ -1,0 +1,21 @@
+delete:
+  tags:
+    - Questionnaires
+  operationId: deleteQuestion
+  summary: Delete a questionnaire item
+  description: |
+    Permanently delete a questionnaire item in a questionnaire.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    204:
+      $ref: '../../components/responses.yml#/NoContent'
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

@@ -1,0 +1,187 @@
+QuestionnaireBaseAttributes: &QuestionnaireBaseAttributes
+  name:
+    type: string
+    description: The name of the questionnaire.
+    maxLength: 255
+    example: My first Questionnaire
+  instruction:
+    type: string
+    description: Specifies the instructions for those individuals receiving your questionnaire.
+    example: Please complete the training before filling out this questionnaire.
+  position:
+    type: integer
+    format: int64
+    minimum: 0
+    description: The position of the questionnaire in a collection.
+    example: 55
+  resubmittable:
+    type: boolean
+    description: To allow users to submit updated responses to previously assigned questionnaires without supplying an explanatory comment.
+    default: false
+    example: false
+  respondent_view:
+    type: string
+    description: Specifies whether recipients should see information about specific records.
+    enum:
+      - all_records
+      - select_records
+      - no_records
+    default: all_records
+  email_subject:
+    type: string
+    nullable: true
+    maxLength: 255
+    description: |
+      The subject of the email notification to respondents when a questionnaire is sent.
+      If an email_subject value is not specified, there will be a default email subject.
+    example: Respond to My first Questionnaire
+  email_message:
+    type: string
+    nullable: true
+    description: |
+      The content of the email notification to respondents when a questionnaire is sent.
+      If an email_message value is not specified, there will be a default email message body.
+    example: Test Collection has requested that you complete a questionnaire.
+  linked_tables_ids:
+    type: array
+    items:
+      type: integer
+      format: int64
+    description: The IDs of the linked tables.
+    example: [1, 3, 5]
+  linked_tables_only:
+    type: boolean
+    description: Specifies whether only allow this questionnaire to be sent from linked tables for all roles.
+    default: false
+    example: false
+  weighting:
+    type: boolean
+    description: Specifies the possibility addition of weighting for questionnaire questions.
+    example: false
+  reference_id:
+    type: string
+    description: Attribute for questionnaires filtering
+    example: Important Questionnaires
+QuestionnaireFullAttributes: &QuestionnaireFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    <<: *QuestionnaireBaseAttributes
+    surveys_ids:
+      type: array
+      items:
+        type: integer
+        format: int64
+      description: The IDs of the surveys that use this questionnaire as the primary questionnaire.
+      example: [1, 3]
+    created_at:
+      type: string
+      description: The date the questionnaire was created.
+      example: '2019-02-09T13:17:26Z'
+      format: date-time
+    updated_at:
+      type: string
+      description: The date the questionnaire was updated.
+      example: '2019-03-18T22:02:05Z'
+      format: date-time
+Questionnaire: &Questionnaire
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '20'
+    type:
+      type: string
+      description: The classification of the object (`"questionnaires"`).
+      example: questionnaires
+    attributes: *QuestionnaireFullAttributes
+    relationships: &QuestionnaireRelationships
+      type: object
+      description: The relationships associated with the resource.
+      required:
+        - collection
+      properties:
+        collection:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        collection:
+          data:
+            id: '1'
+            type: collections
+CreateQuestionnairePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - type
+        - attributes
+        - relationships
+      properties:
+        type:
+          type: string
+          description: The classification of the object (`"questionnaires"`).
+          example: questionnaires
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          required:
+            - name
+          properties:
+            <<: *QuestionnaireBaseAttributes
+        relationships: *QuestionnaireRelationships
+UpdateQuestionnairePayload:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: The ID of the requested resource.
+          example: '20'
+        type:
+          type: string
+          description: The classification of the object (`"questionnaires"`).
+          example: questionnaires
+        attributes:
+          type: object
+          description: The attributes associated with the resource.
+          properties:
+            <<: *QuestionnaireBaseAttributes
+SingleQuestionnaireResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data: *Questionnaire
+MultiQuestionnairesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *Questionnaire

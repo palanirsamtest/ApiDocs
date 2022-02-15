@@ -1,0 +1,877 @@
+info:
+  title: HighBond API Reference
+  version: 1.1.0
+  description: |
+
+    Welcome to the API documentation for HighBond.
+
+    ## Introduction
+    This is the developer interface for the HighBond platform. Use this API to automate interactions with HighBond,
+    build reporting, and integrate HighBond with other systems in your company.
+
+    The HighBond API is organized around <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">REST</a> and is built on the
+    <a href="https://jsonapi.org/format/" target="_blank">JSON API v1.0 specification</a>.
+
+    > **Warning —**
+    This API interacts with your company's live data. It gives you the power to delete important data that your
+    company needs. Carefully consider the consequences of your actions when using this API. If you are not sure, contact the
+    person or group who administers HighBond in your company.
+
+    ## Authentication
+    All requests require authentication. To authenticate, use Launchpad to create a HighBond API (bearer) token for your account. The token is a string that authenticates you
+    and allows you to securely access the HighBond API.
+
+    > **Note —**
+    You must be a System Admin in at least one HighBond instance to access the API. For help creating a token, see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-access-tokens"
+    target="_blank">Creating and managing tokens</a>.
+
+    Once you have created your token, you can provide it in the header of your request:
+    ```
+    Authorization: Bearer <TOKEN>
+    ```
+
+    <security-definitions />
+
+    ### Complete request example
+    A complete request example using `curl` would look like this:
+    ```
+    curl -H "Authorization: Bearer XYZ" -H "Content-Type: application/vnd.api+json" https://apis-us.highbond.com/v1/orgs/1000559/collections
+    ```
+    > **Important —**
+    If you do not authenticate yourself, the API fails. The API responds to authentication failures with a `401` "Bad credentials" status.
+
+
+    ### Token security
+    HighBond uses the <a href="https://tools.ietf.org/html/rfc6749#section-1.3.1" target="_blank">Authorization Code workflow</a> to generate tokens.
+
+    To enable continuous access to the API, and to provide full ownership and accountability to users, Galvanize does not impose an expiration date
+    on the token. You can <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-access-tokens" target="_blank">delete a token in
+    Launchpad</a> when you no longer need access to the API.
+
+    > **Important —**
+    Your access token provides many privileges, so keep it secure and private. Galvanize recommends that you encrypt your
+    machine to securely store the token. Avoid sharing your token in publicly accessible areas such GitHub or within client-side code.
+
+
+    ### Permissions
+    HighBond uses the <a href="https://tools.ietf.org/html/rfc6749" target="_blank">OAuth 2.0 authorization framework</a> to control access to the API.
+
+    API tokens are tied to users, not companies, so your permissions in the API are the same as your permissions in HighBond. If you leave your
+    company and your HighBond user account is deleted, your application will break. Consider the long-term requirements of your application. You
+    may wish to create a system account in HighBond and build your application from that, but verify that your company's security policies permit
+    accounts that aren't tied to particular people.
+
+
+    ### Apps
+    Apps are components in HighBond that provide specific functionality. You can use this API to interact with data in the apps you have access to.
+
+    The apps available to you depend on the edition of HighBond (standard or premium) in use, and whether or not your company has purchased any add-on apps.
+    For more information, see <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-product-editions" target="_blank">Products and editions</a>.
+
+
+    ## Making requests
+    All API requests must be made over <a href="https://en.wikipedia.org/wiki/HTTPS" target="_blank">HTTPS</a>. Calls over HTTP respond with the `301` "Moved Permanently" status.
+
+
+    ### HTTP methods
+    The API uses the appropriate HTTP method for each action:
+    * `GET` — used for retrieving resources
+    * `POST` — used for creating resources
+    * `PUT` / `PATCH` — used for updating resources
+    * `DELETE` — used for deleting resources
+
+
+    ### Content type
+    Always specify the `Content-Type` of your request in the header. Supported content types are:
+    * JSON API
+    * JSON (for backwards compatibility)
+
+    ```
+    Content-Type: application/vnd.api+json
+    Content-Type: application/json
+    ```
+
+    A complete **Get a table** request using `curl` would look like this:
+    ```
+    curl -H "Authorization: Bearer XYZ" -H "Content-Type: application/vnd.api+json" https://apis-us.highbond.com/v1/orgs/11594/tables/388930
+    ```
+
+    ### API regions
+
+    The HighBond service is provided from different regions in order to give customers options for where their data is stored, and to enable them to
+    comply with data privacy location requirements.
+
+    Your request URL must include one of the following region codes, based on where your HighBond instance resides:
+
+    * **United States** — `https://apis-us.highbond.com`
+    * **Canada** — `https://apis-ca.highbond.com`
+    * **Europe** — `https://apis-eu.highbond.com`
+    * **Asia** — `https://apis-ap.highbond.com`
+    * **Australia** — `https://apis-au.highbond.com`
+    * **Africa** — `https://apis-af.highbond.com`
+    * **South America** — `https://apis-sa.highbond.com`
+
+    Additionally, for government clients, there are two government "regions":
+    * **Gov** (US federal) — `https://apis.highbond-gov.com`
+    * **SLED** (state, local, and education; non-federal) — `https://apis.highbond-gov2.com`
+
+
+    ### HighBond instance and resource IDs
+    Requests require a HighBond instance ID and the ID of the resource you are interacting with. These IDs are numeric keys that uniquely
+    identify the HighBond instance and every resource in that instance.
+
+    The easiest way to get your HighBond instance ID is to log in to HighBond and take the ID from the URL:
+    ```
+    https://accounts.highbond.com/orgs/12345
+    ```
+
+    To obtain IDs for resources like collections, analyses, tables, and robots, you can navigate to the item you want to reference, and take the IDs from the URL.
+    For example, this URL shows a collection ID:
+    ```
+    https://example-company.results.highbond.com/projects/55843
+    ```
+
+    > **Tip —**
+    The `GET` methods in this API also return IDs that you can use to identify resources you can act on.
+
+
+    ### Users
+    A unique identifier (UID) is an alphanumeric string that is associated with a user in HighBond. UIDs make it possible to address users,
+    so that they can be accessed and interacted with using the API. Some requests that allow you to assign items to users, such as creating an objective,
+    require you to specify a user's UID.
+
+    To obtain a user's UID:
+
+    1. Sign in to <a href="https://accounts.highbond.com/login" target="_blank">HighBond</a>.
+    2. If your company uses more than one instance in HighBond, make sure <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-switch-instances"
+    target="_blank">the appropriate instance is active</a>.
+    3. Select **Options > Users (#)**.
+    4. Navigate to the appropriate user and click the user's name.
+    5. In the **User Details** side panel, copy the UID to your clipboard.
+    Once you have copied the UID, you can specify it in your request.
+
+
+    ### Requesting the API to return only specific fields
+    For certain resources, such as control tests, you can request the API to return only specific fields using the `fields` query parameter. Sparse fieldsets are
+    helpful for limiting your responses to only the data you require.
+
+    > **Note —**
+    The `type` argument must specify the resource you want to retrieve. The value of the `fields` parameter must be a comma-delimited list that specifies
+    the name of the field(s) to be returned. Avoid whitespaces before or after each comma.
+    ```
+    fields[type]=field_name1,field_name2,fieldname3
+    ```
+
+    A complete **Get a control test** request that only returns the `assigned_user`, `control`, and `testing_round_number` fields would look like this:
+
+    ```
+    curl -H "Authorization: Bearer XYZ" -H "Content-Type: application/vnd.api+json" https://apis-us.highbond.com/v1/orgs/12345/control_tests/105?fields[control_tests]=assigned_user,control,testing_round_number
+    ```
+
+    ### Requesting the API to return related resources
+    To reduce the number of requests, you may use the `include` query parameter to return related resources in the response along with the requested primary resources. Such responses are called "compound documents".
+
+    Accepted values for the `include` parameter are documented in the `Query Parameters` section of each API method.
+
+    > **Note —**
+    The `include` parameter must be a comma-delimited list that specifies
+    the name of the relationship(s) or nested relationship(s) to be returned. Avoid whitespaces before or after each comma.
+
+    Example - requesting a relationship and a nested relationship
+    ```
+    include=control,control.objective
+    ```
+
+    A complete **Get a control test** request that returns the `control` relationship, and `control.objective` nested relationship would look like this:
+
+    ```
+    curl -H "Authorization: Bearer XYZ" -H "Content-Type: application/vnd.api+json" https://apis.highbond.com/v1/orgs/12345/control_tests/105?include=control,control.objective
+    ```
+
+    ### Blank fields
+    Blank fields are included in all response schemas as `""` or `null` instead of being omitted.
+
+
+    ### Time zones
+    All timestamps are returned in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
+
+    Some requests that create new data, such as creating a robot task's schedule, allow you to provide time zone information.
+    For API requests that allow for a timestamp to be specified, you must explicitly provide an ISO 8601 timestamp with time zone information.
+
+    ```
+    "starts_at": "2019-03-21T16:25:00.478Z",
+    "starts_at_timezone": "America/Los_Angeles",
+    ```
+
+
+    ### Rich text fields
+
+    Some requests and responses contain rich text fields that include HTML tags. These are typically description fields. If you need to format text,
+    the best approach is to upload your raw data first and apply formatting later in the user interface.
+
+    > **Note —**
+    Images that exist in rich text fields are returned in responses, but they are not rendered. You cannot upload new images to rich text fields using the API.
+
+
+    ### Rate limitations
+    The API safeguards against bursts of usage to help maximize its stability. You cannot make more than 6 requests per second. Treat this limit as a maximum and avoid making unnecessary requests to the API.
+
+    If you make too many requests, the API responds with a `429` "Too many requests" status.
+
+
+    ## Errors
+    HighBond uses standard <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank">HTTP response codes</a>
+    to indicate the success or failure of a request.
+
+    Codes in the `2xx` range indicate success. Codes in the `4xx` range indicate an error given the information provided. Codes in the `5xx`
+    range indicate that the server has failed to fulfill a valid request.
+
+    Some common errors that occur when making requests include:
+    * **`400` Bad request —** When a parameter is missing (such as the `org_id` or resource `id`), when more
+    than one unique resource is specified in the request, or when a specified data type is incompatible with the endpoint
+    * **`401` Bad credentials —** When there is an authentication error
+    * **`403` Forbidden —** When there is an authorization problem based on your <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-managing-apps"
+    target="_blank">role in a HighBond app</a> or <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-assigning-subscriptions" target="_blank">subscription</a>
+    * **`404` Not found —** When there is a problem on the client side due to an incorrect URL or resource deletion
+    * **`415` Unsupported media type —** When the `Content-Type` specified is unsupported
+    * **`422` Unprocessable entity —** When a required attribute is missing (such as the name of a resource), or when a conflict occurs
+    (such as a script activation conflict)
+
+
+    ## Versioning
+    All API endpoints use a version number in the path. As can be seen in the examples, `/v1/` specifies version 1 of the API.
+
+    Over time, the API will evolve. New API versions will be introduced and existing versions may be updated.
+
+    Some API updates are considered a breaking change, requiring a new version of the API to be introduced. An example of a breaking
+    change is fields being changed or removed. By introducing a new version, API consumers can safely continue to use prior API versions.
+
+    The other type of API update is a non-breaking change. You should expect non-breaking change updates to existing API versions.
+    An example of a non-breaking change is adding a field to a response object. Non-breaking changes are additive. While they do
+    change the response body, they should not impact the API consumer.
+
+  x-logo:
+    url: ./assets/logo.png
+    altText: HighBond Logo
+
+#
+# Expose only the production related servers. We do not want any development servers
+# to be exposed to the public.
+#
+servers:
+  - url: '{protocol}://{server}/v1'
+    variables:
+      protocol:
+        default: https
+      server:
+        default: apis-us.highbond.com
+        enum:
+          - apis-us.highbond.com
+          - apis-ca.highbond.com
+          - apis-eu.highbond.com
+          - apis-ap.highbond.com
+          - apis-au.highbond.com
+          - apis-af.highbond.com
+          - apis-sa.highbond.com
+
+#
+# Tags allow the grouping of API operations (paths). This is important for documentation generation
+# and SDK generation.
+#
+# Modifying the value for the name property will break the SDK (software development kit), but you can freely modify the value of the x-displayName property.
+#
+tags:
+  agents:
+    name: Robots Agents
+    description: |
+      A Robots Agent is the on-premise or cloud-based Robots component that uses the Analytics script engine to run scripts against data.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-robots-administration" target="_blank">Learn more about the Robots Agent</a>.
+
+  flow_key:
+    name: Flow Key
+    description: |
+      A Robots Flow Key contains the public key used to encrypt password variables used in Flows.
+
+  robots:
+    name: Robots
+    description: |
+      A robot is a tool that lets you automate repetitive tasks using scripts built in Analytics. Once you create the scripts, you upload them to a robot in the Robots app
+      and configure the task automation that you need. The robot then handles the recurring tasks according to your configuration.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-using-app" target="_blank">Learn more about robots</a>.
+
+  robot_tasks:
+    name: Robot Tasks
+    x-displayName: Robot tasks
+    description: |
+      When you create a task, a robot runs the task according to the settings that you configure. A task can be scheduled or run ad hoc (manually).
+      Each task has its own unique settings.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-task-data" target="_blank">Learn more about tasks</a>.
+
+  robot_jobs:
+    name: Robot Jobs
+    x-displayName: Robot jobs
+    description: |
+      Robot jobs are execution of a robot task.
+
+  robot_apps:
+    name: Robot Apps
+    x-displayName: Analytic scripts
+    description: |
+      An analytic script is a regular script with an analytic header. You can upload analytic scripts to a robot.
+
+      The analytic header is a series of declarative tags that allow the script to run in the Robots app. The analytic header includes input parameters that a user populates in
+      advance, which allows the analytic script to run unattended, either immediately, or at a scheduled time.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-analytic-scripts" target="_blank">Learn more about analytic scripts</a>.
+
+  robot_script_versions:
+    name: Robot Script Versions
+    x-displayName: Robot script versions
+    description: |
+      A version of a robot that includes the hcl script in json.  You can upload new version of your hcl script to your highbond robot or workflow robot.
+
+      Flow json includes python script, variables and system token user uid.  See example of flow json in request body schema.
+
+  robot_activations:
+    name: Robot Activations
+    x-displayName: Script version activations
+    description: |
+      The Robots app provides two environments for managing and running analytic scripts that you author in Analytics: **development mode** and **production**.
+
+      In development mode, you can test newly committed versions of scripts against data that you have segregated for testing purposes. Once you are satisfied that the
+      scripts are working properly, you can activate them and make them your production version.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-development-mode-and-production" target="_blank">Learn more about development mode and production</a>.
+  robot_files:
+    name: Robot Files
+    x-displayName: Related files
+    description: |
+      Related files are non-Analytics files such as Excel or delimited files that are used with scripts in a robot. Related files can serve as input for
+      tasks, or be output from tasks.
+
+      <a href="https://help.highbond.com/helpdocs/robotics/en-us/Default.htm#cshid=rob-related-files" target="_blank">Learn more about related files</a>.
+  storyboards:
+    name: Storyboards
+    description: |
+      A storyboard is a communication platform that displays multiple visualizations and rich text content in rows and columns. You can use this API to create, configure,
+      update, and delete storyboards. However, to see your storyboards, you need to log in to HighBond or have someone send you a link to that storyboard.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-stb" target="_blank">Learn more about storyboards</a>.
+  workflow_groups:
+    name: Workflow Groups
+    description: |
+      Workflow groups are a permissions feature that allow you to define users as members of a specific group. A single user can belong to multiple workflow groups.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-groups-automate" target="_blank">Learn more about workflow groups</a>.
+  collections:
+    name: Collections
+    description: |
+      A collection is a container used to organize analyses that relate to different departments, business processes, or data sets. Collections are the highest level of
+      organization in the Results app.
+
+      Your organization can have a maximum of 2,000 collections.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-collection" target="_blank">Learn more about collections</a>.
+  questionnaires:
+    name: Questionnaires
+    description: |
+      Questionnaires are used to gather information from respondents and contextualize data. Each Collection can have one or more questionnaires that you deploy as surveys,
+      event reports, or as follow-up mechanisms when remediating records.
+
+      Your organization can have a maximum of 14,000 questionnaires and each questionnaire can hold a maximum of 900 questions, including page breaks and sections.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-creating-questionnaires" target="_blank">Learn more about questionnaires</a>.
+
+      Questionnaires consist of a series of question and layout components. Please use the dedicated endpoints to manage these components:
+
+      - **Question Type**
+        * `Numeric Scale` Question
+        * Simple Question:
+          - `Short Answer`
+          - `Paragraph`
+          - `Numeric`
+          - `Date`
+          - `Email`
+          - `Attachment`
+          - `Digital Signature`
+        * Choice Question
+          - `Single Choice`
+          - `Dropdown`
+          - `Multiple Choice`
+      - **Layout Type**
+        * `Page Break`
+        * `Section`
+
+      > **Note:**
+      >
+      > 1. Only not archived questionnaires can be managed by this set of APIs.
+      > 2. Only HighBond System Admins are authorized to manage questionnaires via this set of APIs.
+
+  analyses:
+    name: Analyses
+    description: |
+      An analysis is a second-level container. Analyses live in collections, and they are used to organize tables. Once you have created a collection, you can add one or
+      more analyses to that collection.
+
+      Your organization can have a maximum of 2,000 analyses.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-analyses" target="_blank">Learn more about analyses</a>.
+  surveys:
+    name: Surveys
+    description: |
+      A survey table stores responses to a questionnaire that are distributed through email or an anonymous link.
+
+      Your organization can have a maximum of 1,000 survey tables and each survey table can hold a maximum of 100,000 rows, 500 columns, and 256 characters per field, including blank characters.
+
+      There are different types of tables in HighBond: **data analytics**, **surveys**, **event reports**, and **system tables**
+      (<a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-certifications" target="_blank">Certifications</a> and <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-control-performance" target="_blank">Control Performance</a>).
+      The surveys API supports **survey** tables.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-data-analytics" target="_blank">Learn more about tables</a>.
+  tables:
+    name: Tables
+    description: |
+      Tables store records of data in rows and columns. They are a third level of organization in Results. Each table lives in an analysis, which lives in a collection.
+
+      Your organization can have a maximum of 5,000 tables and each table can hold a maximum of 100,000 rows, 500 columns, and 256 characters per field, including blank characters.
+
+      There are different types of tables in HighBond: **data analytics**, **surveys**, **event reports**, **Projects**, **assessment**, and **system**. The tables API currently only supports **data analytic** tables, **assessment** tables, and **system** tables that are in the Reference Collection.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-data-analytics" target="_blank">Learn more about tables</a>.
+  table_columns:
+    name: Table columns
+    description: |
+      A group of columns defines a table's schema.
+
+      A column's `field_name` must be unique within a table, follow the <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-import-export-results" target="_blank">column naming requirements</a>, and
+      have a supported data type (`character`, `numeric`, `logical`, `date`, `time`, `datetime`, `file`, or `digital_signature`).
+  records:
+    name: Records
+    x-displayName: Table records
+    description: |
+      Records are rows in a table. Each record can have multiple attributes with values.
+  interpretations:
+    name: Interpretations
+    description: |
+      An interpretation is a bundled collection of filters, visualizations, and statistics based on a table in a collection. Use them to interpret and visualize results to gain
+      a deeper understanding of the facts and insights hidden in the data.
+
+      Your organization can have a maximum of 4,000 interpretations.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-interpret-visualize" target="_blank">Learn more about interpretations</a>.
+  metrics:
+    name: Metrics
+    description: |
+      A metric is a calculation that you label as a specific type of key indicator. Key indicators are quantitative measurements of success (KPI, KCI) or risk (KRI) that are
+      associated with a company's objectives. Metrics monitor the data in a single column over a time period using an aggregate function such as average, count, or
+      percentage of total.
+
+      Your organization can have a maximum of 8,000 metrics.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=rm-monitor-metric" target="_blank">Learn more about metrics</a>.
+  projects:
+    name: Projects
+    description: |
+      A project is a management system that allows you to define objectives, risks, and controls, perform tests, and compile information for reporting purposes. Projects may also
+      be known as audits, compliance assessments, risk assessments, or another customized term.
+
+      Each project has a default system classification, called a "state". A project can have one of the following states:
+      * `"active"`— projects that are currently in progress
+      * `"archive"`— projects that are inactive and have been moved to the Project Library
+      * `"delete"`— previously deleted projects that are stored in the Project Library for 30 days, and then permanently deleted automatically after 30 days
+
+      Projects in a `"framework"` state cannot be accessed using the API.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-create-project" target="_blank">Learn more about projects</a>.
+  project_types:
+    name: Project types
+    description: |
+      Project types define the structure of a project or framework, including the terminology used in the project or framework. Updates to project types apply to
+      all active projects, archived projects, temporarily deleted projects, and frameworks associated with the project type.
+
+      Each project type has an associated workflow: Workplan (`procedure`) or Internal Control (`control`). Workflows define the components available in a project
+      or framework.  The attributes `narrative_terms`, `control_test_terms`, and `test_plan_terms` are not available for a Workplan (`procedure`) workflow.
+
+      When creating a new project type, only the basic defining attributes are available. After creating the project type default customizable terms and toggles
+      are returned and available on PATCH requests for update.
+  custom_attributes:
+    name: Custom attributes
+    description: |
+      Custom attributes are the customizable fields that are associated with supported objects.
+      Custom attributes are defined on the project type and used by the project and its children (i.e. objectives).
+
+      > **Note —**
+      No more than 5 custom attributes of one customizable_type can be created (no more than 8 if the customizable type is 'CustomRiskFactor').
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-customize-terms" target="_blank">Learn more about custom attributes</a>.
+  planning_files:
+    name: Planning files
+    description: |
+      A planning file (also known as a reference file) is a supporting document that relates to a project or framework. Planning files typically
+      contain information associated with the planning phase of a project or framework.
+
+      > **Note:**
+      Planning files located in such resources can be accessed using the API:
+      > * In projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-plan-project" target="_blank">Learn more about planning files</a>.
+  objectives:
+    name: Objectives
+    description: |
+      Objectives are the basis of a project or framework. They are also the organizing containers for the work done in a project or framework.
+      Each objective states the subject matter under examination and how performance will be assessed.
+
+      Objectives may also be known as sections, processes, cycles, functional areas, application systems, risk categories, or another custom term.
+
+      > **Note:**
+      Objectives located in such resources can be accessed using the API:
+      > * In projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-add-objectives" target="_blank">Learn more about objectives</a>.
+  time_entries:
+    name: Time entries
+    description: |
+      Use time entries to record time spent on projects, or on other tasks, for reporting purposes.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-managing-timesheets" target="_blank">Learn more about time entries</a>.
+  time_entry_categories:
+    name: Non-project time categories
+    description: |
+      Use non-project time categories to divide non-project time entries by categories.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-managing-timesheets" target="_blank">Learn more about non-project time categories</a>.
+  timesheets:
+    name: Timesheets
+    description: |
+      Helper endpoints for Timesheets feature.
+  narratives:
+    name: Narratives
+    description: |
+      A narrative is a description of a business process or area under review. Narratives are also known as policies, IT policies, process narratives, process descriptions, or control guides.
+
+      > **Note:**
+      > * To access narratives using the API, the narratives tab must be enabled in the project type associated with the project or framework.
+      >
+      > Narratives located in such resources can be accessed using the API:
+      > * In Internal Control workflow projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-narrative" target="_blank">Learn more about narratives</a>.
+  risks:
+    name: Risks
+    description: |
+      A risk is an effect of uncertainty on an objective, with the effect having a positive or negative deviation from what is expected.
+      Risks are organized by objectives, and can be associated with one or more controls. A risk may also be known as a requirement.
+
+      > **Note:**
+      Risks located in such resources can be accessed using the API:
+      > * In projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-risks-and-controls" target="_blank">Learn more about risks</a>.
+  controls:
+    name: Controls
+    description: |
+      A control is a program, policy, routine, or activity that is intended to mitigate a risk. Controls are organized by objectives, and can be associated with one or more risks.
+      The combination of identified risks and corresponding controls defines the Risk Control Matrix. Controls are also known as procedures.
+
+      > **Note:**
+      Controls located in such resources can be accessed using the API:
+      > * In projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-risks-and-controls" target="_blank">Learn more about controls</a>.
+  mitigations:
+    name: Mitigations
+    description: |
+      > **Note —**
+      Only controls in projects that have an `"active"` state can be accessed using the API.
+  walkthroughs:
+    name: Walkthroughs
+    description: |
+      A walkthrough is a series of steps you perform to establish the reliability of controls and test the design of controls. Each control you define has a corresponding
+      walkthrough that is used to verify that the control is designed appropriately. In a Workplan workflow project, a walkthrough is called an execute procedure.
+
+      > **Note**
+      > * Only walkthroughs in projects that have an `"active"` state can be accessed using the API.
+      > * To access walkthroughs using the API, the walkthroughs tab must be enabled in the project type associated with the project.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_blank">Learn more about walkthroughs</a>.
+  control_test_plans:
+    name: Control test plans
+    x-displayName: Test plans
+    description: |
+      A test plan is a document that details how controls are assessed. Test plans identify the testing method or type of evidence obtained, specify the total sample size
+      (split amongst testing rounds), and illustrate test steps or attributes.
+
+      If your project includes at least one testing round, each control you create has one corresponding test plan.
+
+      > **Note:**
+      > * To access test plans using the API, the test plans tab must be enabled in the project type associated with the project or framework.
+      >
+      > Test plans located in such resources can be accessed using the API:
+      > * In Internal Control workflow projects that have an "active" state
+      > * In frameworks
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_blank">Learn more about test plans</a>.
+  control_tests:
+    name: Control tests
+    description: |
+      Control tests evaluate the operating effectiveness of a control.
+      * If your project includes one testing round, each control you create has one corresponding control test.
+      * If your project includes multiple testing rounds, each control you create has a corresponding series of control tests.
+
+      > **Note —**
+      Only control tests in Internal Control workflow projects that have an `"active"` state can be accessed using the API.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-tests-walkthroughs" target="_blank">Learn more about control tests</a>.
+  issues:
+    name: Issues
+    description: |
+      An issue is a problem, control gap, or exception that has been identified within a project. Adding an issue involves recording basic information about the issue and assigning
+      the issue to an owner. Issues may also be known as deficiencies, findings, or another customized term.
+
+      > **Note —**
+      Only issues in projects that have an `"active"` state can be accessed using the API.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-identify-and-manage-issues" target="_blank">Learn more about issues</a>.
+  actions:
+    name: Actions
+    description: |
+      An action is a specific follow-up measure that is associated with an identified issue. You can add actions and assign action owners. You can also set up reminders for
+      yourself to retest issues or track hours spent on retesting by self-assigning actions.
+
+      > **Note —**
+      Only actions in projects that have an `"active"` state can be accessed using the API.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-actions" target="_blank">Learn more about actions</a>.
+  collaborators:
+    name: Collaborators
+    description: |
+      A collaborator is a representation of user roles, which are associated with projects and frameworks, that you can manipulate. Collaborators are accessible both in project and framework resources.
+
+      The collaborator section has endpoints for both individuals and groups.
+
+      > **Note:**
+      > * Only users that have an assigned `effective_role` are returned in the response.
+      > * The `updated_at` field represents the date that the collaborator or collaborator group was last directly updated. Changes to the `effective_role` may occur as a result of assigning the user or group a `group_role`, but doing so won't update the `updated_at` field.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-roles-privileges" target="_blank">Learn more about roles and permissions</a>.
+  request_items:
+    name: Request Items
+    description: |
+      A request item is used by Auditors to request documentation from business owners and other stakeholders to gather further information.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-request-documentation" target="_blank">Learn more about request items</a>.
+  projects_todos:
+    name: Projects Todos
+    description: |
+      To-dos are a collaboration tool between teammates and reviewers.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/fieldwork/reviews/assigning_to-dos.html" target="_blank">Learn more about projects todos</a>.
+  results_files:
+    name: Results files
+    description: |
+      A results file is a supporting document or concluding memo that relates to a project. Results files typically contain information associated
+      with the reporting phase of a project.
+
+      > **Note —**
+      Only results files in projects that have an `"active"` state can be accessed using the API.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-conclude-project" target="_blank">Learn more about results files</a>.
+  entities:
+    name: Entities
+    description: |
+      Entities may be business units, departments, locations, or key initiatives that are within the scope of the organization. Entities have a hierarchical structure composed of parent and child entities. Once you have set up your organization's nested entity structure, you can tag different items with entities.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-entity-tagging" target="_blank">Learn more about entities</a>.
+  scheduler_filters:
+    name: Scheduler Filters
+    description: |
+      Scheduler filters are saved schedule views with filtered users, projects, statuses, and tags. All saved filters are visible to all users in the same HighBond instance.
+
+      Learn more about filtering by <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-schedule-project-filter" target="_blank">projects</a> and by <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-schedule-resources-filter" target="_blank">people</a> in Scheduler.
+  handlers:
+    name: Handlers
+    description: |
+      Handlers contain a set of conditions and actions that occur upon certain situation, e.g. an event fired, on scheduled time, a message received, etc.
+  workflows:
+    name: Workflows
+    description: |
+      Workflows contain a set of statuses that a certain item belonging to that workflow can be in. Any items in this workflow can move between certain statuses and the transition can trigger certain events which will execute their handlers.
+
+      Workflow statuses represent all possible states an item of the workflow can be in. Statuses can be associated with Events to allow transition from one status to another within the same workflow.
+
+      Every workflow must have exactly one "default" status. You can make a status the default status by setting or updating the default flag on that status. This default status cannot be deleted.
+  events:
+    name: Events
+    description: |
+      An Event links a status to handlers. When an event is fired, the associated handlers will be triggered.
+  frameworks:
+    name: Frameworks
+    description: |
+      A framework is a management system that allows you to define objectives, risks, and controls, perform tests, and compile information for reporting purposes. Frameworks may also
+      be known as audits, compliance assessments, risk assessments, or another customized term.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-create-framework" target="_blank">Learn more about frameworks</a>.
+  toolkits:
+    name: Toolkits
+    description: |
+      A toolkit is a curated set of tools aimed at addressing one area of risk or compliance. For example, a toolkit might include a set of data analytics, a risk control framework, and a best practices program.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=managing-toolkits" target="_blank">Learn more about toolkits</a>.
+
+  template_toolkits:
+    name: Template Toolkits
+    description: |
+      A template toolkit is a curated set of tools aimed at addressing one area of risk or compliance. For example, a toolkit might include a set of data analytics, a risk control framework, and a best practices program.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=managing-toolkits" target="_blank">Learn more about toolkits</a>.
+  roles:
+    name: Roles
+    description: |
+      A named job function that serves as a collection of permissions which a user effectively inherits when he acts under that role.
+  role_deletion:
+    name: Role Deletion
+    description: |
+      A named job function that serves as a collection of permissions which a user effectively inherits when he acts under that role.
+
+      > **Note —**
+      This section has a different permission than the other Roles section
+  asset_types:
+    name: Asset types
+    description: |
+      All assets are instances of an asset type. The asset type is a class that defines the format and behavior of its assets: what attributes they have, what workflow they move through during their life-cycles, and who can see them and work on them. The exact behavior of each asset type is determined by its relationship to a workflow, record types, attribute types, and roles.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-configure-asset-types" target="_blank">Learn more</a>.
+  asset_record_types:
+    name: Asset record types
+    description: |
+      All asset records are instances of an asset record type. The asset record type is a class, which defines the pieces of data its asset records should have and how they should behave: what attributes they have, what workflow they move through during their life-cycles, and who can see them and work on them. The exact behavior of each asset record type is determined by its relationship to a workflow, asset types, other asset record types, attribute types, and roles.
+
+      In many ways, an asset record type is to an asset record what an asset type is to an asset. However, asset record types are unique because they can also be related to other asset record types. This allows you to create hierarchies of asset record types and, in turn, hierarchies of asset records in your assets. These "child" asset record types are not functionally different from other record types, but they appear within another asset record instead of the asset.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=ai-records" target="_blank">Learn more</a>.
+  attribute_types:
+    name: Attribute types
+    description: |
+      A configurable object that captures data responses. Can be associated with Asset Types and Asset Record Types
+  compliance_maps:
+    name: Compliance Maps
+    description: |
+      You can use Compliance Maps to associate industry standards and regulations with your control frameworks.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-compliance-maps" target="_blank">Learn more</a>.
+  compliance_maps_ui:
+    name: Compliance Maps UI
+    description: |
+      UI-specific API endpoints.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-compliance-maps" target="_blank">Learn more</a>.
+  assets:
+    name: Assets
+    description: |
+      Assets represent things that are of value to your organization. Assets can be tangible, like laptops, servers, and software, or they can be intangible, like third-party business relationships, intellectual property, and policies. By tracking your organization's assets, you protect your organization from fraud, theft, compliance issues, and unacceptable risk.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-configure-asset-types" target="_blank">Learn more</a>.
+  asset_relationships:
+    name: Asset Relationships
+    description: |
+      Asset relationships are user-created, ad hoc relationships between an asset and either another asset or an asset record.
+
+      These relationships can be directional, where the related objects have different labels (e.g., one says "impacts" and the other says "impacted by"), or they can be parallel (e.g., both say "connected to").
+  asset_records:
+    name: Asset Records
+    description: |
+      Asset records are how you capture and document tasks, events, and items in the context of an asset. An asset record could be an incident like a server outage, a contract for a third party, a security gap and corresponding remediation plan, or anything else relevant to an asset.
+
+      In many ways, an asset record is similar to an asset: you fill in attributes for both, and you take both through your risk mitigation workflows. However, you do not have to assess the risks associated with asset records. As well, unlike assets, asset records can be nested in other asset records if your asset record types are configured that way.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=ai-records" target="_blank">Learn more</a>.
+  asset_record_relationships:
+    name: Asset Record Relationships
+    description: |
+      Asset record relationships are user-created, ad hoc relationships between an asset record and either another asset record or an asset.
+
+      These relationships can be directional, where the related objects have different labels (e.g., one says "impacts" and the other says "impacted by"), or they can be parallel (e.g., both say "connected to").
+  importer:
+    name: Importer
+    description: |
+      Importer for HighBond, responsible for importing HighBond resources.
+
+      You can bulk import HighBond resources if you want to avoid time-consuming manual data entry associated with individually adding resources. You can bulk import resources such as requests, controls, risks, etc.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/planning_projects/bulk_uploading_importing_content/bulk_uploading_or_importing_content.htm" target="_blank">Learn more about importer</a>.
+  system_users:
+    name: System Users
+    description: |
+      System and root users are special types of users that act on behalf of the HighBond platform, like in automation tasks performed in the Robots app.
+  organizations:
+    name: Organizations
+    description: |
+      An organization is equivalent to an instance of HighBond. Each instance is a closed and secured system. You may have access to multiple instances of HighBond. For example, different teams in your organization might need to segregate data, or you could consult for different organizations.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-switch-instances" target="_blank">Learn more about instances</a>.
+  impact_reports:
+    name: Impact Reports
+    description: |
+      Impact Reports are one-click document reports that have been pre-built based off use-case specific reporting needs. For example, an Asset Summary report will summarize key information about all the assets registered by your organization.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Content/projects/concluding_maintaining/downloading_reports.html#Pre-buil" target="_blank">Learn more about Impact Reports</a>.
+  activities:
+    name: Activities
+    description: |
+      Activity logging records all changes related to your instance of HighBond and your users. Whenever someone makes changes, an entry is logged to preserve a complete history of your organization's data.
+  users:
+    name: Users
+    description: |
+      A user represents a member of HighBond. Users can belong to multiple instances.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-adding-users" target="_blank">Learn more about adding and managing users</a>.
+
+  scheduled_users:
+    name: Scheduled Users
+    description: |
+      TBD
+
+  scheduled_projects:
+    name: Scheduled Projects
+    description: |
+      TBD
+
+  groups:
+    name: Groups
+    description: |
+      Groups are a security feature in Launchpad that allow you to assign the same level of access to multiple users simultaneously.
+
+      <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=lp-groups" target="_blank">Learn more about adding and managing groups</a>.
+
+  scheduled_hours:
+    name: Scheduled Hours
+    description: |
+      TBD
+#
+# Note: requestBodies component is not used because JSON API spec does not lend itself
+#       well to re-usable request bodies. Might as well remove the component section for it.
+#       However, if re-usable bodies emerge, this can be updated to reference it.
+#
+components:
+  schemas:
+    $ref: ./schemas.yml
+  responses:
+    $ref: ./responses.yml
+  parameters:
+    $ref: ./parameters.yml
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      description: |
+        HighBond offers the industry-standard OAuth 2.0 flow for connecting to the HighBond platform. OAuth 2.0 provides a
+        safe and secure way to access data, while protecting your account credentials.
+      type: http
+      scheme: bearer
+      bearerFormat: oauth2 # optional, the value is not used

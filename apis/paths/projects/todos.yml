@@ -1,0 +1,39 @@
+get:
+  tags:
+    - Projects Todos
+  operationId: getOrgProjectsTodos
+  summary: Get organization's projects todos
+  description: |
+    Get a list of all projects todos in an organization.
+
+    > **Note:**
+    By default, this endpoint only returns todos from active projects. To fetch objects from frameworks, do one of the following:
+    > * Specify the project or framework ID using `filter[project.id]`
+    > * Specify that you want results from frameworks using `filter[project.state]=framework`
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosFieldsetParams'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosProjectIdFilterParams'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosProjectStateFilterParams'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosTargetIdFilterParams'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosTargetTypeFilterParams'
+    - $ref: '../../components/parameters.yml#/orgProjectsTodosSortParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+    - $ref: '../../components/parameters.yml#/pageNumberEncodedParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetOrgProjectsTodosResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

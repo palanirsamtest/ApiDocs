@@ -1,0 +1,90 @@
+get:
+  tags:
+    - Actions
+  operationId: getActions
+  summary: List actions in an issue
+  description: Get a list of all actions associated with an issue.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/issueIdParam'
+    - $ref: '../../components/parameters.yml#/actionSparseFieldsetParams'
+    - $ref: '../../components/parameters.yml#/pageSizeParam'
+    - $ref: '../../components/parameters.yml#/actionIncludeParams'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetActionsResponse'
+    400:
+      $ref: '../../components/responses.yml#/MissingIssueId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+post:
+  tags:
+    - Actions
+  operationId: createAction
+  summary: Create an action
+  description: |
+    Create a new action in an existing issue.
+
+    <strong>Limitations</strong>:
+    * There can be a maximum of 500 actions per issue.
+    * You cannot create a new action in the following scenarios:
+      * if the <strong>Follow-up & Remediation</strong> subtab of the associated issue is signed off
+      * if the action belongs to an objective that has been checked out using
+        <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-offline-client" target="_blank">Offline Projects</a> or the
+        <a href="https://help.highbond.com/helpdocs/highbond/en-us/Default.htm#cshid=pm-mobile" target="_blank">HighBond iPad app</a>
+
+    Specifying a person's name or email in the following fields does not immediately notify them via email: `owner_name`, `owner_email`.
+    Email notifications about actions are only sent if `send_recurring_reminder` is `true`.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdParam'
+    - $ref: '../../components/parameters.yml#/issueIdParam'
+    - $ref: '../../components/parameters.yml#/actionSparseFieldsetParams'
+  requestBody:
+    description: The data required to create an action.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateActionRequest'
+  responses:
+    201:
+      description: Created.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetActionResponse'
+    400:
+      $ref: '../../components/responses.yml#/ResourceTypeMismatch'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/attributes/title'
+                code: invalid_resource
+                detail: can't be blank
