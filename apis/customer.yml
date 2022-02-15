@@ -114,17 +114,6 @@ paths:
     $ref: ./paths/toolkits/toolkit_resources.yml
 
   ##################################
-  # Impact Reports paths
-  ##################################
-  # Reports
-  /orgs/{org_id}/impact_reports:
-    $ref: ./paths/impact_reports/reports.yml
-  /orgs/{org_id}/impact_reports/{id}/generate:
-    $ref: ./paths/impact_reports/report_generate.yml
-  /orgs/{org_id}/impact_reports/{id}:
-    $ref: ./paths/impact_reports/report.yml
-
-  ##################################
   # Accounts / Launchpad paths
   ##################################
   # Users
