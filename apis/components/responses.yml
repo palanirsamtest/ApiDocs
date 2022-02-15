@@ -82,3 +82,19 @@ MissingRecordTypeId:
         $ref: './schemas.yml#/Errors'
       example:
         $ref: '../schemas/errors.yml#/Examples/MissingRecordTypeId'
+MissingOrgId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingOrgId'
+MissingResourceId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingResourceId'
