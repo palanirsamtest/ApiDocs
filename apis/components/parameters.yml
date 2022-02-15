@@ -307,3 +307,13 @@ groupIdPathParam:
     example: 10
   in: path
   required: true
+
+pageNumberParam:
+  in: query
+  name: page[number]
+  description: The page number of records to return. Default is 1.
+  required: false
+  schema:
+    type: string
+    example: 2
+    

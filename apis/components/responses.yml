@@ -12,8 +12,6 @@ NotFound:
   description: Not found.
 Forbidden:
   description: Forbidden.
-NotAllowed:
-  description: NotAllowed.
 BadCredentials:
   description: Bad credentials.
 UnprocessableEntity:
@@ -28,14 +26,6 @@ ResourceTypeMismatch:
         $ref: './schemas.yml#/Errors'
       example:
         $ref: '../schemas/errors.yml#/Examples/ResourceTypeMismatch'
-ResourceIdConflict:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/ResourceIdConflict'
 NotJsonapiMediaType:
   description: Unsupported media type.
   content:
@@ -44,78 +34,6 @@ NotJsonapiMediaType:
         $ref: './schemas.yml#/Errors'
       example:
         $ref: '../schemas/errors.yml#/Examples/NotJsonapiMediaType'
-MissingOrgId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingOrgId'
-MissingResourceId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingResourceId'
-MissingIssueId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingIssueId'
-MissingProjectId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingProjectId'
-MissingCollectionId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingCollectionId'
-MissingTableId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingTableId'
-MissingRobotId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingRobotId'
-MissingRobotTaskId:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingRobotTaskId'
-MissingActivityEventOrigin:
-  description: Bad request.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/MissingActivityEventOrigin'
 NameNotUnique:
   description: Unprocessable entity.
   content:
@@ -164,43 +82,3 @@ MissingRecordTypeId:
         $ref: './schemas.yml#/Errors'
       example:
         $ref: '../schemas/errors.yml#/Examples/MissingRecordTypeId'
-InvalidImportData:
-  description: Invalid import data.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/InvalidImportData'
-InvalidReportData:
-  description: Unprocessable entity.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/InvalidReportData'
-InvalidReportTargetData:
-  description: Unprocessable entity.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/InvalidReportTargetData'
-ReportNotFound:
-  description: Not Found.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/ReportNotFound'
-ReportTargetNotFound:
-  description: Not Found.
-  content:
-    application/vnd.api+json:
-      schema:
-        $ref: './schemas.yml#/Errors'
-      example:
-        $ref: '../schemas/errors.yml#/Examples/ReportTargetNotFound'
