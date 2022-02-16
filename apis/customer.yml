@@ -1,6 +1,8 @@
 # This file lists the API endpoints that R&D is committed to maintain and support. This file is a superset of the customer.yml file.
 # Not all of these endpoints are public-facing. There is a non-publicized URL for viewing the public endpoints.
 openapi: 3.0.2
+servers:
+  - url: '//petstore.swagger.io/v2'
 info:
   $ref: ./components/metadata.yml#/info
 #
