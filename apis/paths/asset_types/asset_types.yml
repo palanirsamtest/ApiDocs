@@ -11,6 +11,10 @@ get:
     - $ref: '../../components/parameters.yml#/filterByWorkflowIds'
     - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributesParam'
     - $ref: '../../components/parameters.yml#/pageNumberParam'
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
   responses:
     200:
       description: OK.
@@ -27,7 +31,7 @@ get:
     404:
       $ref: '../../components/responses.yml#/NotFound'
   security:
-    $ref: '../../components/securitySchemas.yml#/bearer_auth'
+    - bearerToken: []
 post:
   tags:
     - Asset types
@@ -41,6 +45,10 @@ post:
 
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
   requestBody:
     description: The data required to create an asset type.
     required: true
@@ -81,4 +89,4 @@ post:
                 code: UnprocessibleEntity
                 detail: Maximum number of 1000 asset types reached.
   security:
-    $ref: '../../components/securitySchemas.yml#/bearer_auth'
+    - bearerToken: []

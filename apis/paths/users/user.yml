@@ -7,6 +7,10 @@ get:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/uidPathParam'
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
   responses:
     200:
       description: OK.
@@ -21,7 +25,7 @@ get:
     404:
       $ref: '../../components/responses.yml#/NotFound'
   security:
-    $ref: '../../components/securitySchemas.yml#/bearer_auth'
+    - bearerToken: []
 
 patch:
   tags:
@@ -32,6 +36,10 @@ patch:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/uidPathParam'
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
   requestBody:
     description: The data required to update a user.
     required: true
@@ -57,4 +65,4 @@ patch:
     429:
       $ref: '../../components/responses.yml#/TooManyRequests'
   security:
-    $ref: '../../components/securitySchemas.yml#/bearer_auth'
+    - bearerToken: []
