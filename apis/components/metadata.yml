@@ -337,3 +337,11 @@ components:
     $ref: ./responses.yml
   parameters:
     $ref: ./parameters.yml
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      description: |
+        HighBond offers the industry-standard OAuth 2.0 flow for connecting to the HighBond platform. OAuth 2.0 provides a
+        safe and secure way to access data, while protecting your account credentials.
+      type: http
+      scheme: bearer
+      bearerFormat: oauth2 # optional, the value is not used
