@@ -1,0 +1,49 @@
+SingleUser: &SingleUser
+  type: object
+  description: User data.
+  required:
+    - id
+    - name
+    - email
+  properties:
+    id:
+      type: number
+      description: The ID of a user.
+      example: 55
+    name:
+      type: string
+      description: User name.
+      example: John Travolta
+    email:
+      type: string
+      description: User email.
+      example: john@gmail.com
+
+UsersReference: &UsersReference
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '55'
+    type:
+      type: string
+      description: The classification of the object (`"users"`).
+      example: users
+    attributes: *SingleUser
+
+MultiUserResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: Array of users assigned to an organization.
+      items: *UsersReference

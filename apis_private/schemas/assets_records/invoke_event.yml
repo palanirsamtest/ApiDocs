@@ -1,0 +1,201 @@
+InvokeEventRequest:
+  type: object
+  description: The data associated with the request
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the request
+      properties:
+        type:
+          type: string
+          description: The classification of the event invoked
+          example: 'events'
+        id:
+          type: string
+          description: The id of the event invoked
+          example: '415dc769-3e49-4501-a2fd-80908bea7a32'
+        attributes:
+          type: object
+          description: Attributes associated with the request
+          properties:
+            invocation_context:
+              type: array
+              minItems: 1
+              description: The context information to invoke the event.
+              items:
+                type: object
+                description: The invocation context information of each handler in the event.
+                required:
+                  - handler_id
+                  - context
+                properties:
+                  handler_id:
+                    type: string
+                    description: The ID of the handler
+                  context:
+                    type: array
+                    minItems: 1
+                    description: The invocation context information of the handler
+                    items:
+                      type: object
+                      description: The invocation context information of each condition/action in the handler
+                      required:
+                        - context
+                      properties:
+                        handler_condition_type:
+                          type: string
+                          description: Type of the condition (only available when it is a condition)
+                        handler_action_type:
+                          type: string
+                          description: Type of the action (only available when it is a action)
+                        context:
+                          type: object
+                          description: The invocation context information of the condition/action
+                          required:
+                            - object_type
+                            - object_id
+                            - object_container_type
+                            - object_container_id
+                          properties:
+                            object_type:
+                              type: string
+                              description: Type of the object (e.g. 'asset')
+                            object_id:
+                              type: string
+                            object_container_type:
+                              type: string
+                              description: Type of the object container (e.g. 'asset_types')
+                            object_container_id:
+                              type: string
+                            workflow_status_id:
+                              type: string
+                            questionnaire_id:
+                              type: string
+                            recipients:
+                              type: array
+                              items:
+                                type: string
+                            assessment_field_name:
+                              type: string
+  example:
+    data:
+      id: 'add43e1e-5eb1-4ca3-b943-b77aba59ed8f'
+      type: 'events'
+      attributes:
+        invocation_context:
+          - handler_id: 345a4117-ef52-473b-9af4-75347d28ea67
+            context:
+              - handler_action_type: TransitionStatusAction
+                context:
+                  object_type: assets
+                  object_id: '1'
+                  object_container_type: asset_types
+                  object_container_id: '1'
+                  workflow_status_id: 'b23b2901-3634-4d0f-98d0-41c44409a567'
+          - handler_id: 568ee1e2-d7cc-4cb3-a1f9-95e085771121
+            context:
+              - handler_action_type: SendQuestionnaireAction
+                context:
+                  object_type: assets
+                  object_id: '1'
+                  object_container_type: asset_types
+                  object_container_id: '1'
+                  questionnaire_id: '1'
+                  recipients: ['example@email.com']
+                  assessment_field_name: 'main_assessment'
+
+InvokeEventResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: Object context
+      properties:
+        type:
+          type: string
+          description: The classification of the event invoked
+          example: 'events'
+        id:
+          type: string
+          description: The id of the event invoked
+          example: '415dc769-3e49-4501-a2fd-80908bea7a32'
+        attributes:
+          type: object
+          description: Attributes associated with the request
+          properties:
+            object_type:
+              type: string
+            object_id:
+              type: string
+            object_container_type:
+              type: string
+            object_container_id:
+              type: string
+            workflow_status_id:
+              type: string
+            distributed_questionnaires:
+              type: array
+              description: Array of distributed questionnaires
+              items:
+                type: object
+                required:
+                  - id
+                  - table_id
+                  - recipients
+                  - record_ids
+                  - data_table_id
+                properties:
+                  id:
+                    type: string
+                  table_id:
+                    type: string
+                  recipients:
+                    type: array
+                    items:
+                      type: string
+                  record_ids:
+                    type: array
+                    items:
+                      type: string
+                  data_table_id:
+                    type: string
+    meta:
+      type: object
+      description: Metadata related to response
+      properties:
+        errors:
+          type: array
+          description: Array of errors
+          items:
+            type: object
+            required: ['message']
+            properties:
+              message:
+                type: string
+                description: An error message
+              details:
+                type: array
+                items:
+                  type: string
+
+  example:
+    data:
+      id: 'add43e1e-5eb1-4ca3-b943-b77aba59ed8f'
+      type: 'events'
+      attributes:
+        object_id: '1'
+        object_type: 'assets'
+        object_container_id: '1'
+        object_container_type: 'asset_types'
+        workflow_status_id: '5bfcef9c-22c0-11eb-adc1-0242ac120002'
+        distributed_questionnaires:
+          [{ id: '123', table_id: '1', recipients: ['example@email.com'], record_ids: ['2'], data_table_id: 3 }]
+    meta:
+      errors:
+        - message: 'Something went wrong'
+          details: ['Example detail']

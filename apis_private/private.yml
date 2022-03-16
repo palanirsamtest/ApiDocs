@@ -1,0 +1,235 @@
+# This file contains a list of the API endpoints that are not public-facing. These endpoints are used internally only.
+openapi: 3.0.2
+info:
+  title: Highbond (Private)
+  version: 0.2.0
+  description: |
+    Welcome to the *private* API Documentation of Highbond. This page captures API information intended
+    for inter-service communication, or hidden APIs exposed to the Internet.
+
+    <security-definitions />
+
+    If you experience any issues, please reach out for help (e.g. #ask-rnd).
+  x-logo:
+    url: ./assets/logo.png
+    altText: Highbond Logo
+
+#
+# Exposing default option of API Proxy, until a local gateway is available.
+#
+servers:
+  - url: '{protocol}://{server}/'
+    variables:
+      protocol:
+        default: https
+      server:
+        default: apis.highbond.com
+        enum:
+          - apis-us.highbond.com
+          - apis-ca.highbond.com
+          - apis-eu.highbond.com
+          - apis-ap.highbond.com
+          - apis-au.highbond.com
+          - apis-af.highbond.com
+          - apis-sa.highbond.com
+  - url: '{host}://{port}/'
+    description: Tatooine api services
+    variables:
+      host:
+        default: tatooine.highbond.com
+      port:
+        default: '8080'
+  - url: '{host}://{port}/'
+    description: Handlers api services
+    variables:
+      host:
+        default: handlers.highbond.com
+      port:
+        default: '8080'
+
+#
+# Tags allow the grouping of API operations (paths). This is important for documentation generation
+# and SDK generation.
+#
+tags:
+  - name: Sauron
+    description: >
+      Responsible for storing and retrieving platform wide activity logs.
+  - name: Contacts
+    description: >
+      A Contact is an individual that can be referenced across the Highbond platform. References can be used to assign ownership, action items or send notifications.
+      In the future we will be able to track changes to references (contacts) across the platform and manage those changes.
+  - name: Tatooine
+    description: >
+      Tatooine is a managing service for Jupyter kernel, which is responsible for data analysis in Python.
+  - name: Authy
+    description: |
+      Read-only API to efficiently retrieve permissions from centralized source
+
+      All requests require authentication. /groups, and /users require a users subdomain token. /orgs, and /permissions require a system JWT token.
+  - name: authy_permission
+    x-displayName: Authy Permissions
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Permission" />
+  - name: Assets/Records
+    description: |
+      Assets/Records contain a set of APIs common for Assets and Records
+  - name: Handlers
+    description: |
+      Handlers contain a set of conditions and actions that occur upon certain situation, e.g. an event fired, on scheduled time, a message received, etc.
+  - name: Attachments
+    description: |
+      Attachment file of a Results table record
+  - name: Questionnaires
+    description: |
+      Questionnaires are used to gather information from respondents and contextualize data. Each Collection can have one or more questionnaires that you deploy as surveys,
+      event reports, or as follow-up mechanisms when remediating records.
+  - name: Users
+    description: |
+      A list of users belonging to a particular organization. Requires user JWT. User JWT should be placed in a header `Cookie` with value: `<subdomain-name>=<cookie-value>.`
+      Example: `Cookie : highbond-us-org-us=eyJraSca...`
+  - name: Nodes
+    description: |
+      Nodes are self-contained snippets of code that help you build effective flows in Robotics Studio. Think of each node as serving a distinct purpose that solves a specific problem.
+  - name: Launchpad
+    description: |
+      Launchpad endpoints exposed to anyone with a valid system JWT.
+x-tagGroups:
+  - name: Private
+    tags:
+      - Sauron
+      - Contacts
+      - Authy
+      - Assets/Records
+      - Handlers
+      - Attachments
+      - Questionnaires
+      - Users
+      - Nodes
+      - Launchpad
+  - name: Models
+    tags:
+      - authy_permission
+
+#
+# Paths (in addition to the base server URL) are the various end-points available.
+#
+paths:
+  /api/v1/activities:
+    servers:
+      - url: https://sauron.local
+    $ref: ./paths/sauron/activities.yml
+
+  ###########################################
+  # Tatooine References
+  ###########################################
+  /api/{version_id}/flow/execute:
+    servers:
+      - url: https://tatooine.highbond.com:8080/
+    $ref: ./paths/tatooine/execute.yml
+  /api/{version_id}/metadata:
+    servers:
+      - url: https://tatooine.highbond.com:8080/
+    $ref: ./paths/tatooine/metadata.yml
+  /api/{version_id}/data/{id}:
+    servers:
+      - url: https://tatooine.highbond.com:8080/
+    $ref: ./paths/tatooine/data.yml
+  /api/{version_id}/flow/stop:
+    servers:
+      - url: https://tatooine.highbond.com:8080/
+    $ref: ./paths/tatooine/stop.yml
+
+  ##################################
+  # Results paths
+  ##################################
+
+  # Contacts References
+  /orgs/{org_id}/contacts:
+    $ref: ./paths/results/contacts.yml
+
+  # Contacts References
+  /api/v3/system/attachments/{id}:
+    $ref: ./paths/results/attachments.yml
+
+  # Users References
+  /api/v3/users:
+    $ref: ./paths/results/users.yml
+
+  ##################################
+  # Authy paths
+  ##################################
+
+  /users:
+    $ref: ./paths/authy/org_users.yml
+  /users/{uid}:
+    $ref: ./paths/authy/org_user.yml
+  /groups:
+    $ref: ./paths/authy/groups.yml
+  /users/{uid}/orgs:
+    $ref: ./paths/authy/orgs.yml
+  /groups/{group_id}/users:
+    $ref: ./paths/authy/group_users.yml
+  /orgs/{org_id}/users/{uid}/permissions:
+    $ref: ./paths/authy/user_permissions.yml
+  /orgs/{org_id}/resources/{resource_type}/{resource_id}/role_permissions:
+    $ref: ./paths/authy/role_permissions.yml
+  /orgs/{org_id}/resources/{resource_type}/{resource_id}/permissions:
+    $ref: ./paths/authy/resource_permissions.yml
+
+  ##################################
+  # Handlers paths
+  ##################################
+  # invoke an event
+  /events/{event_id}/invoke:
+    $ref: ./paths/handlers/event.yml
+
+  ##################################
+  # Assets/Records paths
+  ##################################
+  # invoke an event
+  /orgs/{org_id}/invoke_event/{event_id}:
+    $ref: ./paths/assets_records/invoke_event.yml
+
+  ##################################
+  # Questionnaires paths
+  ##################################
+  # distribute a questionnaire
+  /orgs/{org_id}/questionnaires/{questionnaire_id}/distribute:
+    $ref: ./paths/results/distribute_questionnaire.yml
+
+  ##################################
+  # node-library paths
+  ##################################
+  # Nodes
+  /orgs/{org_id}/nodes:
+    $ref: ./paths/nodes/nodes.yml
+  /orgs/{org_id}/nodes/{id}:
+    $ref: ./paths/nodes/node.yml
+
+  ##################################
+  # Launchpad paths
+  ##################################
+  /api/orgs/{org_id}/system_users/{uid}/token:
+    $ref: ./paths/launchpad/system_user.yml
+  /api/orgs/{org_id}/root_user/token:
+    $ref: ./paths/launchpad/root_user.yml
+
+#
+# Note: requestBodies component is not used because JSON API spec does not lend itself
+#       well to re-usable request bodies. Might as well remove the component section for it.
+#       However, if re-usable bodies emerge, this can be updated to reference it.
+#
+components:
+  schemas:
+    $ref: ./generated/schemas.yml
+  responses:
+    $ref: ./components/responses.yml
+  parameters:
+    $ref: ./components/parameters.yml
+  securitySchemes:
+    bearerToken: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+security:
+  - bearerToken: []

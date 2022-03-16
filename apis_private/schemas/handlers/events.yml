@@ -1,0 +1,306 @@
+InvokeRequest:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        context:
+          type: array
+          description: The context information to invoke the event.
+          items:
+            type: object
+            description: The invocation context information of each handler in the event.
+            properties:
+              handler_id:
+                type: string
+                description: The ID of the handler
+              context:
+                type: array
+                description: The invocation context information of the handler
+                items:
+                  type: object
+                  description: The invocation context information of each condition/action in the handler
+                  properties:
+                    handler_condition_type:
+                      type: string
+                      description: Type of the condition (only available when it is a condition)
+                    handler_action_type:
+                      type: string
+                      description: Type of the action (only available when it is a action)
+                    context:
+                      type: object
+                      description: The invocation context information of the condition/action
+  example:
+    data:
+      context:
+        - handler_id: 345a4117-ef52-473b-9af4-75347d28ea67
+          context:
+            - handler_action_type: TransitionStatusAction
+              context:
+                object_type: assets
+                object_id: '1'
+                object_container_type: asset_types
+                object_container_id: '1'
+        - handler_id: 568ee1e2-d7cc-4cb3-a1f9-95e085771121
+          context:
+            - handler_action_type: NotifyAction
+              context:
+                object_type: assets
+                object_id: '1'
+                object_container_type: asset_types
+                object_container_id: '1'
+
+Source: &Source
+  source:
+    type: object
+    description: The object of which the error is related to.
+    required:
+      - object_type
+      - object_id
+    properties:
+      object_type:
+        type: string
+        description: the type of the object
+      object_id:
+        type: number
+        description: the id of the object
+      object_container_type:
+        type: string
+        description: the type of the object container
+      object_container_id:
+        type: number
+        description: the id of the object container
+
+RequiredFieldsMissing: &RequiredFieldsMissing
+  type: object
+  title: RequiredFieldsMissing
+  properties:
+    code:
+      type: string
+      description: |
+        Evaluation of "allRequiredFieldsAreProvided" or "specificFieldsAreRequired" condition specified in Handlers service failed.
+      enum: [RequiredFieldsMissing]
+    <<: *Source
+    detail:
+      type: object
+      properties:
+        field_names:
+          type: array
+          description: field_name of the missing fields.
+          items:
+            type: string
+    configured_error_message:
+      type: string
+      description: The `on_failure_message` configured in the handler's condition.
+
+StatusNotFound: &StatusNotFound
+  type: object
+  title: StatusNotFound
+  properties:
+    code:
+      type: string
+      description: |
+        The `status_id` configured for the "transitionStatus" action in Handlers service is not found in the item's Workflow.
+      enum: [StatusNotFound]
+    <<: *Source
+    detail:
+      type: object
+      properties:
+        status_id:
+          type: string
+          description: the id of the status
+
+FailedToSendQuestionnaire: &FailedToSendQuestionnaire
+  type: object
+  title: FailedToSendQuestionnaire
+  properties:
+    code:
+      type: string
+      description: Handlers service failed to send questionnaire when executing the "sendQuestionnaire" action.
+      enum: [FailedToSendQuestionnaire]
+    <<: *Source
+
+QuestionnaireNotFound: &QuestionnaireNotFound
+  type: object
+  title: QuestionnaireNotFound
+  properties:
+    code:
+      type: string
+      description: |
+        The questionnaire ID provided is not in the `allowed_questionnaire_ids` specified for the "sendQuestionnaire" action in Handlers service.
+      enum: [QuestionnaireNotFound]
+    <<: *Source
+
+FailedToUpdateStatus: &FailedToUpdateStatus
+  type: object
+  title: FailedToUpdateStatus
+  properties:
+    code:
+      type: string
+      description: Handlers service failed to update the status of the specified item(s) when executing the "transitionStatus" action.
+      enum: [FailedToUpdateStatus]
+    <<: *Source
+    detail:
+      type: object
+      properties:
+        error:
+          description: the error(s) thrown by other services when Handlers service tries to get items information
+
+FailedToPublishProtobuf: &FailedToPublishProtobuf
+  type: object
+  title: FailedToPublishProtobuf
+  properties:
+    code:
+      type: string
+      description: Handlers service failed to execute the "notify" or the "runRobot" action.
+      enum: [FailedToPublishProtobuf]
+    <<: *Source
+    detail:
+      type: object
+      properties:
+        error:
+          description: the error(s) thrown by other services when Handlers service trys to get items information
+
+FailedToGetItem: &FailedToGetItem
+  type: object
+  title: FailedToGetItem
+  properties:
+    code:
+      type: string
+      description: Handlers service failed to retrieve information of the item(s).
+      enum: [FailedToGetItem]
+    <<: *Source
+    detail:
+      type: object
+      properties:
+        error:
+          description: the error(s) thrown by other services when Handlers service tried to get items information
+
+InvokeResponse:
+  type: object
+  properties:
+    errors:
+      type: array
+      description: An array of objects that contain details of each errors captured during event invocation.
+      items:
+        anyOf:
+          - *RequiredFieldsMissing
+          - *FailedToGetItem
+          - *StatusNotFound
+          - *FailedToUpdateStatus
+          - *FailedToSendQuestionnaire
+          - *QuestionnaireNotFound
+          - *FailedToPublishProtobuf
+    data:
+      type: object
+      description: An object reflecting
+      properties:
+        item:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Item identifier
+            type:
+              type: string
+              description: Item type
+            attributes:
+              type: object
+              description: Context attributes of the item that are required for event invocation. E.g. asset_type_id forrr assets type items.
+            status:
+              type: object
+              description: If the event has transition status action, will return the new status of the item.
+              properties:
+                id:
+                  type: string
+                  description: Id of the status.
+                name:
+                  type: string
+                  description: Name of the status.
+                description:
+                  type: string
+                  description: The description of the status.
+                position:
+                  type: integer
+                  format: int64
+                  description: Determines the visual order of statuses inside the workflow.
+                default:
+                  type: boolean
+                  description: Specifies that this status is the default for items in the workflow.
+                shown:
+                  type: boolean
+                  description: Indicates that this status is shown in the workflow by default. Can be used to denote the "happy path" within the workflow.
+                locked:
+                  type: boolean
+                  description: Indicates that this status cannot be deleted by the user.
+                color:
+                  type: string
+                  description: The color of the status.
+                events:
+                  type: array
+                  description: A list of events associated to the status
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Id of the event.
+                      admin_name:
+                        type: string
+                        description: The admin name of the event. This field is case-insensitive unique.
+                      display_name:
+                        type: string
+                        description: |
+                          The display name of the event.
+                      description:
+                        type: string
+                        description: The description of the event.
+                      type:
+                        type: string
+                        description: Configures the type of the event. It controls the appearance of interactable UI element for this event.
+                        enum:
+                          - button
+                          - overflow
+                          - hidden
+                      position:
+                        type: integer
+                        format: int64
+                        description: |
+                          This attribute determines the order of the button displayed among other events for statuses.
+                      shared:
+                        type: boolean
+                        description: Events can be marked as "shared". Only shared events can be reused across multiple workflows.
+  example:
+    data:
+      object_id: '1'
+      object_type: 'assets'
+      object_container_id: '1'
+      object_container_type: 'asset_types'
+      workflow_status_id: '5bfcef9c-22c0-11eb-adc1-0242ac120002'
+    errors:
+      - code: 'RequiredFieldsMissing'
+        source:
+          object_id: '1'
+          object_type: 'assets'
+          object_container_id: '1'
+          object_container_type: 'asset_types'
+        detail:
+          field_names:
+            - vendor_date_acquired
+            - vendor_flagged_for_review
+        configured_error_message: 'Some of the required fields are missing.'
+      - code: 'FailedToGetItem'
+        source:
+          object_id: '1'
+          object_type: 'assets'
+          object_container_id: '1'
+          object_container_type: 'asset_types'
+        detail: { error: 'Timeout' }
+      - code: 'StatusNotFound'
+        source:
+          object_id: '1'
+          object_type: 'assets'
+          object_container_id: '1'
+          object_container_type: 'asset_types'
+        detail:
+          status_id: 6da792b5-eb26-445f-9c9d-56fe04869a5a

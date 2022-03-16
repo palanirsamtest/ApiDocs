@@ -1,0 +1,104 @@
+#
+# Re-usable responses are captured in this document. This works well for
+# error responses that tend to be similar. However, for JSON API responses,
+# they tend to each be slightly differently so they are documented inline
+# with their path definitions.
+#
+Accepted:
+  description: Accepted.
+NoContent:
+  description: No content.
+NotFound:
+  description: Not found.
+Forbidden:
+  description: Forbidden.
+BadCredentials:
+  description: Bad credentials.
+AuthyErrorResponse:
+  description: Authy Error Response.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/FastifyError'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/BadRequest'
+AuthyNotFoundResponse:
+  description: Authy Not Found Response.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/FastifyError'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/NotFound'
+AuthyUnauthorizedResponse:
+  description: Request had missing or incorrect authorization.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/FastifyError'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/Unauthorized'
+ResourceTypeMismatch:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ResourceTypeMismatch'
+ResourceIdConflict:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/ResourceIdConflict'
+NotJsonapiMediaType:
+  description: Unsupported media type.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/NotJsonapiMediaType'
+MissingOrgId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingOrgId'
+MissingResourceId:
+  description: Bad request.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/MissingResourceId'
+NodeNotFound:
+  description: Not Found.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/NodeNotFound'
+InvalidNode:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidNode'
+InvalidClassName:
+  description: Unprocessable entity.
+  content:
+    application/vnd.api+json:
+      schema:
+        $ref: './schemas.yml#/Errors'
+      example:
+        $ref: '../schemas/errors.yml#/Examples/InvalidClassName'

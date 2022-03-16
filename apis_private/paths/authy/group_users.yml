@@ -1,0 +1,18 @@
+get:
+  tags:
+    - Authy
+  operationId: getGroupUsers
+  summary: List Users in Group
+  parameters:
+    - $ref: '../../components/parameters.yml#/groupIdParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetGroupUsersResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

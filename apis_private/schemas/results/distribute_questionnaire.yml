@@ -1,0 +1,103 @@
+DistributeQuestionnairePayload:
+  type: object
+  description: The data required to distribute a questionnaire.
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: The data associated with the resource.
+      required:
+        - recipients
+      properties:
+        recipients:
+          type: array
+          items:
+            type: string
+          description: The recipients of this questionnaire.
+          example: ['test@test.com']
+        table_id:
+          type: string
+          description: The ID of the table storing the questionnaire responses.
+          example: '123'
+        questionnaire_context:
+          type: array
+          description: Additional information to be shown on the side panel when respondents answering the questionnaire.
+          maxItems: 15
+          items:
+            type: object
+            required:
+              - field_name
+              - display_name
+              - value
+            properties:
+              field_name:
+                type: string
+                description: The name of the of the field.
+              display_name:
+                type: string
+                description: The display name of the field.
+              value:
+                type: string
+                description: The value of the field.
+          example:
+            - field_name: vendor_name
+              display_name: Vendor Name
+              value: AWS
+            - field_name: vendor_discription
+              display_name: Vendor Discription
+              value: Amazon Web Services provides on-demand cloud computing platforms
+            - field_name: num_of_employees
+              display_name: Number of Employees
+              value: '25000'
+        assessment_target:
+          type: object
+          description: The target to be assessed.
+          required:
+            - object_id
+            - object_type
+          properties:
+            object_type:
+              type: string
+              description: The type of the object to be assessed.
+              example: assets
+            object_id:
+              type: string
+              description: The ID of the object to be assessed.
+              example: '33234345'
+            object_container_type:
+              type: string
+              description: The type of the object's container.
+              example: asset_types
+            object_container_id:
+              type: string
+              description: The ID of the object's container.
+              example: '1234'
+
+DistributeQuestionnaireResponse:
+  type: object
+  description: The response from distributing a questionnaire.
+  required:
+    - data
+  properties:
+    data:
+      required:
+        - table_id
+        - record_ids
+        - data_table_id
+      properties:
+        table_id:
+          type: string
+          description: The ID of the table storing the questionnaire responses.
+          example: '123'
+        record_ids:
+          type: array
+          description: The records created from sending the questionnaire.
+          items:
+            type: string
+          example: ['222']
+        data_table_id:
+          type: integer
+          description: The data table ID of the table storing the questionnaire responses.
+          example: 123
+          format: int64

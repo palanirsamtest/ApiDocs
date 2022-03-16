@@ -1,0 +1,66 @@
+ContactsReferenceFullAttributes: &ContactsReferenceFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  required:
+    - name
+    - email
+  properties:
+    name:
+      type: string
+      description: The name of the contacts reference.
+      example: James Miller
+    email:
+      type: string
+      description: The email of the contacts reference.
+      example: james_miller@example.com
+    additional_field:
+      type: object
+      description: Additional field to describe the contacts reference.
+      properties:
+        name:
+          type: string
+          description: The name of the additional field.
+          example: Location
+        value:
+          type: string
+          description: The value of the additional field.
+          example: Vancouver
+ContactsReference: &ContactsReference
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+    - relationships
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: '888'
+    type:
+      type: string
+      description: The classification of the object (`"references"`).
+      example: references
+    attributes: *ContactsReferenceFullAttributes
+    relationships:
+      type: object
+      description: The relationships associated with the resource.
+      properties:
+        table:
+          $ref: '../../components/schemas.yml#/RelationshipObject'
+      example:
+        table:
+          data:
+            id: 1
+            type: tables
+MultiContactsReferencesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *ContactsReference

@@ -1,0 +1,122 @@
+#
+# Error schemas
+#
+Errors:
+  type: object
+  properties:
+    errors:
+      type: array
+      items:
+        $ref: '#/Error'
+Error:
+  type: object
+  required:
+    - status
+  properties:
+    status:
+      type: string
+      description: The HTTP status code.
+    source:
+      type: object
+      description: Indicates which part of the request document caused the error.
+      required:
+        - pointer
+      properties:
+        pointer:
+          type: string
+          description: |
+            A JSON Pointer <a href="https://tools.ietf.org/html/rfc6901" target="_blank">(RFC6901)</a> to the associated entity
+            in the request document.
+    code:
+      type: string
+      description: Application-specific error code, expressed as a string value.
+    title:
+      type: string
+      description: A short, human-readable summary of the problem.
+    detail:
+      type: string
+      description: A human-readable explanation specific to this occurrence of the problem.
+
+Examples:
+  BadRequest:
+    statusCode: 400
+    error: Bad Request
+    message: The Group ID must be a number.
+  NotFound:
+    statusCode: 404
+    error: Not Found
+    message: No such user
+  Unauthorized:
+    statusCode: 401
+    error: Unauthorized
+    message: Unauthorized
+  ResourceTypeMismatch:
+    errors:
+      - status: 400
+        code: resource_type_mismatch
+        title: Resource type mismatch
+        detail: |
+          The requested data type, a-bad-type, is incompatible with the endpoint.
+  ResourceIdConflict:
+    errors:
+      - status: 400
+        code: resource_id_conflict
+        title: Resource ID conflict
+        detail: |
+          The id specified in the request body, 1, conflicts with
+          the id specified in the path, 101.
+  MissingOrgId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, org_id, is missing.
+  MissingResourceId:
+    errors:
+      - status: 400
+        code: parameter_missing
+        title: Parameter missing
+        detail: The required parameter, id, is missing.
+  NotJsonapiMediaType:
+    errors:
+      - status: 415
+        code: unsupported_media_type
+        title: Unsupported media type
+        detail: >
+          The endpoint supports only the application/vnd.api+json Content-Type.
+          This request specified application/json.
+  NodeNotFound:
+    errors:
+      - status: 404
+        title: Node not found
+        detail: >
+          Unknown node requested: {id}.
+  InvalidNode:
+    errors:
+      - status: 422
+        source:
+          pointer: '/data/id'
+        title: Invalid node
+        detail: >
+          Invalid node: {id}.
+  InvalidClassName:
+    errors:
+      - status: 422
+        source:
+          pointer: '/data/id'
+        title: Invalid class name
+        detail: >
+          Error getting class name for node: {id}.
+
+FastifyError:
+  type: object
+  properties:
+    statusCode:
+      type: number
+      description: HTTP response code.
+    error:
+      type: string
+      description: Human readable error name.
+    message:
+      type: string
+      description: Additional information describing why the error occured.

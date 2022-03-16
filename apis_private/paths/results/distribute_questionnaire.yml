@@ -1,0 +1,43 @@
+post:
+  tags:
+    - Questionnaires
+  operationId: distributeQuestionnaire
+  summary: Distribute a questionnaire
+  description: Distribute a questionnaire.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  requestBody:
+    description: The data required to distribute a questionnaire.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/DistributeQuestionnairePayload'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/DistributeQuestionnaireResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    422:
+      description: |
+        Unprocessable entity.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/Errors'
+          example:
+            errors:
+              - status: 422
+                source:
+                  pointer: '/data/recipients'
+                code: invalid_resource
+                detail: can't be blank

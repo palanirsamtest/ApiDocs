@@ -25,6 +25,8 @@ get:
       $ref: '../../components/responses.yml#/NotFound'
     415:
       $ref: '../../components/responses.yml#/NotJsonapiMediaType'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'
 patch:
   tags:
     - Asset types
@@ -70,6 +72,8 @@ patch:
               - status: '422'
                 code: UnprocessableEntityError
                 detail: 'Invalid asset type: Could not find Workflow with workflowId 09e67a7d-6041-47b5-b64b-38de401dc3cb'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'
 delete:
   tags:
     - Asset types
@@ -104,3 +108,5 @@ delete:
       $ref: '../../components/responses.yml#/Forbidden'
     404:
       $ref: '../../components/responses.yml#/NotFound'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'

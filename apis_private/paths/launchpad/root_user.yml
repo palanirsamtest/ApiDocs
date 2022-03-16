@@ -1,0 +1,27 @@
+get:
+  tags:
+    - Launchpad
+  operationId: getRootUserToken
+  summary: Get root user subdomain JWT
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - in: query
+      name: expiry_in_minutes
+      description: The time until the JWT expires in minutes. Must be under 60. Defaults to 5.
+      required: false
+      schema:
+        type: string
+        example: 15
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetSystemUserTokenResponse'
+    400:
+      description: Bad request.
+    401:
+      description: Unauthorized.
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

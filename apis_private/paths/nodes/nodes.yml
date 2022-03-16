@@ -1,0 +1,56 @@
+get:
+  tags:
+    - Nodes
+  operationId: getNodes
+  summary: >
+    List nodes
+  description: Get a list of all nodes by type.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/nodeTypeParam'
+    - $ref: '../../components/parameters.yml#/localeParam'
+    - $ref: '../../components/parameters.yml#/accessLevelParam'
+    - $ref: '../../components/parameters.yml#/limitParam'
+    - $ref: '../../components/parameters.yml#/tokenParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/PaginatedNodesResponse'
+          example:
+            data:
+              - id: '2ed52026-bacd-4d30-be18-05ca2c9b0ff2'
+                type: paginated_nodes
+                attributes:
+                  access: 'public'
+                  node_group: 'test'
+                  locale: 'en'
+                  admin_name: 'Node1'
+                  display_name: 'Node1'
+                  description: 'Node 1 description'
+                  icon: 'https://node-library-main-bucket.s3.us-west-2.amazonaws.com/{node_id}/icon.png'
+                  help_docs: 'https://help.highbond.com/helpdocs/robots/current/user-guide/en-us/Default.htm'
+              - id: 'f94ae261-6754-4754-b445-8eb0f2637443'
+                type: paginated_nodes
+                attributes:
+                  access: 'public'
+                  node_group: 'test'
+                  locale: 'en'
+                  admin_name: 'Node2'
+                  display_name: 'Node2'
+                  description: 'Node 2 description'
+                  icon: 'https://node-library-main-bucket.s3.us-west-2.amazonaws.com/{node_id}/icon.png'
+                  help_docs: 'https://help.highbond.com/helpdocs/robots/current/user-guide/en-us/Default.htm'
+            links:
+              next: 'nodes/type=transformation?lang=EN&access=PUBLIC&limit=1&token=Tk9ERSNiMzRjZjRkMy03ZGYwLTRmZGMtODFhMS1jY2VlN2EwM2EwMmR+TEFORyNlbn5SQU5LI2FiYw=='
+              prev: 'nodes/type=transformation?lang=EN&access=PUBLIC&limit=1&token=LTRmZGMtODFhMS1jY2VlN2EwM2EwMmRTk9ERSNiMzRjZjRkMy03ZGYw+TEFORyNlbnFiYw5SQU5LI2=='
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

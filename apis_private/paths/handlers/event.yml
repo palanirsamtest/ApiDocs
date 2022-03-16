@@ -1,0 +1,26 @@
+post:
+  tags:
+    - Handlers
+  operationId: invokeAnEvent
+  summary: Invoke an event.
+  description: Invoke an event. If success, will send back data depending on types of actions performed. If fail, will send back errors.
+  parameters:
+    - $ref: '../../components/parameters.yml#/resourceUuidParam'
+  requestBody:
+    description: The data required to invoke an event.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/EventInvokeRequest'
+  responses:
+    200:
+      description: Request accepted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/EventInvokeResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

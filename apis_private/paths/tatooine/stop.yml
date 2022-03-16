@@ -1,0 +1,22 @@
+post:
+  tags:
+    - Tatooine
+  operationId: postStop
+  summary: Stop Python command.
+  description: User stop current Python execution session.
+  parameters:
+    - $ref: '../../components/parameters.yml#/tatooineSessionIdParam'
+    - $ref: '../../components/parameters.yml#/tatooineTokenParam'
+  responses:
+    '200': # status code
+      description: Request accepted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/StopSuccessResponse'
+    '403':
+      description: Invalid login
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'

@@ -1,0 +1,15 @@
+post:
+  tags:
+    - Sauron
+  operationId: createActivities
+  summary: Log activities inside Sauron
+  requestBody:
+    description: The data to log as part of an activity
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas.yml#/CreateActivitiesRequest'
+  responses:
+    201:
+      description: Created.

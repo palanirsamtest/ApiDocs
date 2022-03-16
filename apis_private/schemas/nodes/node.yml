@@ -1,0 +1,156 @@
+NodeResponseFullAttributes: &NodeResponseFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    access:
+      type: string
+      description: Access Level of the Node.
+      example: 'public'
+    node_group:
+      type: string
+      description: Node group to which the node belongs to.
+      example: 'hcl_jira'
+    locale:
+      type: string
+      description: Language code.
+      example: 'en'
+    admin_name:
+      type: string
+      description: Folder name where the node exists.
+      example: 'import_issues'
+    node_type:
+      type: string
+      description: Type of the node.
+      example: 'transformation'
+    icon:
+      type: string
+      description: S3 Path where the icon.svg file is uploaded.
+      example: 'https://node-library-main-bucket.s3.us-west-2.amazonaws.com/{node_id}/icon.png'
+    background_color:
+      type: string
+      description: Background color for icon.svg.
+      example: 'FF5733'
+    source_code:
+      type: string
+      description: Base64 encoded string of source_code from the script.py file.
+      example: 'aW1wb3J0IGhjbA0KDQpjbGFzcyBJbXBvcnRGcm9tSmlyYShTb3VyY2VOb2'
+    dependencies:
+      type: string
+      description: Utf8 encoded string of contents from dependencies.txt.
+      example: 'cycler==0.10.0            # via matplotlib\nkiwisolver==1.2.0'
+    md5:
+      type: string
+      description: md5 of source_code, dependencies, parameters.
+      example: '2aa2a30c4a101989dc62155596380158'
+    special_node_kind:
+      type: string
+      description: Special node kind.
+      example: 'join'
+    l10n:
+      type: object
+      description: Localized content for a node which includes the node_display_name, node description, help_docs and params.
+      example:
+        - display_name: 'Random Dataframe'
+        - description: 'Random Dataframe'
+        - help_docs: 'https://help.highbond.com/helpdocs/robots/current/user-guide/en-us/Default.htm'
+        - params:
+            - min:
+                - display_name: 'Minimum'
+                - placeholder: 'Minimum for dataframe values'
+                - instruction: 'Lower boundary value in dataframe'
+    num_input_dataframes:
+      type: number
+      description: Number of input data frames.
+      example: 2
+    class_name:
+      type: string
+      description: Class name derieved from the script.py file.
+      example: 'ImportFromJira'
+    params:
+      type: object
+      description: Parameters used in the script.py file.
+      example:
+        - min:
+            - display_name: 'Minimum'
+            - placeholder: 'Minimum for dataframe values'
+            - instruction: 'Lower boundary value in dataframe'
+PaginatedNodesFullAttributes: &PaginatedNodesFullAttributes
+  type: object
+  description: The attributes associated with the resource.
+  properties:
+    access:
+      type: string
+      description: Access Level of the Node.
+      example: 'public'
+    node_group:
+      type: string
+      description: Node group to which the node belongs to.
+      example: 'hcl_jira'
+    locale:
+      type: string
+      description: Language code.
+      example: 'en'
+    admin_name:
+      type: string
+      description: Folder name where the node exists.
+      example: 'import_issues'
+    display_name:
+      type: string
+      description: Localized name of the node.
+      example: 'import_issues'
+    description:
+      type: string
+      description: Description of the node.
+      example: 'Import issues for node'
+    icon:
+      type: string
+      description: S3 Path where the icon.svg file is uploaded.
+      example: 'https://node-library-main-bucket.s3.us-west-2.amazonaws.com/{node_id}/icon.png'
+    help_docs:
+      type: string
+      description: Html link of help doc whih explains more about a node.
+      example: 'https://help.highbond.com/helpdocs/robots/current/user-guide/en-us/Default.htm'
+NodeResponse: &NodeResponse
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: 'f94ae261-6754-4754-b445-8eb0f2637443'
+    type:
+      type: string
+      description: The classification of the object (`"node_response"`).
+      example: node_response
+    attributes: *NodeResponseFullAttributes
+PaginatedNodes: &PaginatedNodes
+  type: object
+  description: The data associated with the resource.
+  required:
+    - id
+    - type
+    - attributes
+  properties:
+    id:
+      type: string
+      description: The ID of the requested resource.
+      example: 'f94ae261-6754-4754-b445-8eb0f2637443'
+    type:
+      type: string
+      description: The classification of the object (`"paginated_nodes"`).
+      example: paginated_nodes
+    attributes: *PaginatedNodesFullAttributes
+PaginatedNodesResponse:
+  type: object
+  description: The data associated with the resource.
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      description: The data associated with the resource.
+      items: *PaginatedNodes

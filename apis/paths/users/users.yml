@@ -25,6 +25,8 @@ get:
       $ref: '../../components/responses.yml#/BadCredentials'
     404:
       $ref: '../../components/responses.yml#/NotFound'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'
 
 post:
   tags:
@@ -58,3 +60,5 @@ post:
       $ref: '../../components/responses.yml#/UnprocessableEntity'
     429:
       $ref: '../../components/responses.yml#/TooManyRequests'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'

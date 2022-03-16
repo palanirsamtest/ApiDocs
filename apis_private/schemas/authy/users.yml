@@ -1,0 +1,80 @@
+BaseUserProperties: &BaseUserProperties
+  uid:
+    type: string
+    description: The unique identifier of the user.
+    example: 364f443a-0512-4577-8cf7-bfcbdd1a72d5
+
+OrgUser: &OrgUser
+  type: object
+  description: The attributes associated with the user.
+  required:
+    - uid
+    - subscription
+  properties:
+    <<: *BaseUserProperties
+    subscription:
+      type: string
+      description: The subscription of the user within the requested organization.
+      example: grc_full
+    name:
+      type: string
+      description: The user's name.
+      example: X AE A-12 Musk
+    email:
+      type: string
+      description: The user's email.
+      example: example@test.com
+    user_type:
+      type: string
+      description: The user type of the user. Can be root, system, or user.
+      example: system
+    enabled:
+      type: boolean
+      description: Whether the user is enabled or not.
+      example: true
+    isSystemAdmin:
+      type: boolean
+      description: Whether the user is a system admin in the requested org or not.
+      example: true
+    isResultsAdmin:
+      type: boolean
+      description: Whether the user is a Results admin in the requested org or not.
+      example: true
+
+GroupUser: &GroupUser
+  type: object
+  description: The attributes associated with the user.
+  required:
+    - uid
+    - isOwner
+  properties:
+    <<: *BaseUserProperties
+    isOwner:
+      type: boolean
+      description: Whether or not the user is an owner within the group.
+      example: true
+
+GetOrgUsersResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *OrgUser
+
+GetOrgUserResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data: *OrgUser
+
+GetGroupUsersResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items: *GroupUser

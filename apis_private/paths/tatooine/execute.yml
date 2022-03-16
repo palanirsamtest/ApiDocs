@@ -1,0 +1,35 @@
+post:
+  tags:
+    - Tatooine
+  operationId: postExecute
+  summary: Execute Python command.
+  description: User execute Python code. If success, Tatooine will post code to Jupyter kernel. If fail, Tatooine will send back error code.
+  parameters:
+    - $ref: '../../components/parameters.yml#/tatooineSessionIdParam'
+    - $ref: '../../components/parameters.yml#/tatooineTokenParam'
+  requestBody:
+    description: Python script for execution
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/FlowRequest'
+  responses:
+    '200':
+      description: Request accepted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ExecuteSuccessResponse'
+    '403':
+      description: Invalid login
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'
+    '500':
+      description: Internal Server Error
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'

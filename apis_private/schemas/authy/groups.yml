@@ -1,0 +1,30 @@
+GetGroupsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Group'
+Group:
+  description: The attributes associated with the group.
+  required:
+    - id
+  properties:
+    id:
+      type: number
+      description: The unique identifier of the group.
+      example: 1234
+    orgId:
+      type: number
+      description: The ID of the organization the group belongs to.
+      example: 5555
+    name:
+      type: string
+      description: The group's name.
+      example: The Fellowship of the Ring
+    isDisabled:
+      type: boolean
+      description: Whether or not the group has been disabled.
+      example: false

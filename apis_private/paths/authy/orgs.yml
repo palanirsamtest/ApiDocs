@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Authy
+  operationId: getUserOrgs
+  summary: List Organizations
+  description: |
+    Retrieve a list of all organizations a user is part of. If the response is empty,
+    the user either does not belong to any organizations, or no user matches the given UID.
+  parameters:
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetUserOrgsResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

@@ -1,0 +1,189 @@
+ErrorMessageResponse:
+  type: object
+
+FlowRequest:
+  type: object
+  properties:
+    nodeId:
+      type: string
+      format: uuid
+      description: Node identifier for execution
+    cellId:
+      type: string
+      format: uuid
+      description: Cell identifier for execution
+    flow:
+      type: object
+      properties:
+        nodes:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Node identifier
+            name:
+              type: string
+              description: Name of node
+            type:
+              type: string
+              description: Node type
+            timestamp:
+              type: integer
+              format: datetime
+              description: UNIX epoch timestamp
+            position:
+              type: object
+              properties:
+                x:
+                  type: integer
+                  description: X coordinate of Node
+                y:
+                  type: integer
+                  description: Y coordinate of Node
+            config:
+              type: object
+              properties:
+                cells:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      description: Cell identifier
+                    input:
+                      type: string
+                      description: Script to execute
+          required:
+            - id
+            - name
+            - type
+            - timestamp
+            - position
+    edges:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Current node identifier
+        sourceId:
+          type: string
+          format: uuid
+          description: Source node identifier
+        targetId:
+          type: string
+          format: uuid
+          description: Target node identifier
+        timestamp:
+          type: integer
+          format: datetime
+          description: UNIX epoch timestamp
+  example:
+    nodeId: '5565b732-305c-4f34-8ace-f46e8de64a70'
+    cellId: None
+    flow:
+      nodes:
+        - id: '5565b732-305c-4f34-8ace-f46e8de64a70'
+          name: 'Data Node'
+          type: 'ImportCSV'
+          timestamp: 1585175601
+          position:
+            x: 100
+            y: 150
+          config:
+            cells:
+              - id: '5565b732-305c-4f34-8ace-f46e8de64111'
+                input: "print('Tatooine')"
+        - id: 'c950b9a4-ac61-491c-a7b7-a3b1e960aadb'
+          name: 'Highbond Node'
+          type: 'ExportToHighbond'
+          timestamp: 1585175601
+          position:
+            x: 200
+            y: 200
+          config:
+            cells:
+              - id: '5565b732-305c-4f34-8ace-f46e8de64123'
+                input: "dataframe = highbond.DataFrame(data={'col1': [1, 2], 'col2': [3, 4]})"
+              - id: '5565b732-305c-4f34-8ace-f46e8de64124'
+                input: "EXPORT dataframe ACLGRC TO '134407@us'"
+        - id: '59b6d862-0402-4ae6-8d41-4a434f1f5862'
+          name: 'Second highbond export node'
+          type: 'Duplicates'
+          timestamp: 1585175601
+          position:
+            x: 200
+            y: 100
+    edges:
+      - id: '0dc80aa6-d441-4a97-bbba-488e2ab2783d'
+        sourceId: '5565b732-305c-4f34-8ace-f46e8de64a70'
+        targetId: '59b6d862-0402-4ae6-8d41-4a434f1f5862'
+        timestamp: 1585175601
+      - id: '5fa0b922-53db-47e2-950b-d76d5e3def84'
+        sourceId: '59b6d862-0402-4ae6-8d41-4a434f1f5862'
+        targetId: 'c950b9a4-ac61-491c-a7b7-a3b1e960aadb'
+        timestamp: 1585175601
+
+DataSuccessResponse:
+  type: object
+  properties:
+    offset:
+      type: integer
+      description: Required data records start position, start from 1
+    limit:
+      type: integer
+      description: Required rows of data records
+      example: 2
+    columns:
+      type: array
+      items:
+        type: string
+      description: Column names for the data records
+      example: ['index', 'person', 'years of working']
+    records:
+      type: array
+      items:
+        type: string
+      description: Required data records row by row
+      example: [[1, 'mike', 3], [2, 'peter', 4]]
+
+ExecuteSuccessResponse:
+  type: object
+
+MetadataSuccessResponse:
+  type: object
+  properties:
+    nodes:
+      type: array
+      description: An array of node lists with id, metadata, timestamp and sometime errors
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Node id as identifier
+          timestamp:
+            type: integer
+            description: The timestamp from request for each node
+          metadata:
+            type: array
+            items:
+              type: object
+            description: A list present column name and datatype for each node
+        required:
+          - id
+      example:
+        - id: ri7fj
+          timestamp: 1585175601
+          metadata: [['index', int], ['gender', string]]
+        - id: ky7bk
+          timestamp: 1585175774
+          metadata: [['index', int], ['gender', string], ['age', int]]
+        - id: du8gv
+          error:
+            message: 'Invalid configuration'
+            code: 13
+
+StopSuccessResponse:
+  type: object

@@ -1,0 +1,25 @@
+get:
+  tags:
+    - Tatooine
+  operationId: getData
+  summary: User request data.
+  description: User get data. If success, Tatooine will return data with required offset and limit. If fail, Tatooine will return error code and message.
+  parameters:
+    - $ref: '../../components/parameters.yml#/tatooineSessionIdParam'
+    - $ref: '../../components/parameters.yml#/tatooineTokenParam'
+    - $ref: '../../components/parameters.yml#/tatooineIdParam'
+    - $ref: '../../components/parameters.yml#/taooineQueryOffsetParam'
+    - $ref: '../../components/parameters.yml#/taooineQueryLimitParam'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/DataSuccessResponse'
+    '500':
+      description: Internal Server Error
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'

@@ -1,0 +1,131 @@
+get:
+  tags:
+    - Nodes
+  operationId: getNode
+  summary: >
+    Get node
+  description: Get a node by id.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/nodeIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/NodeResponse'
+          example:
+            data:
+              - id: '2ed52026-bacd-4d30-be18-05ca2c9b0ff2'
+                type: node_response
+                attributes:
+                  access: 'public'
+                  node_group: 'test'
+                  locale: 'en'
+                  admin_name: 'Node1'
+                  node_type: 'transformation'
+                  icon: 'https://node-library-main-bucket.s3.us-west-2.amazonaws.com/{node_id}/icon.png'
+                  background_color: 'FF5733'
+                  source_code: 'aW1wb3J0IGhjbA0KDQpjbGFzcyBJbXBvcnRGcm9tSmlyYShTb3VyY'
+                  dependencies: 'UTF 8 encoded string of requirements.txt'
+                  md5: '2aa2a30c4a101989dc62155596380158'
+                  special_node_kind: 'Join'
+                  l10n:
+                    display_name: 'Random Dataframe'
+                    description: 'Random Dataframe'
+                    help_docs: 'https://help.highbond.com/helpdocs/robots/current/user-guide/en-us/Default.htm'
+                    params:
+                      min:
+                        display_name: 'Minimum'
+                        placeholder: 'Minimum for dataframe values'
+                        instruction: 'Lower boundary value in dataframe'
+                  num_input_dataframes: 1,
+                  class_name: 'ImportFromJira'
+                  params:
+                    min:
+                      type: 'integer'
+                      order: 1
+                      variable: true
+                      default: '0'
+                      optional: false
+    400:
+      $ref: '../../components/responses.yml#/MissingOrgId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+post:
+  tags:
+    - Nodes
+  operationId: createNode
+  summary: Create Node
+  description: |
+    Create a node in your organization.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/nodeIdParam'
+  responses:
+    200:
+      description: OK.
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NodeNotFound'
+    422:
+      $ref: '../../components/responses.yml#/InvalidNode'
+patch:
+  tags:
+    - Nodes
+  operationId: updateNode
+  summary: Update Node
+  description: |
+    Update a node in your organization.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/nodeIdParam'
+  responses:
+    200:
+      description: OK.
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NodeNotFound'
+    422:
+      $ref: '../../components/responses.yml#/InvalidNode'
+delete:
+  tags:
+    - Nodes
+  operationId: deprecateNode
+  summary: Deprecate a Node
+  description: |
+    Mark a node as deprecated.
+
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/nodeIdParam'
+  responses:
+    200:
+      description: OK.
+    400:
+      $ref: '../../components/responses.yml#/MissingResourceId'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NodeNotFound'
+    422:
+      $ref: '../../components/responses.yml#/InvalidNode'

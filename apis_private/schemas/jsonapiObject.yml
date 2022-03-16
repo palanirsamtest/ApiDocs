@@ -1,0 +1,17 @@
+ResourceIdentifierObject: &ResourceIdentifierObject
+  type: object
+  description: The data associated with the related object.
+  properties:
+    id:
+      type: string
+      description: The ID of the related object.
+      example: 1
+    type:
+      type: string
+      description: The classification of the related object.
+      example: collection
+RelationshipObject:
+  type: object
+  description: The object related to the resource.
+  properties:
+    data: *ResourceIdentifierObject

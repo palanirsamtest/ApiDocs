@@ -1,0 +1,157 @@
+# Extracted from: https://github.com/acl-services/sauron_client/blob/master/docs/usage/writing_logs.md#example
+CreateActivitiesRequest:
+  type: object
+  properties:
+    logged_at:
+      type: string
+      example: 2017-01-10T21:56:10.986Z
+      format: date-time
+    source:
+      type: string
+      example: projects
+    event_type:
+      type: string
+      example: update
+    action:
+      type: string
+      example: update
+    event_group:
+      type: object
+      properties:
+        reference:
+          type: string
+          example: 7a974013-a860-4620-aa16-e5111d014124
+        root:
+          type: boolean
+          example: true
+    request:
+      type: object
+      properties:
+        id:
+          type: string
+          example: c9a88e50-ba5b-0134-ef4a-3200189548c0
+        ip_address:
+          type: string
+          example: 127.0.0.1
+    user:
+      type: object
+      properties:
+        name:
+          type: string
+          example: User 1
+        lp_uid:
+          type: string
+          example: 0000000000000000001
+        email:
+          type: string
+          example: user_1@example.com
+    organization:
+      type: object
+      properties:
+        lp_id:
+          type: integer
+          example: 1
+        subdomain:
+          type: string
+          example: org-1
+        name:
+          type: string
+          example: Org 1
+    primary_container:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: MyProject
+        name:
+          type: string
+          example: Project name 1
+    secondary_container:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: MyObjective
+        name:
+          type: string
+          example: Objective name 1
+    target:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: MyModel
+        value:
+          type: string
+          example: New name
+    record:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: MyModel
+        changes:
+          type: object
+          properties:
+            previous:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Old name
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: 2017-01-10T21:56:10.949Z
+                my_parent_target:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    type:
+                      type: string
+                      example: MyParent
+                    value:
+                      type: string
+                      example: Parent name 1
+            current:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: New name
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: 2017-01-10T21:56:10.963Z
+                my_parent_target:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    type:
+                      type: string
+                      example: MyParent
+                    value:
+                      type: string
+                      example: Parent name 2
+    context_data:
+      type: object
+      properties:
+        some_computed_field:
+          type: string
+          example: Some computed value

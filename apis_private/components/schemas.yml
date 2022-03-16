@@ -1,0 +1,113 @@
+#
+# This file must capture all schemas used by the various paths, requests, and responses.
+# Any schema that is defined inline will lead to poorly generated SDK code.
+#
+# During the `swagger-cli bundle` stage, references ($ref) to schemas are kept in tact, while other
+# YAML references are resolved. It's important for all paths to reference schemas directly captured
+# in this file, otherwise it'll cause "inline models" to be generated for the SDKs.
+#
+
+##################################
+# Sauron
+##################################
+CreateActivitiesRequest:
+  $ref: '../schemas/sauron/activities.yml#/CreateActivitiesRequest'
+
+##################################
+# Results
+##################################
+MultiContactsReferencesResponse:
+  $ref: '../schemas/results/contacts.yml#/MultiContactsReferencesResponse'
+
+GetAttachmentResponse:
+  $ref: '../schemas/results/attachments.yml#/GetAttachmentResponse'
+
+DistributeQuestionnairePayload:
+  $ref: '../schemas/results/distribute_questionnaire.yml#/DistributeQuestionnairePayload'
+DistributeQuestionnaireResponse:
+  $ref: '../schemas/results/distribute_questionnaire.yml#/DistributeQuestionnaireResponse'
+
+MultiUserResponse:
+  $ref: '../schemas/results/users.yml#/MultiUserResponse'
+
+##################################
+# Tatooine
+##################################
+ErrorMessageResponse:
+  $ref: '../schemas/tatooine/tatooine.yml#/ErrorMessageResponse'
+FlowRequest:
+  $ref: '../schemas/tatooine/tatooine.yml#/FlowRequest'
+DataSuccessResponse:
+  $ref: '../schemas/tatooine/tatooine.yml#/DataSuccessResponse'
+ExecuteSuccessResponse:
+  $ref: '../schemas/tatooine/tatooine.yml#/ExecuteSuccessResponse'
+MetadataSuccessResponse:
+  $ref: '../schemas/tatooine/tatooine.yml#/MetadataSuccessResponse'
+StopSuccessResponse:
+  $ref: '../schemas/tatooine/tatooine.yml#/StopSuccessResponse'
+
+##################################
+# Authy
+##################################
+GetGroupsResponse:
+  $ref: '../schemas/authy/groups.yml#/GetGroupsResponse'
+GetGroupUsersResponse:
+  $ref: '../schemas/authy/users.yml#/GetGroupUsersResponse'
+GetOrgUsersResponse:
+  $ref: '../schemas/authy/users.yml#/GetOrgUsersResponse'
+GetOrgUserResponse:
+  $ref: '../schemas/authy/users.yml#/GetOrgUserResponse'
+GetUserOrgsResponse:
+  $ref: '../schemas/authy/orgs.yml#/GetUserOrgsResponse'
+GetUserPermissionsResponse:
+  $ref: '../schemas/authy/permissions.yml#/GetUserPermissionsResponse'
+GetRolePermissionsResponse:
+  $ref: '../schemas/authy/permissions.yml#/GetRolePermissionsResponse'
+GetResourcePermissionsResponse:
+  $ref: '../schemas/authy/permissions.yml#/GetResourcePermissionsResponse'
+
+##################################
+# Handlers
+##################################
+EventInvokeResponse:
+  $ref: '../schemas/handlers/events.yml#/InvokeResponse'
+EventInvokeRequest:
+  $ref: '../schemas/handlers/events.yml#/InvokeRequest'
+
+##################################
+# Errors
+##################################
+Errors:
+  $ref: '../schemas/errors.yml#/Errors'
+Error:
+  $ref: '../schemas/errors.yml#/Error'
+FastifyError:
+  $ref: '../schemas/errors.yml#/FastifyError'
+
+##################################
+# JsonApi Objects
+##################################
+RelationshipObject:
+  $ref: '../schemas/jsonapiObject.yml#/RelationshipObject'
+
+##################################
+# Node-library
+##################################
+PaginatedNodesResponse:
+  $ref: '../schemas/nodes/node.yml#/PaginatedNodesResponse'
+NodeResponse:
+  $ref: '../schemas/nodes/node.yml#/NodeResponse'
+
+##################################
+# Assets/Records
+##################################
+InvokeEventRequest:
+  $ref: '../schemas/assets_records/invoke_event.yml#/InvokeEventRequest'
+InvokeEventResponse:
+  $ref: '../schemas/assets_records/invoke_event.yml#/InvokeEventResponse'
+
+##################################
+# Launchpad
+##################################
+GetSystemUserTokenResponse:
+  $ref: '../schemas/launchpad/system_user_token.yml#/GetSystemUserTokenResponse'

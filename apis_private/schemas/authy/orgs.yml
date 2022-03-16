@@ -1,0 +1,27 @@
+GetUserOrgsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/Org'
+Org:
+  description: The attributes associated with the org.
+  required:
+    - id
+    - subscription
+  properties:
+    id:
+      type: number
+      description: The unique identifier of the organization.
+      example: 5555
+    subscription:
+      type: string
+      description: The subscription of the user within the requested organization.
+      example: grc_full
+    isSuspended:
+      type: boolean
+      description: Whether or not the user is suspended.
+      example: false

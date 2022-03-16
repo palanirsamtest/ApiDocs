@@ -26,6 +26,8 @@ get:
       $ref: '../../components/responses.yml#/Forbidden'
     404:
       $ref: '../../components/responses.yml#/NotFound'
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'
 post:
   tags:
     - Asset types
@@ -78,3 +80,5 @@ post:
               - status: '422'
                 code: UnprocessibleEntity
                 detail: Maximum number of 1000 asset types reached.
+  security:
+    $ref: '../../components/securitySchemas.yml#/bearer_auth'

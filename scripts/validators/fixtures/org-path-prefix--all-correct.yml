@@ -1,0 +1,9 @@
+public:
+  paths:
+    /orgs/{org_id}/assets:
+      post: value is irrelevant
+
+private:
+  paths:
+    /orgs/{org_id}/groups:
+      get: value is irrelevant

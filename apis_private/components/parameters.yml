@@ -1,0 +1,318 @@
+#
+# All parameters are captured here.
+#
+# Parameters tend to be re-usable, so it's worthwhile capturing here rather than
+# documenting them inline of path definitions.
+#
+
+fields:
+  in: query
+  name: fields
+  description: The fields to return in the response.
+  required: false
+  schema:
+    type: string
+    pattern: ^(id|orgId|isDisabled|name|)+(,(id|orgId|disabled|name))*$
+    example: isDisabled,name
+
+orgIdPathParam:
+  name: org_id
+  description: The ID of the organization.
+  schema:
+    type: number
+    example: 1
+  in: path
+  required: true
+
+orgIdQueryParam:
+  name: orgId
+  description: The ID of the organization.
+  schema:
+    type: number
+    example: 1
+  in: query
+  required: false
+
+resourceIdParam:
+  in: path
+  name: id
+  description: The ID of the requested resource.
+  required: true
+  schema:
+    type: string
+    example: 9999
+
+uidPathParam:
+  name: uid
+  description: The UID of the user.
+  schema:
+    type: string
+    example: abcd1234
+  in: path
+  required: true
+
+uidQueryParam:
+  name: uid
+  description: The UID of the user.
+  schema:
+    type: string
+    example: abcd1234
+  in: query
+  required: false
+
+pageSizeParam:
+  in: query
+  name: page[size]
+  description: Number of items returned per page. Default is 50. Maximum is 100.
+  required: false
+  schema:
+    type: string
+    example: 25
+
+pageSizeAssetsAttributesParam:
+  in: query
+  name: page[size]
+  description: Number of items returned per page. Default is 50. Maximum is 500.
+  required: false
+  schema:
+    type: string
+    example: 25
+
+pageNumberParam:
+  in: query
+  name: page[number]
+  description: The page number of records to scroll to. Default is 1.
+  required: false
+  schema:
+    type: string
+    example: 2
+
+##################################
+# Results specific parameters
+##################################
+contactsReferencesSearchParam:
+  in: query
+  name: search
+  description: |
+    The search parameter allows to filter the available Contacts References.
+    The filter is applied to both, the name and email fields as well as the additional field (if available).
+
+    Note: this search is just a simple filter operation and does not include any result ranking.
+  required: false
+  schema:
+    type: string
+    example: James
+
+adminOnlyParam:
+  in: query
+  name: admin_only
+  description: When used, will return a list of admin users.
+  required: false
+  schema:
+    type: boolean
+    example: true
+
+##################################
+# Tatooine parameters
+##################################
+
+tatooineVersionIdParam:
+  name: version_id
+  in: path
+  required: true
+  description: Version identifier for Tatooine API
+  schema:
+    type: string
+    example: v1
+
+tatooineSessionIdParam:
+  name: session_id
+  in: header
+  required: true
+  description: Identifier for current session
+  schema:
+    type: string
+    format: uuid
+
+tatooineTokenParam:
+  name: token
+  in: header
+  required: true
+  description: Authentication Token for Tatooine
+  schema:
+    type: string
+    format: uuid
+
+tatooineIdParam:
+  name: id
+  in: path
+  required: true
+  description: Node identifier
+  schema:
+    type: string
+    example: 'e4kdhc'
+
+taooineQueryOffsetParam:
+  name: offset
+  in: query
+  required: true
+  description: Required data records start position, start from 0
+  schema:
+    type: integer
+    minimum: 0
+    example: 1
+
+taooineQueryLimitParam:
+  name: limit
+  in: query
+  required: true
+  description: Required number of records to read, start from 1
+  schema:
+    type: integer
+    minimum: 1
+    example: 2
+
+#################################
+# Authy specific parameters
+#################################
+
+groupIdParam:
+  in: path
+  name: group_id
+  description: |
+    Unique identifier for the requested group.
+  required: true
+  schema:
+    type: number
+    example: 12345
+
+minPermissionsParam:
+  in: query
+  name: minPermissions
+  description: |
+    The minimum set of permissions to filter resources against.
+  required: false
+  schema:
+    type: array
+    items:
+      type: number
+      example: [0, 0, 8]
+
+roleIdsQueryParam:
+  in: query
+  name: roleIds[]
+  description: |
+    The set of Role IDs to include permissions for.
+  required: true
+  schema:
+    type: array
+    items:
+      type: string
+      example:
+        - 32c4804a-ee08-499b-9d25-aa3ac685438c
+        - 7d492a26-c7b9-4bcf-bf52-d04e098f247b
+
+resourceTypePathParam:
+  name: resource_type
+  description: |
+    Number representing ResourceType enum.
+  schema:
+    type: number
+    example: 1
+  in: path
+  required: true
+
+resourceTypeQueryParam:
+  name: resourceType
+  description: |
+    Number representing ResourceType enum.
+  schema:
+    type: number
+    example: 1
+  in: query
+  required: false
+
+resourceIDPathParam:
+  name: resource_id
+  description: |
+    The ID of the resource.
+  schema:
+    type: string
+    example: '1'
+  in: path
+  required: true
+
+resourceIDQueryParam:
+  name: resourceId
+  description: |
+    The ID of the resource.
+  schema:
+    type: string
+    example: '1'
+  in: query
+  required: false
+
+##################################
+# Handlers specific parameters
+##################################
+resourceUuidParam:
+  in: path
+  name: id
+  description: |
+    The UUID of the resource.
+  schema:
+    type: string
+    example: 'add43e1e-5eb1-4ca3-b943-b77aba59ed8f'
+  required: true
+
+##################################
+# Node-library specific parameters
+##################################frameworkIdParam:
+nodeIdParam:
+  in: path
+  name: id
+  description: GUID of the node.
+  required: true
+  schema:
+    type: string
+    example: f2f2a418-30d5-4194-92e7-46ac8c69e31c
+localeParam:
+  in: query
+  name: locale
+  description: Language Code.
+  required: true
+  schema:
+    type: string
+    example: en
+nodeTypeParam:
+  in: query
+  name: nodeType
+  description: Node Type of the node.
+  required: true
+  schema:
+    type: string
+    example: source
+accessLevelParam:
+  in: query
+  name: accessLevel
+  description: Access Level of the node.
+  required: true
+  schema:
+    type: string
+    example: public
+limitParam:
+  in: query
+  name: limit
+  description: Number of records per page.
+  required: true
+  schema:
+    type: number
+    example: 10
+tokenParam:
+  in: query
+  name: token
+  description: Token of previous or next page.
+  required: false
+  schema:
+    type: string
+    example: Tk9ERSNiMzRjZjRkMy03ZGYwLTRmZGMtODFhMS1jY2VlN2EwM2EwM

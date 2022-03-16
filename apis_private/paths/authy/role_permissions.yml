@@ -1,0 +1,21 @@
+get:
+  tags:
+    - Authy
+  operationId: getRolePermissions
+  summary: Get permissions granted by a set of roles on a resource
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/resourceTypePathParam'
+    - $ref: '../../components/parameters.yml#/resourceIDPathParam'
+    - $ref: '../../components/parameters.yml#/roleIdsQueryParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetRolePermissionsResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

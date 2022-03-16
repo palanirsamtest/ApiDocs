@@ -1,0 +1,56 @@
+get:
+  tags:
+    - Contacts
+  operationId: getContacts
+  summary: >
+    Queries Contacts references
+  description: |
+    Search contact references inside an organization.
+
+    Note: this endpoint limits the amount of rows returned.
+    If your expected contact is not in the returned data set, please
+    include or expand your search term to filter the available data set.
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/contactsReferencesSearchParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiContactsReferencesResponse'
+          example:
+            data:
+              - id: '763'
+                type: references
+                attributes:
+                  name: James Miller
+                  email: james_miller@example.com
+                  additional_field:
+                    name: Location
+                    value: Vancouver
+                relationships:
+                  table:
+                    data:
+                      id: '39'
+                      type: tables
+              - id: '764'
+                type: references
+                attributes:
+                  name: Sarah Brown
+                  email: sarah_brown@example.com
+                  additional_field:
+                    name: Location
+                    value: Seattle
+                relationships:
+                  table:
+                    data:
+                      id: '39'
+                      type: tables
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

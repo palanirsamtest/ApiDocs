@@ -1,0 +1,432 @@
+ORGANIZATION:
+  description: A standalone organization as created in Launchpad
+  value: 0
+  permissions:
+    ACCESS_FRAMEWORKS_APP:
+      description: Gives an organization access to the Frameworks application.
+      value: 0
+      categories:
+        - System
+    ACCESS_PROJECTS_APP:
+      description: Gives an organization access to the Projects application.
+      value: 1
+      categories:
+        - System
+    ACCESS_ISSUE_TRACKER_APP:
+      description: Gives an organization access to the Issue Tracker application.
+      value: 2
+      categories:
+        - System
+    ACCESS_TASK_TRACKER_APP:
+      description: Gives an organization access to the Task Tracker application.
+      value: 3
+      categories:
+        - System
+    ACCESS_MOBILE_APP:
+      description: Gives an organization access to download and use the Mobile apps.
+      value: 4
+      categories:
+        - System
+    ACCESS_OFFLINE_PROJECTS_APP:
+      description: Gives access to the Offline Projects component in the ACL for Windows client. This component gives users the ability to download and check-out Fieldwork sections onto their local machine to work with the Projects app while offline.
+      value: 5
+      categories:
+        - System
+    ACCESS_PROJECT_TIMESHEETS_APP:
+      description: Gives an organization access to the Timesheets application.
+      value: 6
+      categories:
+        - System
+    ACCESS_PROJECT_SCHEDULER_APP:
+      description: Gives an organization access to the Project Scheduler application.
+      value: 7
+      categories:
+        - System
+    ACCESS_ASSURANCE_PLANS_APP:
+      description: Gives an organization access to the Assurance Plans application.
+      value: 8
+      categories:
+        - System
+    ACCESS_STRATEGY_APP:
+      description: Gives an organization access to the Strategy application.
+      value: 9
+      categories:
+        - System
+    ACCESS_REPORTS_APP:
+      description: Gives an organization access to the Reports application.
+      value: 10
+      categories:
+        - System
+    ACCESS_IMPACT_REPORTS:
+      description: Gives an organization access to the Impact Reports functionality inside the Projects application.
+      value: 11
+      categories:
+        - System
+    ACCESS_COMPLIANCE_MAPS_APP:
+      description: Gives an organization access to the Compliance Maps application.
+      value: 12
+      categories:
+        - System
+    ACCESS_RESULTS_APP:
+      description: Gives an organization access to the Results application with a restricted number of tables.
+      value: 13
+      categories:
+        - System
+    ACCESS_RESULTS_FULL_APP:
+      description: Gives an organization access to the Results application without any number of tables restrictions.
+      value: 14
+      categories:
+        - System
+    ACCESS_EVENT_REPORTS:
+      description: Gives an organization access to the Event Reports functionality inside the Results application.
+      value: 15
+      categories:
+        - System
+    ACCESS_STORYBOARDS_APP:
+      description: Gives an organization access to the Storyboards application.
+      value: 16
+      categories:
+        - System
+    ACCESS_PROJECT_CERTIFICATIONS:
+      description: Gives an organization access to certifications or self assessments functionality inside the Projects application.
+      value: 17
+      categories:
+        - System
+    ACCESS_CONTROL_PERFORMANCE:
+      description: Gives an organization access to Control Performance functionality inside the Results application.
+      value: 18
+      categories:
+        - System
+    ACCESS_MISSION_CONTROL_APP:
+      description: Gives an organization access to the Mission Control application.
+      value: 19
+      categories:
+        - System
+    ACCESS_SURVEYS:
+      description: Gives an organization access to the Surveys functionality in Results, bundled with ACL Robotics.
+      value: 20
+      categories:
+        - System
+    ACCESS_RISK_WORKSHOPS:
+      description: Gives an organization access to the Risk Workshops functionality inside the Strategy application.
+      value: 21
+      categories:
+        - System
+    ACCESS_ASSESSMENT_SURVEYS:
+      description: Gives an organization access to Assessment Surveys functionality inside the Results application.
+      value: 22
+      categories:
+        - System
+    ACCESS_DATA_ANALYTICS_APP:
+      description: Gives an organization access to download and use the ACL for windows client.
+      value: 23
+      categories:
+        - System
+    ACCESS_MASTER_LIBRARY_APP:
+      description: Gives an organization access to the Master Library application.
+      value: 24
+      categories:
+        - System
+    ACCESS_ANALYTICS_APP:
+      description: Gives an organization access to the Analytics application.
+      value: 25
+      categories:
+        - System
+    ACCESS_ROBOTS_APP:
+      description: Gives an organization access to the Robots application.
+      value: 26
+      categories:
+        - System
+    ACCESS_DATA_CONNECTORS:
+      description: Gives an organization access to download certain data connectors for the analytics app, these are included with ACL Robotics.
+      value: 27
+      categories:
+        - System
+    ACCESS_PREMIUM_DATA_CONNECTORS:
+      description: Gives an organization access to download all available data connectors for the analytics app, these are added as an extension.
+      value: 28
+      categories:
+        - System
+    MANAGE_ASSET_TYPES:
+      description: Gives ability to create, view, update, and archive asset types. Also currently used for other similar types like record types.
+      value: 31
+    LIST_ASSET_TYPES:
+      description: Grants the permission to see a list of all asset types in an organization
+      value: 63
+      categories:
+        - System
+    MANAGE_RESULTS_MODULE:
+      description: Grants the permission to manage system settings, create collections, and delete individual records from a table.
+      value: 75
+      categories:
+        - System
+    MANAGE_WORKFLOWS:
+      description: Gives ability to create, view, update, and delete workflows.
+      value: 32
+    MANAGE_ROLES:
+      description: Gives ability to create, view, update, and delete platform or user roles.
+      value: 33
+    USE_BULK_IMPORTER:
+      description: Ability to use Bulk Importer to bulk import resources into HighBond.
+      value: 56
+    READ_COMPLIANCE_REGULATIONS:
+      description: Ability to view compliance regulations.
+      value: 57
+      categories:
+        - System
+    READ_COMPLIANCE_REQUIREMENTS:
+      description: Ability to view compliance requirements.
+      value: 58
+      categories:
+        - System
+    READ_COMPLIANCE_MAPPINGS:
+      description: Ability to view compliance mappings.
+      value: 59
+      categories:
+        - System
+    MANAGE_COMPLIANCE_REGULATIONS:
+      description: Ability to modify compliance regulations.
+      value: 60
+      categories:
+        - System
+    MANAGE_COMPLIANCE_REQUIREMENTS:
+      description: Ability to modify compliance requirements.
+      value: 61
+      categories:
+        - System
+    MANAGE_COMPLIANCE_MAPPINGS:
+      description: Ability to modify compliance mappings.
+      value: 62
+      categories:
+        - System
+    CAN_MANAGE_SYSTEM_USERS:
+      description: Grants the permission to manage system users.
+      value: 64
+      categories:
+        - System
+    CAN_READ_SYSTEM_USERS:
+      description: Grants the permission to read system users.
+      value: 65
+      categories:
+        - System
+    CAN_MANAGE_LICENSED_COMPLIANCE_REGULATIONS:
+      description: Ability to manage licensed content in compliance maps.
+      value: 68
+      categories:
+        - System
+PROJECT:
+  description: A project resource as created in Projects
+  value: 1
+  permissions:
+    REPORT_ON_PROJECT:
+      description: A user has access to project records in HighBond reporting.
+      value: 30
+    READ_ALL_CONTROLS:
+      description: A user is able to read all controls inside project/framework.
+      value: 69
+    READ_SCHEDULER_RESOURCES:
+      description: A user is able to read scheduler resources.
+      value: 89
+COLLECTION:
+  description: A collection resource as created in Results
+  value: 2
+  permissions:
+    MANAGE_COLLECTION:
+      description: Grants permissions to manage collection settings, delete a collection, delete its associated records from the table, and delete non-metadata columns.
+      value: 76
+      categories:
+        - System
+    VIEW_COLLECTION:
+      description: Grants permissions to open and view a collection, and view its analyses and default interpretations.
+      value: 77
+      categories:
+        - System
+    MANAGE_TABLES:
+      description: Grants permissions to manage analysis and Tests, and upload records.
+      value: 78
+      categories:
+        - System
+    MANAGE_QUESTIONNAIRES:
+      description: Grants permissions to create questionnaires, manage surveys and event reports.
+      value: 79
+      categories:
+        - System
+    MANAGE_TRIGGERS:
+      description: Grants permissions to view and manage triggers.
+      value: 80
+      categories:
+        - System
+    MANAGE_INTERPRETATIONS:
+      description: Grants permissions to create, upload and delete interpretations.
+      value: 81
+      categories:
+        - System
+    VIEW_INTERPRETATIONS:
+      description: Grants permissions to view interpretations.
+      value: 82
+      categories:
+        - System
+    MANAGE_METRICS:
+      description: Grants permissions to create and delete metrics.
+      value: 83
+      categories:
+        - System
+    VIEW_METRICS:
+      description: Grants permissions to view metrics.
+      value: 84
+      categories:
+        - System
+    IGNORE_RECORD_ASSIGNMENT_CHECK:
+      description: Don’t filter table records by user/group assignment.
+      value: 85
+      categories:
+        - System
+    PROCESS_RECORDS:
+      description: Grants permissions to assign/unassign records, add comments and attachments, and save/submit questionnaires.
+      value: 86
+      categories:
+        - System
+    ASSIGN_GROUPLESS_RECORDS_TO_USERS:
+      description: Grants permissions to assign records to any user if group is unassigned.
+      value: 87
+      categories:
+        - System
+    MANAGE_VISUALIZATIONS:
+      description: Grants permissions add charts and drill down from Data Distribution.
+      value: 88
+      categories:
+        - System
+ASSET_TYPE:
+  description: An asset type resource created in Assets Service
+  value: 3
+  permissions:
+    CREATE_ASSET:
+      description: Grants the permission to create an asset/record for a particular Asset/Record Type.
+      value: 34
+    DELETE_ASSET:
+      description: Grants the permission to delete an asset/record for a particular Asset/Record Type.
+      value: 35
+    READ_ASSET_SECTION_0:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 36
+    READ_ASSET_SECTION_1:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 37
+    READ_ASSET_SECTION_2:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 38
+    READ_ASSET_SECTION_3:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 39
+    READ_ASSET_SECTION_4:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 40
+    READ_ASSET_SECTION_5:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 41
+    READ_ASSET_SECTION_6:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 42
+    READ_ASSET_SECTION_7:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 43
+    READ_ASSET_SECTION_8:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 44
+    READ_ASSET_SECTION_9:
+      description: Grants the permission to read a section of an Asset/Record.
+      value: 45
+    UPDATE_ASSET_SECTION_0:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 46
+    UPDATE_ASSET_SECTION_1:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 47
+    UPDATE_ASSET_SECTION_2:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 48
+    UPDATE_ASSET_SECTION_3:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 49
+    UPDATE_ASSET_SECTION_4:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 50
+    UPDATE_ASSET_SECTION_5:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 51
+    UPDATE_ASSET_SECTION_6:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 52
+    UPDATE_ASSET_SECTION_7:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 53
+    UPDATE_ASSET_SECTION_8:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 54
+    UPDATE_ASSET_SECTION_9:
+      description: Grants the permission to update a section of an Asset/Record.
+      value: 55
+    CHECK_ASSET_RELATION_TEMPORARY:
+      description: This permission is to support removal of configured parent-child relationships for asset and record types; should a check for existing assets/records of that type reveal that instances already exist, the configuration cannot be deleted.
+      value: 64
+      deprecated: true
+      categories:
+        - System
+TOOLKIT:
+  description: A toolkit
+  value: 4
+  permissions:
+    INSTALL_TOOLKIT:
+      description: Ability to install a particular Toolkit for an organization.
+      value: 29
+      categories:
+        - System
+    INSTALL_TOOLKITS:
+      value: 29
+      deprecated: true
+ALL: # This is a special entry, not a resource type. Permissions here will be applied to all resource types
+  description: Permissions that apply to all resource types except those in the except list
+  permissions:
+    READ_AUDIT_TRAIL:
+      description: Grants permission to read metadata information on auditable events related to a resource (e.g. the Asset that changed and when), but not the resource `data` for that event.
+      value: 66
+      except: ['TOOLKIT']
+    READ_AUDIT_TRAIL_DETAILS:
+      description: Grants permission to read all the details on auditable events related to a resource.
+      value: 67
+      except: ['TOOLKIT']
+STORYBOARD:
+  description: A storyboard
+  value: 5
+  permissions:
+    CREATE_STORYBOARD:
+      description: Ability to create a storyboard.
+      value: 70
+      categories:
+        - System
+    EDIT_STORYBOARD:
+      description: Ability to edit an existing storyboard.
+      value: 71
+      categories:
+        - System
+    DELETE_STORYBOARD:
+      description: Ability to delete a storyboard.
+      value: 72
+      categories:
+        - System
+    READ_STORYBOARD:
+      description: Ability to read a storyboard.
+      value: 73
+      deprecated: true
+      categories:
+        - System
+    VIEW_STORYBOARD:
+      description: Ability to read a storyboard.
+      value: 73
+      categories:
+        - System
+    SHARE_STORYBOARD:
+      description: Ability to share a storyboard.
+      value: 74
+      categories:
+        - System

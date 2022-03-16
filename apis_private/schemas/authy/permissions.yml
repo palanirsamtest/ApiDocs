@@ -1,0 +1,59 @@
+GetUserPermissionsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      $ref: '#/UserPermission'
+      example:
+        '*': [0, 0, 7]
+        '1': [1, 4, 7]
+
+GetRolePermissionsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      description: An array of numbers representing the permission bitmap.
+      type: array
+      items:
+        type: number
+      example: [0, 32]
+
+UserPermission:
+  type: object
+  properties:
+    '*':
+      type: array
+      description: The bitmap of permissions applicable to all resources of the requested type.
+      items:
+        type: number
+  additionalProperties:
+    type: array
+    items:
+      type: number
+    description: A key value pair of resource ID and permission bitmap
+    example:
+      'resource-id-1': [1, 4, 7]
+
+GetResourcePermissionsResponse:
+  type: object
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      $ref: '#/ResourcePermission'
+      example:
+        'uid1': [1, 4, 7]
+        'uid2': [0, 4, 7]
+
+ResourcePermission:
+  type: object
+  additionalProperties:
+    type: string
+    description: A key value pair of user UID and permission bitmap
+    example:
+      'uid1': [1, 4, 7]

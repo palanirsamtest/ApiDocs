@@ -1,0 +1,33 @@
+get:
+  tags:
+    - Attachments
+  operationId: getAttachment
+  summary: >
+    Get one Attachment
+  description: |
+    Get data of an attachment by id
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/resourceIdParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetAttachmentResponse'
+          example:
+            data:
+              id: '1'
+              type: attachments
+              attributes:
+                file_name: file.png
+                file_url: https://www.example.com/path-to-file/file.png
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'
+    415:
+      $ref: '../../components/responses.yml#/NotJsonapiMediaType'

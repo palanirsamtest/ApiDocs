@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Authy
+  operationId: getOrgUser
+  summary: Show User in Organization
+  parameters:
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetOrgUserResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'
+    404:
+      $ref: '../../components/responses.yml#/AuthyNotFoundResponse'

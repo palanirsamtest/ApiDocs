@@ -1,0 +1,24 @@
+get:
+  tags:
+    - Authy
+  operationId: getOrgUsers
+  summary: List Users in Organization
+  parameters:
+    - in: query
+      name: filter[user_type]
+      description: The user type(s) used to filter the users list by. Can be a comma separated list of multiple types. Supported types are user, system, and root.
+      required: false
+      schema:
+        type: string
+        example: system,root
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetOrgUsersResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

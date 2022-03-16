@@ -1,0 +1,21 @@
+get:
+  tags:
+    - Authy
+  operationId: getResourcePermissions
+  summary: Get Users with Access to Resource
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/minPermissionsParam'
+    - $ref: '../../components/parameters.yml#/resourceTypePathParam'
+    - $ref: '../../components/parameters.yml#/resourceIDPathParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetResourcePermissionsResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

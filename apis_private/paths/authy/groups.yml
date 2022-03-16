@@ -1,0 +1,20 @@
+get:
+  tags:
+    - Authy
+  operationId: getGroups
+  summary: List Groups
+  description: Retrieve a list of groups belonging to either a single user or a single organization. Note that exactly one of org_id or uid is required.
+  parameters:
+    - $ref: '../../components/parameters.yml#/uidQueryParam'
+    - $ref: '../../components/parameters.yml#/fields'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetGroupsResponse'
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

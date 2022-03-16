@@ -1,0 +1,4 @@
+securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer

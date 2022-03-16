@@ -1,0 +1,30 @@
+get:
+  tags:
+    - Authy
+  operationId: getUserPermissions
+  summary: Get Permissions for User in Resource
+  description: |
+    Use Cases:
+      * For a specific user, return the list of all Projects where the user has at least the permission to read a project and add a new objective.
+
+      * For a specific user, return the list of Results collections where the user has at least the permission to read the tables.
+
+      * For a specific user, return the permissions for the particular project
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/uidPathParam'
+    - $ref: '../../components/parameters.yml#/minPermissionsParam'
+    - $ref: '../../components/parameters.yml#/resourceTypeQueryParam'
+    - $ref: '../../components/parameters.yml#/resourceIDQueryParam'
+  responses:
+    200:
+      description: Okay.
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas.yml#/GetUserPermissionsResponse'
+
+    400:
+      $ref: '../../components/responses.yml#/AuthyErrorResponse'
+    401:
+      $ref: '../../components/responses.yml#/AuthyUnauthorizedResponse'

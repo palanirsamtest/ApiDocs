@@ -2,7 +2,7 @@
 # Not all of these endpoints are public-facing. There is a non-publicized URL for viewing the public endpoints.
 openapi: 3.0.2
 servers:
-  - url: '//petstore.swagger.io/v2'
+  - url: 'https://apis.highbond-s3.com/v1'
 info:
   $ref: ./components/metadata.yml#/info
 #

@@ -1,0 +1,35 @@
+post:
+  tags:
+    - Tatooine
+  operationId: postMetadata
+  summary: Request metadata for data flow.
+  description: User get metadata. If success, Tatooine will return each step of metadata required in the request. If fail, Tatooine will return metadata for continues successful node and the first error code and message.
+  parameters:
+    - $ref: '../../components/parameters.yml#/tatooineSessionIdParam'
+    - $ref: '../../components/parameters.yml#/tatooineTokenParam'
+  requestBody:
+    description: Node definitions and flow configuration for process metadata
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/FlowRequest'
+  responses:
+    '200':
+      description: Tatooine will return OK status for both full and partial success. For partial success, response body will include successful nodes info and the first error code.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MetadataSuccessResponse'
+    '422':
+      description: Unprocessable Entity
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'
+    '500':
+      description: Internal Server Error
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/ErrorMessageResponse'

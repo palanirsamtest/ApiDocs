@@ -1,0 +1,23 @@
+get:
+  tags:
+    - Users
+  operationId: getUsers
+  summary: >
+    Get organization users
+  description: |
+    Get a list of users for an organization
+  parameters:
+    - $ref: '../../components/parameters.yml#/adminOnlyParam'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/MultiUserResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

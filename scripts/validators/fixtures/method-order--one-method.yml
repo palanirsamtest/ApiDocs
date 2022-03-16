@@ -1,0 +1,6 @@
+post:
+  tags:
+    - Analyses
+  operationId: createAnalysis
+  summary: Create an analysis
+  description: Create a new analysis in an existing collection.

@@ -1,0 +1,30 @@
+patch:
+  tags:
+    - Assets/Records
+  operationId: invokeEvent
+  summary: Invoke an event
+  description: |
+    Invoke an event such as updating an asset's or record's workflow
+  parameters:
+    - $ref: '../../components/parameters.yml#/orgIdPathParam'
+    - $ref: '../../components/parameters.yml#/resourceUuidParam'
+  requestBody:
+    description: The data required to invoke an event.
+    required: true
+    content:
+      application/vnd.api+json:
+        schema:
+          $ref: '../../components/schemas.yml#/InvokeEventRequest'
+  responses:
+    200:
+      description: OK.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '../../components/schemas.yml#/InvokeEventResponse'
+    401:
+      $ref: '../../components/responses.yml#/BadCredentials'
+    403:
+      $ref: '../../components/responses.yml#/Forbidden'
+    404:
+      $ref: '../../components/responses.yml#/NotFound'

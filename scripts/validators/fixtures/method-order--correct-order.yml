@@ -1,0 +1,12 @@
+get:
+  tags:
+    - Analyses
+  operationId: getAnalyses
+  summary: List analyses inside a collection
+  description: Get a list of all analyses inside a collection.
+post:
+  tags:
+    - Analyses
+  operationId: createAnalysis
+  summary: Create an analysis
+  description: Create a new analysis in an existing collection.
