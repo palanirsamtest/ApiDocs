@@ -1,0 +1,83 @@
+Organization:
+  read_audit_trail:
+    type: boolean
+  read_audit_trail_details:
+    type: boolean
+  manage_asset_types:
+    type: boolean
+  manage_workflows:
+    type: boolean
+  manage_roles:
+    type: boolean
+  use_bulk_importer:
+    type: boolean
+Project:
+  read_audit_trail:
+    type: boolean
+  read_audit_trail_details:
+    type: boolean
+  report_on_project:
+    type: boolean
+  read_all_controls:
+    type: boolean
+  read_scheduler_resources:
+    type: boolean
+Collection:
+  read_audit_trail:
+    type: boolean
+  read_audit_trail_details:
+    type: boolean
+AssetType:
+  read_audit_trail:
+    type: boolean
+  read_audit_trail_details:
+    type: boolean
+  create_asset:
+    type: boolean
+  delete_asset:
+    type: boolean
+  read_asset_section_0:
+    type: boolean
+  read_asset_section_1:
+    type: boolean
+  read_asset_section_2:
+    type: boolean
+  read_asset_section_3:
+    type: boolean
+  read_asset_section_4:
+    type: boolean
+  read_asset_section_5:
+    type: boolean
+  read_asset_section_6:
+    type: boolean
+  read_asset_section_7:
+    type: boolean
+  read_asset_section_8:
+    type: boolean
+  read_asset_section_9:
+    type: boolean
+  update_asset_section_0:
+    type: boolean
+  update_asset_section_1:
+    type: boolean
+  update_asset_section_2:
+    type: boolean
+  update_asset_section_3:
+    type: boolean
+  update_asset_section_4:
+    type: boolean
+  update_asset_section_5:
+    type: boolean
+  update_asset_section_6:
+    type: boolean
+  update_asset_section_7:
+    type: boolean
+  update_asset_section_8:
+    type: boolean
+  update_asset_section_9:
+    type: boolean
+Storyboard:
+  read_audit_trail:
+    type: boolean
+  read_audit_trail_details:
+    type: boolean
