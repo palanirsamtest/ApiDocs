@@ -11,10 +11,6 @@ get:
     - $ref: '../../components/parameters.yml#/filterByWorkflowIds'
     - $ref: '../../components/parameters.yml#/pageSizeAssetsAttributesParam'
     - $ref: '../../components/parameters.yml#/pageNumberParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   responses:
     200:
       description: OK.
@@ -45,10 +41,6 @@ post:
 
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   requestBody:
     description: The data required to create an asset type.
     required: true

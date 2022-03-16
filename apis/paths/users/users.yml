@@ -12,10 +12,6 @@ get:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/listUsersTypeFilterParam'
     - $ref: '../../components/parameters.yml#/listUsersSearchParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   responses:
     200:
       description: OK.
@@ -40,10 +36,6 @@ post:
   description: Add a user to a HighBond instance.
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   requestBody:
     description: The data required to create a user.
     required: true

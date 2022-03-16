@@ -7,10 +7,6 @@ get:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/uidPathParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   responses:
     200:
       description: OK.
@@ -36,10 +32,6 @@ patch:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/uidPathParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   requestBody:
     description: The data required to update a user.
     required: true

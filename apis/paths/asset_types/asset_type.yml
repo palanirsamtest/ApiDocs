@@ -8,10 +8,6 @@ get:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/resourceIdParam'
     - $ref: '../../components/parameters.yml#/assetTypesIncludeParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   responses:
     200:
       description: OK.
@@ -29,8 +25,8 @@ get:
       $ref: '../../components/responses.yml#/NotFound'
     415:
       $ref: '../../components/responses.yml#/NotJsonapiMediaType'
-security:
-  - bearerToken: []
+  security:
+    - bearerToken: []
 patch:
   tags:
     - Asset types
@@ -40,10 +36,6 @@ patch:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/resourceIdParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   requestBody:
     description: The data required to update an asset type.
     required: true
@@ -95,10 +87,6 @@ delete:
   parameters:
     - $ref: '../../components/parameters.yml#/orgIdParam'
     - $ref: '../../components/parameters.yml#/resourceIdParam'
-  securitySchemes:
-    bearerToken: # arbitrary name for the security scheme
-      type: http
-      scheme: bearer
   responses:
     204:
       $ref: '../../components/responses.yml#/NoContent'
