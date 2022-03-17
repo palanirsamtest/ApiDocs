@@ -344,3 +344,4 @@ components:
         safe and secure way to access data, while protecting your account credentials.
       type: http
       scheme: bearer
+      bearerFormat: oauth2 # optional, the value is not used
