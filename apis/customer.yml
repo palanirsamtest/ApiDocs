@@ -95,7 +95,5 @@ paths:
   /orgs/{org_id}/users/{uid}:
     $ref: ./paths/users/user.yml
 
-components:
-  $ref: ./components/metadata.yml#/components
 security:
   - bearerToken: []
