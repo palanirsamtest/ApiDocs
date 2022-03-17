@@ -20,8 +20,6 @@ get:
       $ref: '../../components/responses.yml#/BadCredentials'
     404:
       $ref: '../../components/responses.yml#/NotFound'
-  security:
-    - bearerToken: []
 
 patch:
   tags:
@@ -56,5 +54,3 @@ patch:
       $ref: '../../components/responses.yml#/UnprocessableEntity'
     429:
       $ref: '../../components/responses.yml#/TooManyRequests'
-  security:
-    - bearerToken: []

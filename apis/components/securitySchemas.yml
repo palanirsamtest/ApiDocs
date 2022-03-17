@@ -1,4 +1,0 @@
-securitySchemes:
-  bearerToken: # arbitrary name for the security scheme
-    type: http
-    scheme: bearer
