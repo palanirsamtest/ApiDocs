@@ -1,8 +1,16 @@
 # This file lists the API endpoints that R&D is committed to maintain and support. This file is a superset of the customer.yml file.
 # Not all of these endpoints are public-facing. There is a non-publicized URL for viewing the public endpoints.
 openapi: 3.0.2
-servers:
-  - url: 'https://apis.highbond-s3.com/v1'
+servers: [
+  {
+    url: 'https://apis.highbond-s3.com/v1',
+    description: 'Playground Server'
+  },
+  {
+    url: 'https://apis.highbond-s1.com/v1',
+    description: 'Staging Server'
+  }
+]
 info:
   $ref: ./components/metadata.yml#/info
 #
