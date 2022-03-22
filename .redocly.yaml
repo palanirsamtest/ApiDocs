@@ -1,0 +1,4 @@
+lint:
+  decorators:
+    remove-x-internal:
+      internalFlagProperty: 'x-internal'

@@ -1,3 +1,4 @@
+x-internal: true
 get:
   tags:
     - Asset record types
