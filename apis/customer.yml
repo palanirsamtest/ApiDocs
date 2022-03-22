@@ -9,6 +9,10 @@ servers: [
   {
     url: 'https://apis.highbond-s1.com/v1',
     description: 'Staging Server'
+  },
+  {
+    url: 'https://apis.highbond-s2.com/v1',
+    description: 'PreProd Server'
   }
 ]
 info:
